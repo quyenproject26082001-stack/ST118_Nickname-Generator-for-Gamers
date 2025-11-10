@@ -15,9 +15,6 @@ import com.charactor.avatar.maker.pfp.core.utils.key.ValueKey
 import com.charactor.avatar.maker.pfp.core.utils.state.RateState
 import com.charactor.avatar.maker.pfp.databinding.ActivityHomeBinding
 import com.charactor.avatar.maker.pfp.activity_app.SettingsActivity
-import com.charactor.avatar.maker.pfp.activity_app.my_creation.MyCreationActivity
-import com.charactor.avatar.maker.pfp.activity_app.customize.CustomizeCharacterActivity
-import com.charactor.avatar.maker.pfp.choose_character.ChooseCharacterActivity
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.core.extensions.strings
 import kotlinx.coroutines.Dispatchers
@@ -40,9 +37,7 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
     override fun viewListener() {
         binding.apply {
             actionBar.btnActionBarRight.setOnSingleClick { startIntentRightToLeft(SettingsActivity::class.java) }
-            btnCreate.setOnSingleClick { startIntentRightToLeft(ChooseCharacterActivity::class.java) }
-            btnMyCreation.setOnSingleClick { startIntentRightToLeft(MyCreationActivity::class.java) }
-            btnRandom.setOnSingleClick { startIntentRightToLeft(ChooseCharacterActivity::class.java, true) }
+
         }
     }
 
