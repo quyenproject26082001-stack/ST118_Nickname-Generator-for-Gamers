@@ -54,6 +54,7 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
             tvCenter.visible()
             btnActionBarRight.setImageResource(R.drawable.ic_settings)
             btnActionBarRight.visible()
+
         }
     }
 

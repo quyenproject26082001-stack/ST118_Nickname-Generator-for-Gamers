@@ -74,4 +74,7 @@
     <string name="change_your_whole_design_are_you_sure">¿Deseas restablecer todo?</string>
     <string name="character_maker">Creador de personajes</string>
     <string name="no_item_here">No hay elementos aquí</string>
+    <string name="my_name">My Name</string>
+    <string name="random_name">Random Name</string>
+    <string name="My_NickName">My Nickname</string>
 </resources>
