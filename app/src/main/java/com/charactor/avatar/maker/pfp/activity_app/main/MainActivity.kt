@@ -43,15 +43,10 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun initText() {
         super.initText()
-        binding.actionBar.tvCenter.select()
     }
 
     override fun initActionBar() {
         binding.actionBar.apply {
-            cvLogo.visible()
-            tvCenter.text = strings(R.string.character_maker)
-            tvCenter.select()
-            tvCenter.visible()
             btnActionBarRight.setImageResource(R.drawable.ic_settings)
             btnActionBarRight.visible()
 
@@ -101,8 +96,8 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun updateText() {
         binding.apply {
-            tv1.text = strings(R.string.character_maker)
-            tv2.text = strings(R.string.my_creation)
+            tv1.text = strings(R.string.random_name)
+            tv2.text = strings(R.string.My_NickName)
         }
     }
 
