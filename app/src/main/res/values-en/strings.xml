@@ -78,4 +78,10 @@
     <string name="My_NickName">My Nickname</string>
     <string name="edit_name">Edit name</string>
     <string name="update">Update</string>
+    <string name="custome_nickname">Custome nickname</string>
+    <string name="generate">Generate</string>
+    <string name="input_name">Input name</string>
+    <string name="successful">Successful</string>
+    <string name="home">Home</string>
+    <string name="my_nickname">My nickname</string>
 </resources>

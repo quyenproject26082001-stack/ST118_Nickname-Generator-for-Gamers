@@ -14,9 +14,11 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.charactor.avatar.maker.pfp.R
+import com.charactor.avatar.maker.pfp.activity_app.random_name.SaveSuccessActivity
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.gone
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
+import com.charactor.avatar.maker.pfp.core.extensions.startIntentRightToLeft
 import com.charactor.avatar.maker.pfp.databinding.ActivityCustomizeNicknameBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -36,7 +38,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         val rightSymbol: String,
         val font: String
     )
-    
+
     override fun setViewBinding(): ActivityCustomizeNicknameBinding {
         return ActivityCustomizeNicknameBinding.inflate(LayoutInflater.from(this))
     }
@@ -71,19 +73,25 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         binding.btnRedo.setOnSingleClick {
             redo()
         }
-        
+
         // Save button
         binding.btnSave.setOnSingleClick {
-            val finalText = "$leftSymbol $inputName $rightSymbol".trim()
-            Toast.makeText(this, "Saved: $finalText", Toast.LENGTH_SHORT).show()
+            val finalText = buildString {
+                if (leftSymbol.isNotEmpty()) append("$leftSymbol ")
+                append(inputName)
+                if (rightSymbol.isNotEmpty()) append(" $rightSymbol")
+            }.trim()
+
+            // Navigate to SaveSuccessActivity with the nickname
+            startIntentRightToLeft(SaveSuccessActivity::class.java, "SAVED_NICKNAME", finalText)
         }
-        
+
         // Copy button
         binding.btnCopy.setOnSingleClick {
             val finalText = "$leftSymbol $inputName $rightSymbol".trim()
             copyToClipboard(finalText)
         }
-        
+
         // Edit button
         binding.btnEdit.setOnSingleClick {
             showEditNameDialog()
@@ -95,10 +103,10 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     }
 
     override fun initActionBar() {
-       
+
         // Action bar already initialized in initView
     }
-    
+
     private fun setupViewPager() {
         val fragments = listOf<Fragment>(
             SymbolFragment.newInstance(true) { symbol ->
@@ -120,10 +128,10 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
                 updateUndoRedoButtons()
             }
         )
-        
+
         val adapter = CustomizeViewPagerAdapter(this, fragments)
         binding.viewPager.adapter = adapter
-        
+
         // Connect TabLayout with ViewPager2
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
@@ -134,17 +142,17 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             }
         }.attach()
     }
-    
+
     private fun updatePreview() {
         val finalText = buildString {
             if (leftSymbol.isNotEmpty()) append("$leftSymbol ")
             append(inputName)
             if (rightSymbol.isNotEmpty()) append(" $rightSymbol")
         }.trim()
-        
+
         binding.tvPreview.text = finalText
         binding.tvLength.text = finalText.length.toString()
-        
+
         // Apply font
         val fontResId = when (currentFont) {
             "sigmar_regular" -> R.font.sigmar_regular
@@ -157,10 +165,10 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             "toruksc_regular" -> R.font.toruksc_regular
             else -> R.font.roboto_regular
         }
-        
+
         binding.tvPreview.typeface = androidx.core.content.res.ResourcesCompat.getFont(this, fontResId)
     }
-    
+
     private fun copyToClipboard(text: String) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("nickname", text)

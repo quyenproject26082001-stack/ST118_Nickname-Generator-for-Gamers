@@ -1,5 +1,6 @@
 package com.charactor.avatar.maker.pfp.activity_app.nickname
 
+import android.view.LayoutInflater
 import android.widget.Toast
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
@@ -9,7 +10,7 @@ import com.charactor.avatar.maker.pfp.databinding.ActivityMyNameBinding
 class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
 
     override fun setViewBinding(): ActivityMyNameBinding {
-        return ActivityMyNameBinding.inflate(layoutInflater)
+        return ActivityMyNameBinding.inflate(LayoutInflater.from(this))
     }
 
     override fun initView() {
@@ -37,7 +38,7 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
             }
 
             // Navigate to Nickname list screen
-            startIntentRightToLeft(NicknameActivity::class.java, "INPUT_NAME", inputName)
+            startIntentRightToLeft<String>(NicknameActivity::class.java, "INPUT_NAME", inputName)
         }
 
         // Custom nickname button
@@ -49,7 +50,7 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
             }
 
             // Navigate to Customize screen
-            startIntentRightToLeft(CustomizeNicknameActivity::class.java, "INPUT_NAME", inputName)
+            startIntentRightToLeft<String>(CustomizeNicknameActivity::class.java, "INPUT_NAME", inputName)
         }
     }
 
