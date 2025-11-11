@@ -25,9 +25,12 @@ class LanguageAdapter(val context: Context) : BaseAdapter<LanguageModel, ItemLan
             if (item.activate) {
                 loadImageGlide(root, R.drawable.ic_tick_lang, btnRadio, false)
                 imvFocus.visible()
+                tvLang.setTextColor(context.getColor(R.color.white))  // ← Màu chữ khi CHỌN
             } else {
                 loadImageGlide(root, R.drawable.ic_not_tick_lang, btnRadio, false)
                 imvFocus.gone()
+                tvLang.setTextColor(context.getColor(R.color.dark_purple))   // ← Màu chữ khi KHÔNG CHỌN
+
             }
 
             root.setOnSingleClick {

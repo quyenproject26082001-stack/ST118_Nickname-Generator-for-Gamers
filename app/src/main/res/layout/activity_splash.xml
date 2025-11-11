@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/img_bg_splash" />
+        android:src="@drawable/img_bg_app" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -27,15 +27,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.78" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/img_splash_bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gl05" />
+
 
     <!-- tvDes -->
     <TextView
@@ -44,11 +38,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="33dp"
         android:layout_marginBottom="32dp"
-        android:fontFamily="@font/montserrat_italic"
+        android:fontFamily="@font/roboto_regular"
         android:gravity="center"
         android:text="@string/this_action_can_contain_ads"
-        android:textColor="#CCFFFFFF"
-        android:textSize="12sp"
+        android:textColor="#1E1C1C"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

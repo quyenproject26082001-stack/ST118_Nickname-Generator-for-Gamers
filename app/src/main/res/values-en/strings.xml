@@ -1,16 +1,15 @@
 <resources>
-    <string name="app_name">Character Avatar Creator</string>
+    <string name="app_name">Nickname Generator</string>
     <string name="go_to_setting_message">The app needs this permission</string>
     <string name="settings">Settings</string>
-    <string name="this_action_can_contain_ads">This action can contain ads</string>
+    <string name="this_action_can_contain_ads">This action may contain advertising</string>
     <string name="not_select_lang">Please select a language</string>
     <string name="next">Next</string>
     <string name="language">Language</string>
 
-    <string name="title_1">Create Your Own Avatar However You Like</string>
-    <string name="title_2">Variety Of Unique Category</string>
-    <string name="title_3">Diverse Characters Style</string>
-
+    <string name="title_1">Nickname Generator</string>
+    <string name="title_2">Decorate your name</string>
+    <string name="title_3">Variety of themes for names</string>
     <string name="permission">Permission</string>
     <string name="storage">Storage</string>
     <string name="continue_per">Continue</string>

@@ -31,30 +31,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:dotsColor="#CDFFFFFF"
+        app:dotsColor="#ED5555"
         app:dotsCornerRadius="8dp"
         app:dotsSize="8dp"
+        android:layout_marginStart="20dp"
         app:dotsSpacing="3dp"
+        android:layout_marginTop="-50dp"
         app:dotsWidthFactor="2.5"
         app:layout_constraintBottom_toBottomOf="@+id/btnNext"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnNext"
         app:progressMode="false"
-        app:selectedDotColor="@color/purple_F0" />
+        app:selectedDotColor="#ED5555" />
 
     <!--    btnNext-->
     <TextView
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="110dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="90dp"
         android:fontFamily="@font/roboto_medium"
         android:padding="3dp"
         android:text="@string/next"
-        android:textColor="@color/purple_F0"
-        android:textSize="16sp"
+        android:textColor="#ED5555"
+        android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

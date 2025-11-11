@@ -1,7 +1,10 @@
 package com.charactor.avatar.maker.pfp.activity_app.main
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.Paint
 import android.view.LayoutInflater
+import androidx.core.graphics.toColorInt
 import androidx.lifecycle.lifecycleScope
 import com.charactor.avatar.maker.pfp.R
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
@@ -15,6 +18,7 @@ import com.charactor.avatar.maker.pfp.core.utils.key.ValueKey
 import com.charactor.avatar.maker.pfp.core.utils.state.RateState
 import com.charactor.avatar.maker.pfp.databinding.ActivityHomeBinding
 import com.charactor.avatar.maker.pfp.activity_app.SettingsActivity
+import com.charactor.avatar.maker.pfp.core.extensions.gone
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.core.extensions.strings
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +36,39 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun initView() {
         deleteTempFolder()
+        setupTextStroke()
+    }
+
+    private fun setupTextStroke() {
+        val strokeColor = "#3E001C".toColorInt()
+        val strokeWidth = 1f * resources.displayMetrics.density // Convert 1dp to pixels
+
+        binding.tvMyName.setDoubleStroke(
+            outerColor = strokeColor,
+            outerWidth = strokeWidth,
+            innerColor = Color.TRANSPARENT,
+            innerWidth = 0f,
+            join = Paint.Join.ROUND,
+            miter = 10f
+        )
+
+        binding.tv1.setDoubleStroke(
+            outerColor = strokeColor,
+            outerWidth = strokeWidth,
+            innerColor = Color.TRANSPARENT,
+            innerWidth = 0f,
+            join = Paint.Join.ROUND,
+            miter = 10f
+        )
+
+        binding.tv2.setDoubleStroke(
+            outerColor = strokeColor,
+            outerWidth = strokeWidth,
+            innerColor = Color.TRANSPARENT,
+            innerWidth = 0f,
+            join = Paint.Join.ROUND,
+            miter = 10f
+        )
     }
 
     override fun viewListener() {
@@ -47,6 +84,7 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun initActionBar() {
         binding.actionBar.apply {
+            imgHeadTitle.gone()
             btnActionBarRight.setImageResource(R.drawable.ic_settings)
             btnActionBarRight.visible()
 
