@@ -13,9 +13,13 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
     }
 
     override fun initView() {
-        // Setup action bar title
-        binding.actionBar.tvActionBarTitle.text = "My name"
-        binding.actionBar.tvActionBarTitle.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
+        // Setup action bar
+        binding.actionBar.btnActionBarLeft.setImageResource(com.charactor.avatar.maker.pfp.R.drawable.ic_back)
+        binding.actionBar.btnActionBarLeft.visibility = android.view.View.VISIBLE
+
+        binding.actionBar.tvCenter.text = "My name"
+        binding.actionBar.tvCenter.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
+        binding.actionBar.tvCenter.visibility = android.view.View.VISIBLE
     }
 
     override fun viewListener() {
@@ -31,11 +35,9 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
                 Toast.makeText(this, "Please input your name", Toast.LENGTH_SHORT).show()
                 return@setOnSingleClick
             }
-            
+
             // Navigate to Nickname list screen
-            startIntentRightToLeft(NicknameActivity::class.java) {
-                putExtra("INPUT_NAME", inputName)
-            }
+            startIntentRightToLeft(NicknameActivity::class.java, "INPUT_NAME", inputName)
         }
 
         // Custom nickname button

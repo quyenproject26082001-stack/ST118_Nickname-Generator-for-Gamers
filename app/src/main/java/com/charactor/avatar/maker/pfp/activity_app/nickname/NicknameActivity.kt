@@ -18,11 +18,15 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
     override fun initView() {
         // Get input name from intent
         inputName = intent.getStringExtra("INPUT_NAME") ?: ""
-        
-        // Setup action bar title
-        binding.actionBar.tvActionBarTitle.text = "Nickname"
-        binding.actionBar.tvActionBarTitle.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
-        
+
+        // Setup action bar
+        binding.actionBar.btnActionBarLeft.setImageResource(com.charactor.avatar.maker.pfp.R.drawable.ic_back)
+        binding.actionBar.btnActionBarLeft.visibility = android.view.View.VISIBLE
+
+        binding.actionBar.tvCenter.text = "Nickname"
+        binding.actionBar.tvCenter.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
+        binding.actionBar.tvCenter.visibility = android.view.View.VISIBLE
+
         // Set input name
         binding.edtInputName.setText(inputName)
         

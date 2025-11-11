@@ -3,7 +3,6 @@ package com.charactor.avatar.maker.pfp.activity_app.nickname
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -15,13 +14,9 @@ import com.charactor.avatar.maker.pfp.databinding.ItemNicknameBinding
 
 class NicknameAdapter(
     private val onSaveClick: (NicknameModel) -> Unit
-) : BaseAdapter<NicknameModel, ItemNicknameBinding>() {
+) : BaseAdapter<NicknameModel, ItemNicknameBinding>(ItemNicknameBinding::inflate) {
 
-    override fun createBinding(parent: ViewGroup): ItemNicknameBinding {
-        return ItemNicknameBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    }
-
-    override fun bind(binding: ItemNicknameBinding, item: NicknameModel, position: Int) {
+    override fun onBind(binding: ItemNicknameBinding, item: NicknameModel, position: Int) {
         binding.tvNickname.text = item.text
         
         // Set font based on fontFamily
