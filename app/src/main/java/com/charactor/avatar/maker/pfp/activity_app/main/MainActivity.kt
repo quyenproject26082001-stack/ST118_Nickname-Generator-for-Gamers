@@ -19,6 +19,8 @@ import com.charactor.avatar.maker.pfp.core.utils.state.RateState
 import com.charactor.avatar.maker.pfp.databinding.ActivityHomeBinding
 import com.charactor.avatar.maker.pfp.activity_app.SettingsActivity
 import com.charactor.avatar.maker.pfp.activity_app.nickname.MyNameActivity
+import com.charactor.avatar.maker.pfp.activity_app.random_name.RandomNameCategoriesActivity
+import com.charactor.avatar.maker.pfp.activity_app.my_nickname.MyNicknameActivity
 import com.charactor.avatar.maker.pfp.core.extensions.gone
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.core.extensions.strings
@@ -76,9 +78,19 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
         binding.apply {
             actionBar.btnActionBarRight.setOnSingleClick { startIntentRightToLeft(SettingsActivity::class.java) }
 
+            // Random Name button
+            btnRandom.setOnSingleClick {
+                startIntentRightToLeft(RandomNameCategoriesActivity::class.java)
+            }
+
             // My Name button
             btnMyName.setOnSingleClick {
                 startIntentRightToLeft(MyNameActivity::class.java)
+            }
+
+            // My Nickname button
+            btnMyNickname.setOnSingleClick {
+                startIntentRightToLeft(MyNicknameActivity::class.java)
             }
         }
     }

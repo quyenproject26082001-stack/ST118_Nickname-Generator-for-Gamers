@@ -47,9 +47,9 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
                 Toast.makeText(this, "Please input your name", Toast.LENGTH_SHORT).show()
                 return@setOnSingleClick
             }
-            
-            // Navigate to Custom Nickname screen (will be implemented later)
-            Toast.makeText(this, "Custom nickname feature coming soon", Toast.LENGTH_SHORT).show()
+
+            // Navigate to Customize screen
+            startIntentRightToLeft(CustomizeNicknameActivity::class.java, "INPUT_NAME", inputName)
         }
     }
 
