@@ -20,29 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BaseProject"
         tools:replace="android:fullBackupContent">
-        <activity
-            android:name=".activity_app.random_character.RandomCharacterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".choose_character.ChooseCharacterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity_app.background_customize.BackgroundCustomizeActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity_app.customize.CustomizeCharacterActivity"
-            android:exported="false"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity_app.view.ViewActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity_app.my_creation.MyCreationActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity_app.splash.SplashActivity"
             android:exported="true"
