@@ -1,7 +1,14 @@
 package com.charactor.avatar.maker.pfp.activity_app.my_nickname
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.charactor.avatar.maker.pfp.R
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
@@ -58,11 +65,10 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
                 deleteNickname(nickname)
             },
             onEditClick = { nickname ->
-                // TODO: Navigate to edit screen
-                android.widget.Toast.makeText(this, "Edit: ${nickname.nickname}", android.widget.Toast.LENGTH_SHORT).show()
+                showEditNicknameDialog(nickname)
             }
         )
-        
+
         binding.rvSavedNicknames.apply {
             layoutManager = LinearLayoutManager(this@MyNicknameActivity)
             adapter = savedNicknameAdapter
@@ -102,6 +108,44 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
             binding.layoutEmpty.visibility = View.GONE
             binding.rvSavedNicknames.visibility = View.VISIBLE
         }
+    }
+
+    private fun showEditNicknameDialog(nickname: SavedNicknameModel) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_edit_name)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Set dialog width to match parent with horizontal margin 25dp
+        val displayMetrics = resources.displayMetrics
+        val width = displayMetrics.widthPixels - (25 * 2 * displayMetrics.density).toInt()
+        dialog.window?.setLayout(width, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        val etEditName = dialog.findViewById<EditText>(R.id.etEditName)
+        val btnUpdate = dialog.findViewById<AppCompatButton>(R.id.btnUpdate)
+
+        // Set current nickname
+        etEditName.setText(nickname.nickname)
+        etEditName.setSelection(nickname.nickname.length)
+
+        btnUpdate.setOnSingleClick {
+            val newNickname = etEditName.text.toString().trim()
+            if (newNickname.isNotEmpty()) {
+                // Update nickname in list
+                val index = savedNicknames.indexOfFirst { it.id == nickname.id }
+                if (index != -1) {
+                    savedNicknames[index] = SavedNicknameModel(id = nickname.id, nickname = newNickname)
+                    savedNicknameAdapter.submitList(savedNicknames.toList())
+                    saveNicknamesToPrefs()
+                    dialog.dismiss()
+                    Toast.makeText(this, "Nickname updated", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Please enter a nickname", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
     }
 }
 

@@ -85,4 +85,5 @@
     <string name="successful">Successful</string>
     <string name="home">Home</string>
     <string name="my_nickname">My nickname</string>
+    <string name="no_item_is_here">No item is here</string>
 </resources>

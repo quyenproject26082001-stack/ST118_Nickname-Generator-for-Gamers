@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
-    android:paddingVertical="16dp"
-    android:paddingHorizontal="16dp">
+    android:layout_marginTop="10dp"
+    android:background="@android:color/transparent"
+    android:paddingHorizontal="20dp">
 
     <!-- Nickname Text -->
     <TextView
@@ -24,12 +24,11 @@
     <!-- Copy Button -->
     <ImageView
         android:id="@+id/btnCopy"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="12dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_share_white"
-        android:tint="@color/red_app"
+        android:src="@drawable/ic_cp"
         app:layout_constraintEnd_toStartOf="@id/btnDelete"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -37,12 +36,11 @@
     <!-- Delete Button -->
     <ImageView
         android:id="@+id/btnDelete"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="12dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_delete"
-        android:tint="@color/red_app"
         app:layout_constraintEnd_toStartOf="@id/btnEdit"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -50,11 +48,10 @@
     <!-- Edit Button -->
     <ImageView
         android:id="@+id/btnEdit"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_edit"
-        android:tint="@color/red_app"
+        android:src="@drawable/ic_edit_save_nickname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -63,8 +60,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#E0E0E0"
-        android:layout_marginTop="16dp"
+        android:background="#FBAD82"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/tvNickname" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
