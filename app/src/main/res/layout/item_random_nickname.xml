@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    >
 
     <!-- Nickname Text -->
     <TextView
@@ -22,11 +22,11 @@
     <!-- Copy Button -->
     <ImageView
         android:id="@+id/btnCopy"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="18dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_share_white"
+        android:src="@drawable/ic_cp"
         android:tint="@color/red_app"
         app:layout_constraintEnd_toStartOf="@id/btnSave"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,8 +35,8 @@
     <!-- Save Button -->
     <ImageView
         android:id="@+id/btnSave"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_download"
         android:tint="@color/red_app"
@@ -48,9 +48,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#E0E0E0"
+        android:background="#FFA3A3"
         app:layout_constraintTop_toBottomOf="@id/tvNickname"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="12dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

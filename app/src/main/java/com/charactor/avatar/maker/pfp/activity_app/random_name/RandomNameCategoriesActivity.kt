@@ -1,7 +1,6 @@
 package com.charactor.avatar.maker.pfp.activity_app.random_name
 
 import android.view.LayoutInflater
-import androidx.recyclerview.widget.GridLayoutManager
 import com.charactor.avatar.maker.pfp.R
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
@@ -40,11 +39,8 @@ class RandomNameCategoriesActivity : BaseActivity<ActivityRandomNameCategoriesBi
             // Navigate to category detail
             startIntentRightToLeft(CategoryDetailActivity::class.java, "CATEGORY_ID", category.id)
         }
-        
-        binding.rvCategories.apply {
-            layoutManager = GridLayoutManager(this@RandomNameCategoriesActivity, 3)
-            adapter = categoryAdapter
-        }
+
+        binding.rvCategories.adapter = categoryAdapter
     }
     
     private fun loadCategories() {

@@ -29,19 +29,20 @@
 
         <!-- Folder Icon -->
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
             android:src="@drawable/ic_folder"
-            app:tint="@color/red_app" />
+           />
 
         <!-- Empty Message -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="11dp"
+            android:fontFamily="@font/roboto_regular"
             android:text="@string/no_item_is_here"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textColor="#181717"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
