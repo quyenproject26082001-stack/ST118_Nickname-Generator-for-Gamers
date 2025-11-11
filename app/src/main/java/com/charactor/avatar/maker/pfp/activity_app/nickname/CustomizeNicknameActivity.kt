@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.charactor.avatar.maker.pfp.R
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
@@ -197,11 +198,22 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     }
 
     private fun updateUndoRedoButtons() {
-        binding.btnUndo.alpha = if (currentHistoryIndex > 0) 1.0f else 0.3f
-        binding.btnUndo.isEnabled = currentHistoryIndex > 0
+        if (currentHistoryIndex > 0) {
+            binding.btnUndo.setColorFilter(ContextCompat.getColor(this, R.color.active_color))
+            binding.btnUndo.isEnabled = true
+        } else {
+            binding.btnUndo.setColorFilter(ContextCompat.getColor(this, R.color.inactive_color))
+            binding.btnUndo.isEnabled = false
+        }
 
-        binding.btnRedo.alpha = if (currentHistoryIndex < historyStack.size - 1) 1.0f else 0.3f
-        binding.btnRedo.isEnabled = currentHistoryIndex < historyStack.size - 1
+        // Redo button
+        if (currentHistoryIndex < historyStack.size - 1) {
+            binding.btnRedo.setColorFilter(ContextCompat.getColor(this, R.color.active_color))
+            binding.btnRedo.isEnabled = true
+        } else {
+            binding.btnRedo.setColorFilter(ContextCompat.getColor(this, R.color.inactive_color))
+            binding.btnRedo.isEnabled = false
+        }
     }
 }
 
