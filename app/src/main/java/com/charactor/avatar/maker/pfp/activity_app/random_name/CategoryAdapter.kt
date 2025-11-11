@@ -8,11 +8,25 @@ class CategoryAdapter(
     private val onCategoryClick: (CategoryModel) -> Unit
 ) : BaseAdapter<CategoryModel, ItemCategoryBinding>(ItemCategoryBinding::inflate) {
 
+    private var selectedPosition = -1
+
     override fun onBind(binding: ItemCategoryBinding, item: CategoryModel, position: Int) {
         binding.tvCategoryName.text = item.name
         binding.ivCategoryIcon.setImageResource(item.iconRes)
-        
+
+        // Set selected state
+        binding.cardCategory.isSelected = (position == selectedPosition)
+
         binding.cardCategory.setOnSingleClick {
+            val previousPosition = selectedPosition
+            selectedPosition = position
+
+            // Notify changes
+            if (previousPosition != -1) {
+                notifyItemChanged(previousPosition)
+            }
+            notifyItemChanged(position)
+
             onCategoryClick(item)
         }
     }

@@ -8,10 +8,24 @@ class SymbolAdapter(
     private val onSymbolClick: (String) -> Unit
 ) : BaseAdapter<String, ItemSymbolBinding>(ItemSymbolBinding::inflate) {
 
+    private var selectedPosition = -1
+
     override fun onBind(binding: ItemSymbolBinding, item: String, position: Int) {
         binding.tvSymbol.text = item
-        
+
+        // Set selected state
+        binding.tvSymbol.isSelected = (position == selectedPosition)
+
         binding.tvSymbol.setOnSingleClick {
+            val previousPosition = selectedPosition
+            selectedPosition = position
+
+            // Notify changes
+            if (previousPosition != -1) {
+                notifyItemChanged(previousPosition)
+            }
+            notifyItemChanged(position)
+
             onSymbolClick(item)
         }
     }

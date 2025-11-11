@@ -61,16 +61,21 @@ class SymbolFragment : Fragment() {
             "💔", "❤️", "🧡", "💛", "💚", "💙",
             "💜", "🖤", "🤍", "🤎", "❤️‍🔥", "❤️‍🩹"
         )
-        
+
         val adapter = SymbolAdapter { symbol ->
             onSymbolSelected?.invoke(symbol)
         }
-        
+
+        val spanCount = 3
+        val spacing = 16 // 16dp spacing between items
+        val includeEdge = true
+
         binding.rvSymbols.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
+            layoutManager = GridLayoutManager(requireContext(), spanCount)
+            addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
             this.adapter = adapter
         }
-        
+
         adapter.submitList(symbols)
     }
     

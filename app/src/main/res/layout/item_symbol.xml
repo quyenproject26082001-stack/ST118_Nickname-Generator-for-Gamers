@@ -12,7 +12,7 @@
         android:gravity="center"
         android:text="⭐"
         android:textSize="32sp"
-        android:background="@drawable/bg_input_rounded"
+        android:background="@drawable/bg_item_selector"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

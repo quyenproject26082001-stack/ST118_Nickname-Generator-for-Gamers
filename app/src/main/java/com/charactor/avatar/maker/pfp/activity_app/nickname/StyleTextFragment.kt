@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.charactor.avatar.maker.pfp.databinding.FragmentStyleTextBinding
 
 class StyleTextFragment : Fragment() {
@@ -49,16 +49,21 @@ class StyleTextFragment : Fragment() {
             FontModel("Montserrat Italic", "montserrat_italic"),
             FontModel("Toruksc", "toruksc_regular")
         )
-        
+
         val adapter = FontAdapter { fontFamily ->
             onFontSelected?.invoke(fontFamily)
         }
-        
+
+        val spanCount = 3
+        val spacing = 16 // 16dp spacing between items
+        val includeEdge = true
+
         binding.rvFonts.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = GridLayoutManager(requireContext(), spanCount)
+            addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
             this.adapter = adapter
         }
-        
+
         adapter.submitList(fonts)
     }
     

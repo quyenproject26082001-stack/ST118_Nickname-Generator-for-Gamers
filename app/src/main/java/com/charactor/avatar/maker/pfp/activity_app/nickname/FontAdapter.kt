@@ -10,9 +10,11 @@ class FontAdapter(
     private val onFontClick: (String) -> Unit
 ) : BaseAdapter<FontModel, ItemFontBinding>(ItemFontBinding::inflate) {
 
+    private var selectedPosition = -1
+
     override fun onBind(binding: ItemFontBinding, item: FontModel, position: Int) {
         binding.tvFont.text = item.displayName
-        
+
         // Apply font to preview
         val fontResId = when (item.fontFamily) {
             "sigmar_regular" -> R.font.sigmar_regular
@@ -25,11 +27,23 @@ class FontAdapter(
             "toruksc_regular" -> R.font.toruksc_regular
             else -> R.font.roboto_regular
         }
-        
+
         val typeface = ResourcesCompat.getFont(binding.root.context, fontResId)
         binding.tvFont.typeface = typeface
-        
+
+        // Set selected state
+        binding.tvFont.isSelected = (position == selectedPosition)
+
         binding.tvFont.setOnSingleClick {
+            val previousPosition = selectedPosition
+            selectedPosition = position
+
+            // Notify changes
+            if (previousPosition != -1) {
+                notifyItemChanged(previousPosition)
+            }
+            notifyItemChanged(position)
+
             onFontClick(item.fontFamily)
         }
     }

@@ -1,10 +1,16 @@
 package com.charactor.avatar.maker.pfp.activity_app.nickname
 
+import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.Window
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.charactor.avatar.maker.pfp.R
@@ -80,7 +86,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         
         // Edit button
         binding.btnEdit.setOnSingleClick {
-            Toast.makeText(this, "Edit name", Toast.LENGTH_SHORT).show()
+            showEditNameDialog()
         }
     }
 
@@ -214,6 +220,42 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             binding.btnRedo.setColorFilter(ContextCompat.getColor(this, R.color.inactive_color))
             binding.btnRedo.isEnabled = false
         }
+    }
+
+    private fun showEditNameDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_edit_name)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Set dialog width to match parent with horizontal margin 25dp
+        val displayMetrics = resources.displayMetrics
+        val width = displayMetrics.widthPixels - (25 * 2 * displayMetrics.density).toInt()
+        dialog.window?.setLayout(width, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        val etEditName = dialog.findViewById<EditText>(R.id.etEditName)
+        val btnUpdate = dialog.findViewById<AppCompatButton>(R.id.btnUpdate)
+
+        // Set current name
+        etEditName.setText(inputName)
+        etEditName.setSelection(inputName.length)
+
+        btnUpdate.setOnSingleClick {
+            val newName = etEditName.text.toString().trim()
+            if (newName.isNotEmpty()) {
+                inputName = newName
+                updatePreview()
+                dialog.dismiss()
+                Toast.makeText(this, "Name updated", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Set dialog size - Add this code
+        dialog.show()
+
+
     }
 }
 
