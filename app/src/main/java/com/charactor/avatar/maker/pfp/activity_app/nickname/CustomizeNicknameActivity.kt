@@ -6,6 +6,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.Window
 import android.widget.EditText
@@ -30,6 +32,9 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     private var currentFont: String = "roboto_regular"
     private var currentUnicodeStyle: StyleType? = null
     private var useUnicodeStyle: Boolean = false
+
+    // Reference to UnicodeStyleFragment for real-time updates
+    private var unicodeStyleFragment: UnicodeStyleFragment? = null
 
     // History for undo/redo
     private val historyStack = mutableListOf<NicknameState>()
@@ -110,6 +115,15 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     }
 
     private fun setupViewPager() {
+        // Create and store reference to UnicodeStyleFragment
+        unicodeStyleFragment = UnicodeStyleFragment.newInstance(inputName) { styleType ->
+            currentUnicodeStyle = styleType
+            useUnicodeStyle = true
+            saveState()
+            updatePreview()
+            updateUndoRedoButtons()
+        }
+
         val fragments = listOf<Fragment>(
             SymbolFragment.newInstance(true) { symbol ->
                 leftSymbol = symbol
@@ -125,13 +139,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
                 updatePreview()
                 updateUndoRedoButtons()
             },
-            UnicodeStyleFragment.newInstance { styleType ->
-                currentUnicodeStyle = styleType
-                useUnicodeStyle = true
-                saveState()
-                updatePreview()
-                updateUndoRedoButtons()
-            },
+            unicodeStyleFragment!!,
             SymbolFragment.newInstance(false) { symbol ->
                 rightSymbol = symbol
                 saveState()
@@ -427,6 +435,25 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         // Set current name
         etEditName.setText(inputName)
         etEditName.setSelection(inputName.length)
+
+        // Add TextWatcher for real-time preview update
+        etEditName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not needed
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Update preview in real-time as user types
+                inputName = s.toString()
+                updatePreview()
+                // Update Unicode style list items with new text
+                unicodeStyleFragment?.updatePreviewText(inputName)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Not needed
+            }
+        })
 
         btnUpdate.setOnSingleClick {
             val newName = etEditName.text.toString().trim()

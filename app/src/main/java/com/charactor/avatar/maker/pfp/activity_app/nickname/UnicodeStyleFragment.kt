@@ -15,10 +15,17 @@ class UnicodeStyleFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var onStyleSelected: ((StyleType) -> Unit)? = null
+    private var currentPreviewText: String = "Aa"
+    private var adapter: UnicodeStyleAdapter? = null
 
     companion object {
-        fun newInstance(onStyleSelected: (StyleType) -> Unit): UnicodeStyleFragment {
+        private const val ARG_PREVIEW_TEXT = "preview_text"
+
+        fun newInstance(previewText: String, onStyleSelected: (StyleType) -> Unit): UnicodeStyleFragment {
             return UnicodeStyleFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PREVIEW_TEXT, previewText)
+                }
                 this.onStyleSelected = onStyleSelected
             }
         }
@@ -35,12 +42,22 @@ class UnicodeStyleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Get preview text from arguments
+        currentPreviewText = arguments?.getString(ARG_PREVIEW_TEXT) ?: "Aa"
+
         setupRecyclerView()
     }
 
+    // Public method to update preview text from Activity
+    fun updatePreviewText(newText: String) {
+        currentPreviewText = newText
+        refreshStylesList()
+    }
+
     private fun setupRecyclerView() {
-        val previewText = "Aa"
         val conv = UnicodeStyleConverter
+        val previewText = currentPreviewText
 
         val styles = listOf(
             // Mathematical Alphanumeric (13)
@@ -191,28 +208,92 @@ class UnicodeStyleFragment : Fragment() {
             UnicodeStyleModel("Aesthetic", StyleType.AESTHETIC, conv.toAesthetic(previewText)),
             UnicodeStyleModel("Vaporwave", StyleType.VAPORWAVE, conv.toVaporwave(previewText)),
             UnicodeStyleModel("Glitch Mix", StyleType.GLITCH_MIX, conv.toGlitchMix(previewText)),
-            UnicodeStyleModel("Crazy Mix", StyleType.CRAZY_MIX, conv.toCrazyMix(previewText))
+            UnicodeStyleModel("Crazy Mix", StyleType.CRAZY_MIX, conv.toCrazyMix(previewText)),
+
+            // NEW: Mixed Script Styles (15)
+            UnicodeStyleModel("Armenian", StyleType.ARMENIAN, conv.toArmenian(previewText)),
+            UnicodeStyleModel("Thai-Lao", StyleType.THAI_LAO_MIX, conv.toThaiLaoMix(previewText)),
+            UnicodeStyleModel("Japanese", StyleType.JAPANESE_MIX, conv.toJapaneseMix(previewText)),
+            UnicodeStyleModel("Medieval", StyleType.MEDIEVAL_LATIN, conv.toMedievalLatin(previewText)),
+            UnicodeStyleModel("Bopomofo CJK", StyleType.BOPOMOFO_CJK, conv.toBopomofoCJK(previewText)),
+            UnicodeStyleModel("Yi", StyleType.YI_SYLLABLES, conv.toYiSyllables(previewText)),
+            UnicodeStyleModel("Canadian", StyleType.CANADIAN_ABORIGINAL, conv.toCanadianAboriginal(previewText)),
+            UnicodeStyleModel("Cherokee", StyleType.CHEROKEE, conv.toCherokee(previewText)),
+            UnicodeStyleModel("Lisu", StyleType.LISU, conv.toLisu(previewText)),
+            UnicodeStyleModel("Hebrew-Greek", StyleType.HEBREW_GREEK_MIX, conv.toHebrewGreekMix(previewText)),
+            UnicodeStyleModel("Gujarati", StyleType.GUJARATI_MIX, conv.toGujaratiMix(previewText)),
+            UnicodeStyleModel("Thai-Armenian", StyleType.THAI_ARMENIAN_MIX, conv.toThaiArmenianMix(previewText)),
+            UnicodeStyleModel("Cyrillic-Armenian", StyleType.CYRILLIC_ARMENIAN_MIX, conv.toCyrillicArmenianMix(previewText)),
+            UnicodeStyleModel("Greek-Cyrillic", StyleType.GREEK_CYRILLIC_MIX, conv.toGreekCyrillicMix(previewText)),
+            UnicodeStyleModel("Latin-Greek-VN", StyleType.LATIN_GREEK_VIETNAMESE_MIX, conv.toLatinGreekVietnameseMix(previewText)),
+
+            // IPA & Phonetic (3)
+            UnicodeStyleModel("IPA Phonetic", StyleType.IPA_PHONETIC, conv.toIPAPhonetic(previewText)),
+            UnicodeStyleModel("IPA Extended", StyleType.IPA_EXTENDED, conv.toIPAExtended(previewText)),
+            UnicodeStyleModel("Phonetic Ext", StyleType.PHONETIC_EXTENSIONS, conv.toPhoneticExtensions(previewText)),
+
+            // Advanced Greek (3)
+            UnicodeStyleModel("Greek Extended", StyleType.GREEK_EXTENDED, conv.toGreekExtended(previewText)),
+            UnicodeStyleModel("Greek Coptic", StyleType.GREEK_COPTIC_MIX, conv.toGreekCopticMix(previewText)),
+            UnicodeStyleModel("Greek Archaic", StyleType.GREEK_ARCHAIC, conv.toGreekArchaic(previewText)),
+
+            // Symbol Separators (6)
+            UnicodeStyleModel("Sep N-Ary", StyleType.SEPARATOR_N_ARY, conv.toSeparatorNAry(previewText)),
+            UnicodeStyleModel("Sep APL", StyleType.SEPARATOR_APL, conv.toSeparatorAPL(previewText)),
+            UnicodeStyleModel("Sep Star", StyleType.SEPARATOR_STAR, conv.toSeparatorStar(previewText)),
+            UnicodeStyleModel("Sep Dot", StyleType.SEPARATOR_DOT, conv.toSeparatorDot(previewText)),
+            UnicodeStyleModel("Sep Diamond", StyleType.SEPARATOR_DIAMOND, conv.toSeparatorDiamond(previewText)),
+            UnicodeStyleModel("Sep Circle", StyleType.SEPARATOR_CIRCLE, conv.toSeparatorCircle(previewText)),
+
+            // Complex Combining (8)
+            UnicodeStyleModel("Bridge Mark", StyleType.COMBINING_INVERTED_BRIDGE, conv.toCombiningInvertedBridge(previewText)),
+            UnicodeStyleModel("Candrabindu", StyleType.COMBINING_CANDRABINDU, conv.toCombiningCandrabindu(previewText)),
+            UnicodeStyleModel("Zigzag", StyleType.COMBINING_ZIGZAG, conv.toCombiningZigzag(previewText)),
+            UnicodeStyleModel("Arrow Mark", StyleType.COMBINING_ARROW, conv.toCombiningArrow(previewText)),
+            UnicodeStyleModel("Multi Diacritics", StyleType.DOUBLE_STRUCK_MULTI_DIACRITICS, conv.toDoubleStruckMultiDiacritics(previewText)),
+            UnicodeStyleModel("Random Heavy", StyleType.DIACRITICS_RANDOM_HEAVY, conv.toDiacriticsRandomHeavy(previewText)),
+            UnicodeStyleModel("Super + Dia", StyleType.SUPERSCRIPT_DIACRITICS_MIX, conv.toSuperscriptDiacriticsMix(previewText)),
+            UnicodeStyleModel("Sub + Dia", StyleType.SUBSCRIPT_DIACRITICS_MIX, conv.toSubscriptDiacriticsMix(previewText)),
+
+            // Mirrored (2)
+            UnicodeStyleModel("Mirrored Rev", StyleType.MIRRORED_REVERSED, conv.toMirroredReversed(previewText)),
+            UnicodeStyleModel("Upside Mirror", StyleType.UPSIDE_DOWN_MIRRORED, conv.toUpsideDownMirrored(previewText)),
+
+            // Heavy Effects (4)
+            UnicodeStyleModel("Zalgo Arrows", StyleType.ZALGO_ARROWS, conv.toZalgoArrows(previewText)),
+            UnicodeStyleModel("Glitch Heavy", StyleType.GLITCH_HEAVY_MARKS, conv.toGlitchHeavyMarks(previewText)),
+            UnicodeStyleModel("Chaotic", StyleType.CHAOTIC_MIX, conv.toChaoticMix(previewText)),
+            UnicodeStyleModel("Extreme", StyleType.EXTREME_COMBINING, conv.toExtremeCombining(previewText))
         )
 
-        val adapter = UnicodeStyleAdapter { styleType ->
-            onStyleSelected?.invoke(styleType)
+        if (adapter == null) {
+            adapter = UnicodeStyleAdapter { styleType ->
+                onStyleSelected?.invoke(styleType)
+            }
+
+            val spanCount = 3
+            val spacing = 16
+            val includeEdge = true
+
+            binding.rvFonts.apply {
+                layoutManager = GridLayoutManager(requireContext(), spanCount)
+                addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
+                this.adapter = this@UnicodeStyleFragment.adapter
+            }
         }
 
-        val spanCount = 3
-        val spacing = 16
-        val includeEdge = true
+        adapter?.submitList(styles)
+    }
 
-        binding.rvFonts.apply {
-            layoutManager = GridLayoutManager(requireContext(), spanCount)
-            addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
-            this.adapter = adapter
+    private fun refreshStylesList() {
+        if (_binding != null) {
+            setupRecyclerView()
         }
-
-        adapter.submitList(styles)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        adapter = null
     }
 }
