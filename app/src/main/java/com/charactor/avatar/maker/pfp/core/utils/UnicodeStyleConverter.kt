@@ -180,31 +180,59 @@ object UnicodeStyleConverter {
     fun toNegativeSquared(text: String): String = convertStyle(text, negativeSquaredChars)
 
     fun toStrikethrough(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_STRIKETHROUGH"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_STRIKETHROUGH
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toUnderline(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_UNDERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_UNDERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toOverline(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_OVERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_OVERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toSlash(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_SLASH"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_SLASH
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     // New styles
@@ -231,210 +259,390 @@ object UnicodeStyleConverter {
     fun toRegionalIndicator(text: String): String = convertStyle(text, regionalIndicatorSymbols)
 
     fun toDotted(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_DOT_ABOVE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_DOT_ABOVE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toDoubleUnderline(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_DOUBLE_UNDERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_DOUBLE_UNDERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toTilde(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_TILDE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_TILDE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toRingAbove(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_RING_ABOVE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_RING_ABOVE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     // Combination styles
     fun toBoldUnderline(text: String): String {
-        return toBold(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_UNDERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toBold(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_UNDERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toItalicUnderline(text: String): String {
-        return toItalic(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_UNDERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toItalic(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_UNDERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toBoldStrikethrough(text: String): String {
-        return toBold(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_STRIKETHROUGH"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toBold(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_STRIKETHROUGH
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     // More combining diacritics
     fun toDiaeresis(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_DIAERESIS"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_DIAERESIS
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toAcute(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_ACUTE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_ACUTE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toGrave(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_GRAVE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_GRAVE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toCircumflex(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_CIRCUMFLEX"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_CIRCUMFLEX
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toCaron(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_CARON"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_CARON
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toBreve(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_BREVE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_BREVE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toMacron(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_MACRON"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_MACRON
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toDoubleAcute(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_DOUBLE_ACUTE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_DOUBLE_ACUTE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     // More mathematical combinations
     fun toScriptUnderline(text: String): String {
-        return toScript(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_UNDERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toScript(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_UNDERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toFrakturUnderline(text: String): String {
-        return toFraktur(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_UNDERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toFraktur(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_UNDERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toMonospaceUnderline(text: String): String {
-        return toMonospace(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_UNDERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toMonospace(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_UNDERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toSansBoldUnderline(text: String): String {
-        return toSansBold(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_UNDERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toSansBold(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_UNDERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toDoubleStruckUnderline(text: String): String {
-        return toDoubleStruck(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_UNDERLINE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toDoubleStruck(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_UNDERLINE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toBoldDotted(text: String): String {
-        return toBold(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_DOT_ABOVE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toBold(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_DOT_ABOVE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toItalicDotted(text: String): String {
-        return toItalic(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_DOT_ABOVE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toItalic(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_DOT_ABOVE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toBoldTilde(text: String): String {
-        return toBold(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_TILDE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toBold(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_TILDE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toItalicStrikethrough(text: String): String {
-        return toItalic(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_STRIKETHROUGH"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toItalic(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_STRIKETHROUGH
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     // Zalgo/Glitch text variations
     fun toZalgoLight(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val marks = (0..1).map { zalgoMarksUp.random() }.joinToString("")
-                "$char$marks"
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val marks = (0..1).map { zalgoMarksUp.random() }.joinToString("")
+                    String(intArrayOf(codePoint), 0, 1) + marks
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     fun toZalgoMedium(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val marksUp = (0..2).map { zalgoMarksUp.random() }.joinToString("")
-                val marksDown = (0..1).map { zalgoMarksDown.random() }.joinToString("")
-                "$char$marksUp$marksDown"
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val marksUp = (0..2).map { zalgoMarksUp.random() }.joinToString("")
+                    val marksDown = (0..1).map { zalgoMarksDown.random() }.joinToString("")
+                    String(intArrayOf(codePoint), 0, 1) + marksUp + marksDown
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     fun toZalgoHeavy(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val marksUp = (0..3).map { zalgoMarksUp.random() }.joinToString("")
-                val marksDown = (0..3).map { zalgoMarksDown.random() }.joinToString("")
-                "$char$marksUp$marksDown"
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val marksUp = (0..3).map { zalgoMarksUp.random() }.joinToString("")
+                    val marksDown = (0..3).map { zalgoMarksDown.random() }.joinToString("")
+                    String(intArrayOf(codePoint), 0, 1) + marksUp + marksDown
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     // Decorative wrappers
@@ -493,63 +701,119 @@ object UnicodeStyleConverter {
 
     // More style combinations with new combining marks
     fun toBoldCircumflex(text: String): String {
-        return toBold(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_CIRCUMFLEX"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toBold(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_CIRCUMFLEX
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toItalicCaron(text: String): String {
-        return toItalic(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_CARON"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toItalic(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_CARON
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toScriptTilde(text: String): String {
-        return toScript(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_TILDE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toScript(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_TILDE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toMonospaceStrikethrough(text: String): String {
-        return toMonospace(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_STRIKETHROUGH"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toMonospace(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_STRIKETHROUGH
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toSansBoldStrikethrough(text: String): String {
-        return toSansBold(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_STRIKETHROUGH"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toSansBold(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_STRIKETHROUGH
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toFrakturDotted(text: String): String {
-        return toFraktur(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_DOT_ABOVE"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toFraktur(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_DOT_ABOVE
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toDoubleStruckStrikethrough(text: String): String {
-        return toDoubleStruck(text).map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_STRIKETHROUGH"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return toDoubleStruck(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_STRIKETHROUGH
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     private fun convertStyle(text: String, styledChars: String): String {
-        return text.map { char ->
-            val index = normalChars.indexOf(char)
-            if (index != -1 && index < styledChars.length) {
-                styledChars[index]
-            } else {
-                char
+        // Use codePoints() to handle surrogate pairs correctly (Mathematical Unicode > U+FFFF)
+        val normalCodePoints = normalChars.codePoints().toArray()
+        val styledCodePoints = styledChars.codePoints().toArray()
+
+        return text.codePoints()
+            .map { codePoint ->
+                val index = normalCodePoints.indexOf(codePoint)
+                if (index != -1 && index < styledCodePoints.size) {
+                    styledCodePoints[index]
+                } else {
+                    codePoint
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .let { String(it, 0, it.size) }
     }
 
     // ==================== CHARACTER SUBSTITUTION / LOOKALIKE STYLES ====================
@@ -667,14 +931,18 @@ object UnicodeStyleConverter {
             this::toMonospace,
             this::toSans
         )
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val style = styles.random()
-                style(char.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val style = styles.random()
+                    style(String(intArrayOf(codePoint), 0, 1))
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     // Random Mix Medium - mỗi chữ cái được apply 1 trong 10 styles ngẫu nhiên (thực sự random)
@@ -691,14 +959,18 @@ object UnicodeStyleConverter {
             this::toSansBold,
             this::toCircled
         )
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val style = styles.random()
-                style(char.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val style = styles.random()
+                    style(String(intArrayOf(codePoint), 0, 1))
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     // Random Mix Heavy - mỗi chữ cái được apply 1 trong nhiều styles khác nhau (thực sự random)
@@ -721,14 +993,18 @@ object UnicodeStyleConverter {
             this::toSquared,
             this::toFullwidth
         )
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val style = styles.random()
-                style(char.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val style = styles.random()
+                    style(String(intArrayOf(codePoint), 0, 1))
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     // Alternating Case - chữ hoa chữ thường xen kẽ (sPoNgEbOb style)
@@ -771,29 +1047,49 @@ object UnicodeStyleConverter {
     // Alternating Styles - xen kẽ giữa 2 styles (ví dụ: bold và italic)
     fun toAlternatingStyles(text: String): String {
         var useBold = true
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                useBold = !useBold
-                if (useBold) toBold(char.toString()) else toItalic(char.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    useBold = !useBold
+                    val charStr = String(intArrayOf(codePoint), 0, 1)
+                    if (useBold) toBold(charStr) else toItalic(charStr)
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     // Wave Style - tạo hiệu ứng sóng với superscript và subscript
     fun toWaveStyle(text: String): String {
-        return text.mapIndexed { index, char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                when (index % 3) {
-                    0 -> superscriptMap[char]?.toString() ?: char.toString()
-                    1 -> char.toString()
-                    else -> subscriptMap[char]?.toString() ?: char.toString()
+        // Use codePoints() to handle surrogate pairs correctly
+        var index = 0
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val result = when (index % 3) {
+                        0 -> {
+                            // Try to find in superscript map
+                            val char = String(intArrayOf(codePoint), 0, 1).firstOrNull()
+                            char?.let { superscriptMap[it]?.toString() } ?: String(intArrayOf(codePoint), 0, 1)
+                        }
+                        1 -> String(intArrayOf(codePoint), 0, 1)
+                        else -> {
+                            // Try to find in subscript map
+                            val char = String(intArrayOf(codePoint), 0, 1).firstOrNull()
+                            char?.let { subscriptMap[it]?.toString() } ?: String(intArrayOf(codePoint), 0, 1)
+                        }
+                    }
+                    index++
+                    result
                 }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     // Bubble Text - kết hợp circled với các decorations
@@ -808,24 +1104,34 @@ object UnicodeStyleConverter {
 
     // Aesthetic Style - style aesthetic với decorations
     fun toAesthetic(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                " "
-            } else {
-                "$char　" // Thêm fullwidth space
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    " "
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + "　" // Thêm fullwidth space
+                }
             }
-        }.joinToString("").trim()
+            .toArray()
+            .joinToString("")
+            .trim()
     }
 
     // Vaporwave Style - fullwidth + aesthetic
     fun toVaporwave(text: String): String {
-        return toFullwidth(text).map { char ->
-            if (char.isWhitespace()) {
-                " "
-            } else {
-                "$char　"
+        // Use codePoints() to handle surrogate pairs correctly
+        return toFullwidth(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    " "
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + "　"
+                }
             }
-        }.joinToString("").trim()
+            .toArray()
+            .joinToString("")
+            .trim()
     }
 
     // Glitch Mix - kết hợp nhiều styles tạo hiệu ứng glitch
@@ -837,14 +1143,18 @@ object UnicodeStyleConverter {
             this::toUnderline,
             this::toSlash
         )
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val style = styles.random()
-                style(char.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val style = styles.random()
+                    style(String(intArrayOf(codePoint), 0, 1))
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     // Crazy Mix - kết hợp character substitution với combining marks
@@ -857,25 +1167,31 @@ object UnicodeStyleConverter {
             weirdMixLookalike,
             currencyMixLookalike
         )
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val lookalike = allLookalikes.random()
-                val substituted = lookalike[char] ?: char
-                // Thêm random combining mark
-                if (kotlin.random.Random.nextBoolean()) {
-                    val mark = if (kotlin.random.Random.nextBoolean()) {
-                        zalgoMarksUp.random()
-                    } else {
-                        zalgoMarksDown.random()
-                    }
-                    "$substituted$mark"
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
                 } else {
-                    substituted.toString()
+                    // Try to convert codePoint to Char for map lookup (only works for BMP)
+                    val char = if (codePoint <= 0xFFFF) codePoint.toChar() else null
+                    val lookalike = allLookalikes.random()
+                    val substituted = char?.let { lookalike[it] } ?: codePoint.toChar()
+                    // Thêm random combining mark
+                    if (kotlin.random.Random.nextBoolean()) {
+                        val mark = if (kotlin.random.Random.nextBoolean()) {
+                            zalgoMarksUp.random()
+                        } else {
+                            zalgoMarksDown.random()
+                        }
+                        "$substituted$mark"
+                    } else {
+                        substituted.toString()
+                    }
                 }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     // ==================== NEW UNICODE STYLES (41) ====================
@@ -1221,27 +1537,51 @@ object UnicodeStyleConverter {
     private const val SEPARATOR_CIRCLE_SYMBOL = '○'
 
     fun toSeparatorNAry(text: String): String {
-        return text.map { it.toString() }.joinToString(SEPARATOR_N_ARY_SYMBOL.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { String(intArrayOf(it), 0, 1) }
+            .toArray()
+            .joinToString(SEPARATOR_N_ARY_SYMBOL.toString())
     }
 
     fun toSeparatorAPL(text: String): String {
-        return text.map { it.toString() }.joinToString(SEPARATOR_APL_SYMBOL.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { String(intArrayOf(it), 0, 1) }
+            .toArray()
+            .joinToString(SEPARATOR_APL_SYMBOL.toString())
     }
 
     fun toSeparatorStar(text: String): String {
-        return text.map { it.toString() }.joinToString(SEPARATOR_STAR_SYMBOL.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { String(intArrayOf(it), 0, 1) }
+            .toArray()
+            .joinToString(SEPARATOR_STAR_SYMBOL.toString())
     }
 
     fun toSeparatorDot(text: String): String {
-        return text.map { it.toString() }.joinToString(SEPARATOR_DOT_SYMBOL.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { String(intArrayOf(it), 0, 1) }
+            .toArray()
+            .joinToString(SEPARATOR_DOT_SYMBOL.toString())
     }
 
     fun toSeparatorDiamond(text: String): String {
-        return text.map { it.toString() }.joinToString(SEPARATOR_DIAMOND_SYMBOL.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { String(intArrayOf(it), 0, 1) }
+            .toArray()
+            .joinToString(SEPARATOR_DIAMOND_SYMBOL.toString())
     }
 
     fun toSeparatorCircle(text: String): String {
-        return text.map { it.toString() }.joinToString(SEPARATOR_CIRCLE_SYMBOL.toString())
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { String(intArrayOf(it), 0, 1) }
+            .toArray()
+            .joinToString(SEPARATOR_CIRCLE_SYMBOL.toString())
     }
 
     // 28-35. Complex Combining Marks
@@ -1251,41 +1591,73 @@ object UnicodeStyleConverter {
     private const val COMBINING_ARROW_MARK = '\u0362'
 
     fun toCombiningInvertedBridge(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_INVERTED_BRIDGE_MARK"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_INVERTED_BRIDGE_MARK
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toCombiningCandrabindu(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_CANDRABINDU_MARK"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_CANDRABINDU_MARK
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toCombiningZigzag(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_ZIGZAG_MARK"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_ZIGZAG_MARK
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toCombiningArrow(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) char.toString()
-            else "$char$COMBINING_ARROW_MARK"
-        }.joinToString("")
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_ARROW_MARK
+                }
+            }
+            .toArray()
+            .joinToString("")
     }
 
     fun toDoubleStruckMultiDiacritics(text: String): String {
-        return toDoubleStruck(text).map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                "$char$COMBINING_DIAERESIS$COMBINING_BREVE"
+        // Use codePoints() to handle surrogate pairs correctly
+        return toDoubleStruck(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_DIAERESIS + COMBINING_BREVE
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     fun toDiacriticsRandomHeavy(text: String): String {
@@ -1294,34 +1666,46 @@ object UnicodeStyleConverter {
             COMBINING_CIRCUMFLEX, COMBINING_CARON, COMBINING_BREVE,
             COMBINING_MACRON, COMBINING_TILDE, COMBINING_RING_ABOVE
         )
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val marks = (0..2).map { allDiacritics.random() }.joinToString("")
-                "$char$marks"
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val marks = (0..2).map { allDiacritics.random() }.joinToString("")
+                    String(intArrayOf(codePoint), 0, 1) + marks
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     fun toSuperscriptDiacriticsMix(text: String): String {
-        return toSuperscript(text).map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                "$char$COMBINING_ACUTE$COMBINING_DOT_ABOVE"
+        // Use codePoints() to handle surrogate pairs correctly
+        return toSuperscript(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_ACUTE + COMBINING_DOT_ABOVE
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     fun toSubscriptDiacriticsMix(text: String): String {
-        return toSubscript(text).map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                "$char$COMBINING_UNDERLINE$COMBINING_DOT_ABOVE"
+        // Use codePoints() to handle surrogate pairs correctly
+        return toSubscript(text).codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    String(intArrayOf(codePoint), 0, 1) + COMBINING_UNDERLINE + COMBINING_DOT_ABOVE
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     // 36-37. Mirrored & Flipped Styles
@@ -1345,15 +1729,19 @@ object UnicodeStyleConverter {
 
     // 38-41. Heavy Effects
     fun toZalgoArrows(text: String): String {
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val marksUp = (0..3).map { zalgoMarksUp.random() }.joinToString("")
-                val marksDown = (0..3).map { zalgoMarksDown.random() }.joinToString("")
-                "$char$marksUp$marksDown￫"
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val marksUp = (0..3).map { zalgoMarksUp.random() }.joinToString("")
+                    val marksDown = (0..3).map { zalgoMarksDown.random() }.joinToString("")
+                    String(intArrayOf(codePoint), 0, 1) + marksUp + marksDown + "￫"
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     fun toGlitchHeavyMarks(text: String): String {
@@ -1361,14 +1749,18 @@ object UnicodeStyleConverter {
             '\u0334', '\u0335', '\u0336', '\u0337', '\u0338',
             '\u20E3', '\u20D0', '\u20D1', '\u20D2', '\u20D3'
         )
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val marks = (0..4).map { heavyMarks.random() }.joinToString("")
-                "$char$marks"
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val marks = (0..4).map { heavyMarks.random() }.joinToString("")
+                    String(intArrayOf(codePoint), 0, 1) + marks
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     fun toChaoticMix(text: String): String {
@@ -1377,16 +1769,22 @@ object UnicodeStyleConverter {
             armenianMap, thaiLaoMap, japaneseMixMap, cherokeeMap
         )
         val allCombining = zalgoMarksUp + zalgoMarksDown
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val map = allMaps.random()
-                val converted = map[char] ?: char
-                val marks = (0..3).map { allCombining.random() }.joinToString("")
-                "$converted$marks"
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    // Try to convert codePoint to Char for map lookup (only works for BMP)
+                    val char = if (codePoint <= 0xFFFF) codePoint.toChar() else null
+                    val map = allMaps.random()
+                    val converted = char?.let { map[it] } ?: codePoint.toChar()
+                    val marks = (0..3).map { allCombining.random() }.joinToString("")
+                    "$converted$marks"
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 
     fun toExtremeCombining(text: String): String {
@@ -1394,13 +1792,17 @@ object UnicodeStyleConverter {
             COMBINING_DIAERESIS, COMBINING_ACUTE, COMBINING_GRAVE,
             COMBINING_CIRCUMFLEX, COMBINING_CARON, COMBINING_TILDE
         )
-        return text.map { char ->
-            if (char.isWhitespace()) {
-                char.toString()
-            } else {
-                val marks = (0..5).map { extremeMarks.random() }.joinToString("")
-                "$char$marks"
+        // Use codePoints() to handle surrogate pairs correctly
+        return text.codePoints()
+            .mapToObj { codePoint ->
+                if (Character.isWhitespace(codePoint)) {
+                    String(intArrayOf(codePoint), 0, 1)
+                } else {
+                    val marks = (0..5).map { extremeMarks.random() }.joinToString("")
+                    String(intArrayOf(codePoint), 0, 1) + marks
+                }
             }
-        }.joinToString("")
+            .toArray()
+            .joinToString("")
     }
 }

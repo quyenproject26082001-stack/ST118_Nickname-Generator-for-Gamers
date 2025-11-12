@@ -15,6 +15,7 @@
         android:gravity="center"
         android:text="Aa"
         android:textSize="20sp"
+        android:fontFamily="@font/notosansmath_regular"
         android:textColor="@android:color/black"
         android:background="@drawable/bg_item_selector"
         android:maxLines="1"
