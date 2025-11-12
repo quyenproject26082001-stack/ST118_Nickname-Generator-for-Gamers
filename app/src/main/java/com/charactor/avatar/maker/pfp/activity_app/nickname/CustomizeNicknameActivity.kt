@@ -28,6 +28,8 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     private var leftSymbol: String = ""
     private var rightSymbol: String = ""
     private var currentFont: String = "roboto_regular"
+    private var currentUnicodeStyle: StyleType? = null
+    private var useUnicodeStyle: Boolean = false
 
     // History for undo/redo
     private val historyStack = mutableListOf<NicknameState>()
@@ -36,7 +38,9 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     data class NicknameState(
         val leftSymbol: String,
         val rightSymbol: String,
-        val font: String
+        val font: String,
+        val unicodeStyle: StyleType?,
+        val useUnicodeStyle: Boolean
     )
 
     override fun setViewBinding(): ActivityCustomizeNicknameBinding {
@@ -76,11 +80,8 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
 
         // Save button
         binding.btnSave.setOnSingleClick {
-            val finalText = buildString {
-                if (leftSymbol.isNotEmpty()) append("$leftSymbol ")
-                append(inputName)
-                if (rightSymbol.isNotEmpty()) append(" $rightSymbol")
-            }.trim()
+            // Save text from preview (with Unicode style applied)
+            val finalText = binding.tvPreview.text.toString()
 
             // Navigate to SaveSuccessActivity with the nickname
             startIntentRightToLeft(SaveSuccessActivity::class.java, "SAVED_NICKNAME", finalText)
@@ -88,7 +89,8 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
 
         // Copy button
         binding.btnCopy.setOnSingleClick {
-            val finalText = "$leftSymbol $inputName $rightSymbol".trim()
+            // Copy text from preview (with Unicode style applied)
+            val finalText = binding.tvPreview.text.toString()
             copyToClipboard(finalText)
         }
 
@@ -117,6 +119,15 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             },
             StyleTextFragment.newInstance { font ->
                 currentFont = font
+                useUnicodeStyle = false
+                currentUnicodeStyle = null
+                saveState()
+                updatePreview()
+                updateUndoRedoButtons()
+            },
+            UnicodeStyleFragment.newInstance { styleType ->
+                currentUnicodeStyle = styleType
+                useUnicodeStyle = true
                 saveState()
                 updatePreview()
                 updateUndoRedoButtons()
@@ -136,24 +147,38 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> "Left Symbol"
-                1 -> "Style text"
-                2 -> "Right Symbol"
+                1 -> "Custom Fonts"
+                2 -> "Unicode Styles"
+                3 -> "Right Symbol"
                 else -> ""
             }
         }.attach()
     }
 
     private fun updatePreview() {
-        val finalText = buildString {
+        var baseText = buildString {
             if (leftSymbol.isNotEmpty()) append("$leftSymbol ")
             append(inputName)
             if (rightSymbol.isNotEmpty()) append(" $rightSymbol")
         }.trim()
 
-        binding.tvPreview.text = finalText
-        binding.tvLength.text = finalText.length.toString()
+        // Apply Unicode style if selected
+        if (useUnicodeStyle && currentUnicodeStyle != null) {
+            baseText = CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(baseText, currentUnicodeStyle!!)
+            // Use default font for Unicode styles
+            binding.tvPreview.typeface = androidx.core.content.res.ResourcesCompat.getFont(this, R.font.roboto_regular)
+        } else {
+            // Apply custom font
+            val fontResId = getFontResId(currentFont)
+            binding.tvPreview.typeface = androidx.core.content.res.ResourcesCompat.getFont(this, fontResId)
+        }
 
-        // Apply font
+        binding.tvPreview.text = baseText
+        binding.tvLength.text = baseText.length.toString()
+    }
+
+    private fun getFontResId(fontName: String): Int {
+        // Keep original font mapping logic
         val fontResId = when (currentFont) {
             "roboto_bold" -> R.font.roboto_bold
             "roboto_italic" -> R.font.roboto_italic
@@ -319,8 +344,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             "withlogica" -> R.font.withlogica
             else -> R.font.roboto_regular
         }
-
-        binding.tvPreview.typeface = androidx.core.content.res.ResourcesCompat.getFont(this, fontResId)
+        return fontResId
     }
 
     private fun copyToClipboard(text: String) {
@@ -331,7 +355,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     }
 
     private fun saveState() {
-        val state = NicknameState(leftSymbol, rightSymbol, currentFont)
+        val state = NicknameState(leftSymbol, rightSymbol, currentFont, currentUnicodeStyle, useUnicodeStyle)
 
         // Remove all states after current index
         if (currentHistoryIndex < historyStack.size - 1) {
@@ -362,6 +386,8 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         leftSymbol = state.leftSymbol
         rightSymbol = state.rightSymbol
         currentFont = state.font
+        currentUnicodeStyle = state.unicodeStyle
+        useUnicodeStyle = state.useUnicodeStyle
         updatePreview()
     }
 
