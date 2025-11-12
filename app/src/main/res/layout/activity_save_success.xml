@@ -36,26 +36,31 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/ellipse4"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ellipse_4"/>
             <ImageView
+                android:id="@+id/ellipse3"
                 android:layout_width="114dp"
                 android:layout_height="114dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ellipse_3"/>
             <ImageView
+                android:id="@+id/ellipse2"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ellipse_2"/>
             <ImageView
+                android:id="@+id/ellipse1"
                 android:layout_width="78dp"
                 android:layout_height="78dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ellipse_1"/>
         <ImageView
+            android:id="@+id/icSuccess"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
@@ -68,8 +73,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:fontFamily="@font/roboto_regular"
             android:text="Your name has been saved to my nickname"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#585858"
+            android:layout_marginHorizontal="30dp"
             android:textSize="16sp"
             android:gravity="center"
             android:lineSpacingExtra="4dp" />
