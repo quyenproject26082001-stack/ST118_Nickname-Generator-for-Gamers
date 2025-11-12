@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Window
 import android.widget.EditText
@@ -25,6 +26,10 @@ import com.charactor.avatar.maker.pfp.databinding.ActivityCustomizeNicknameBindi
 import com.google.android.material.tabs.TabLayoutMediator
 
 class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>() {
+
+    companion object {
+        private const val TAG = "CustomizeNickname"
+    }
 
     private var inputName: String = ""
     private var leftSymbol: String = ""
@@ -157,15 +162,79 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             if (rightSymbol.isNotEmpty()) append(" $rightSymbol")
         }.trim()
 
+        // Calculate length: inputName length + 1 for each symbol (to avoid counting multi-code-point emojis as 2+)
+        var actualLength = inputName.length
+        if (leftSymbol.isNotEmpty()) actualLength += 1
+        if (rightSymbol.isNotEmpty()) actualLength += 1
+
+        // Log length calculation details
+        Log.d(TAG, "=== Length Calculation ===")
+        Log.d(TAG, "Input Name: '$inputName' (length: ${inputName.length})")
+        Log.d(TAG, "Left Symbol: '$leftSymbol' ${if (leftSymbol.isNotEmpty()) "(+1)" else ""}")
+        Log.d(TAG, "Right Symbol: '$rightSymbol' ${if (rightSymbol.isNotEmpty()) "(+1)" else ""}")
+        Log.d(TAG, "Base Text: '$baseText' (length: ${baseText.length})")
+        Log.d(TAG, "Base Actual Length: $actualLength")
+
+        // Add extra length from Unicode style decorations
+        var extraLength = 0
+        if (currentUnicodeStyle != null) {
+            extraLength = getUnicodeStyleExtraLength(currentUnicodeStyle!!, baseText.length)
+            actualLength += extraLength
+            Log.d(TAG, "Unicode Style: ${currentUnicodeStyle!!.name}")
+            Log.d(TAG, "Extra Length from Unicode Style: +$extraLength")
+        } else {
+            Log.d(TAG, "Unicode Style: NONE")
+        }
+
         // Apply Unicode style if selected
         if (currentUnicodeStyle != null) {
             baseText = CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(baseText, currentUnicodeStyle!!)
         }
 
+        Log.d(TAG, "Final Actual Length: $actualLength")
+        Log.d(TAG, "Final Preview Text: '$baseText' (actual string length: ${baseText.length})")
+        Log.d(TAG, "========================")
+
         // Always use Roboto Regular font
         binding.tvPreview.typeface = androidx.core.content.res.ResourcesCompat.getFont(this, R.font.roboto_regular)
         binding.tvPreview.text = baseText
-        binding.tvLength.text = baseText.length.toString()
+        binding.tvLength.text = actualLength.toString()
+    }
+
+    private fun getUnicodeStyleExtraLength(styleType: StyleType, baseTextLength: Int): Int {
+        return when (styleType) {
+            // Decorative Brackets (+2: left + right bracket)
+            StyleType.SQUARE_BRACKETS, StyleType.DOUBLE_BRACKETS, StyleType.CURLY_BRACKETS,
+            StyleType.WHITE_BRACKETS, StyleType.TORTOISE_BRACKETS, StyleType.ANGLE_BRACKETS,
+            StyleType.DOUBLE_ANGLE_BRACKETS, StyleType.CORNER_BRACKETS, StyleType.FLOOR_BRACKETS,
+            StyleType.PARENTHESES, StyleType.SQUARE_PARENTHESES, StyleType.CURLY_PARENTHESES,
+            StyleType.ARROW_BRACKETS, StyleType.QUOTATION_MARKS, StyleType.SINGLE_QUOTES -> 2
+
+            // Emoji Decorations (+4: 2 emojis + 2 spaces)
+            StyleType.STARS, StyleType.HEARTS, StyleType.SPARKLES,
+            StyleType.CROWN, StyleType.FLOWERS -> 4
+
+            // Arrow Decorations - One side (+2: arrow + space)
+            StyleType.ARROWS_LEFT, StyleType.ARROWS_RIGHT -> 2
+
+            // Arrow Decorations - Both sides (+4: 2 arrows + 2 spaces)
+            StyleType.ARROWS_BOTH, StyleType.DOUBLE_ARROWS, StyleType.TRIANGLE_ARROWS -> 4
+
+            // Box Drawing (+4: corners + lines)
+            StyleType.BOX_SINGLE, StyleType.BOX_DOUBLE,
+            StyleType.BOX_ROUNDED, StyleType.BOX_HEAVY -> 4
+
+            // Block Backgrounds (+(N+1): N blocks + 1 space)
+            StyleType.BLOCK_LIGHT, StyleType.BLOCK_MEDIUM,
+            StyleType.BLOCK_HEAVY, StyleType.BLOCK_FULL -> baseTextLength + 1
+
+            // Symbol Separators (+(N-1): separators between N characters)
+            StyleType.SEPARATOR_N_ARY, StyleType.SEPARATOR_APL, StyleType.SEPARATOR_STAR,
+            StyleType.SEPARATOR_DOT, StyleType.SEPARATOR_DIAMOND, StyleType.SEPARATOR_CIRCLE -> baseTextLength - 1
+
+            // All other styles don't add extra characters, they just replace characters
+            else -> 0
+        }
     }
 
     private fun copyToClipboard(text: String) {
