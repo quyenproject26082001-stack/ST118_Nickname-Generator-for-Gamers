@@ -39,6 +39,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     private var currentHistoryIndex = -1
 
     data class NicknameState(
+        val inputName: String,
         val leftSymbol: String,
         val rightSymbol: String,
         val unicodeStyle: StyleType?
@@ -175,7 +176,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     }
 
     private fun saveState() {
-        val state = NicknameState(leftSymbol, rightSymbol, currentUnicodeStyle)
+        val state = NicknameState(inputName, leftSymbol, rightSymbol, currentUnicodeStyle)
 
         // Remove all states after current index
         if (currentHistoryIndex < historyStack.size - 1) {
@@ -203,10 +204,13 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     }
 
     private fun restoreState(state: NicknameState) {
+        inputName = state.inputName
         leftSymbol = state.leftSymbol
         rightSymbol = state.rightSymbol
         currentUnicodeStyle = state.unicodeStyle
         updatePreview()
+        // Update Unicode style fragment with restored name
+        unicodeStyleFragment?.updatePreviewText(inputName)
     }
 
     private fun updateUndoRedoButtons() {
@@ -242,38 +246,35 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         val etEditName = dialog.findViewById<EditText>(R.id.etEditName)
         val btnUpdate = dialog.findViewById<AppCompatButton>(R.id.btnUpdate)
 
+        // Save original name to restore if user deletes all text
+        val originalName = inputName
+
         // Set current name
         etEditName.setText(inputName)
         etEditName.setSelection(inputName.length)
-
-        // Add TextWatcher for real-time preview update
-        etEditName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not needed
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Update preview in real-time as user types
-                inputName = s.toString()
-                updatePreview()
-                // Update Unicode style list items with new text
-                unicodeStyleFragment?.updatePreviewText(inputName)
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Not needed
-            }
-        })
 
         btnUpdate.setOnSingleClick {
             val newName = etEditName.text.toString().trim()
             if (newName.isNotEmpty()) {
                 inputName = newName
                 updatePreview()
+                // Update Unicode style list items with new text
+                unicodeStyleFragment?.updatePreviewText(inputName)
+                // Save state for undo/redo
+                saveState()
+                updateUndoRedoButtons()
                 dialog.dismiss()
                 Toast.makeText(this, "Name updated", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show()
+                // Restore to original name when text is empty
+                inputName = originalName
+                updatePreview()
+                unicodeStyleFragment?.updatePreviewText(originalName)
+                // Save state for undo/redo
+                saveState()
+                updateUndoRedoButtons()
+                dialog.dismiss()
+                Toast.makeText(this, "Name restored to original", Toast.LENGTH_SHORT).show()
             }
         }
 
