@@ -23,9 +23,12 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
     }
 
     override fun initView() {
-        // Save the nickname to preferences
+        // Get the saved nickname from intent
         val savedNickname = intent.getStringExtra("SAVED_NICKNAME")
+
+        // Display the nickname
         if (!savedNickname.isNullOrEmpty()) {
+            binding.tvSavedNickname.text = savedNickname
             saveNicknameToPrefs(savedNickname)
         }
     }

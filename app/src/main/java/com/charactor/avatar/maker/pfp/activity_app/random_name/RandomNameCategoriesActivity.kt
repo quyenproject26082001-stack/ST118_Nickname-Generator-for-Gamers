@@ -45,20 +45,20 @@ class RandomNameCategoriesActivity : BaseActivity<ActivityRandomNameCategoriesBi
     
     private fun loadCategories() {
         val categories = listOf(
-            CategoryModel("top", "Top", R.drawable.ic_random),
-            CategoryModel("girl", "Girl", R.drawable.ic_random),
-            CategoryModel("animals", "Animals", R.drawable.ic_random),
-            CategoryModel("loved", "Loved", R.drawable.ic_random),
-            CategoryModel("cool", "Cool", R.drawable.ic_random),
-            CategoryModel("cute", "Cute", R.drawable.ic_random),
-            CategoryModel("film", "Film", R.drawable.ic_random),
-            CategoryModel("unique", "Unique", R.drawable.ic_random),
-            CategoryModel("boy", "Boy", R.drawable.ic_random),
-            CategoryModel("food", "Food", R.drawable.ic_random),
-            CategoryModel("music", "Music", R.drawable.ic_random),
-            CategoryModel("game", "Game", R.drawable.ic_random)
+            CategoryModel("top", "Top", R.drawable.top_img),
+            CategoryModel("girl", "Girl", R.drawable.girl_img),
+            CategoryModel("animals", "Animals", R.drawable.animal_img),
+            CategoryModel("loved", "Loved", R.drawable.love_img),
+            CategoryModel("cool", "Cool", R.drawable.cool_img),
+            CategoryModel("cute", "Cute", R.drawable.cute_img),
+            CategoryModel("film", "Film", R.drawable.film_img),
+            CategoryModel("unique", "Unique", R.drawable.unique_img),
+            CategoryModel("boy", "Boy", R.drawable.boy_img),
+            CategoryModel("food", "Food", R.drawable.food_img),
+            CategoryModel("music", "Music", R.drawable.music_img),
+            CategoryModel("game", "Game", R.drawable.game_img)
         )
-        
+
         categoryAdapter.submitList(categories)
     }
 }

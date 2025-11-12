@@ -15,9 +15,9 @@ class CategoryAdapter(
         binding.ivCategoryIcon.setImageResource(item.iconRes)
 
         // Set selected state
-        binding.cardCategory.isSelected = (position == selectedPosition)
+        binding.ivCategoryIcon.isSelected = (position == selectedPosition)
 
-        binding.cardCategory.setOnSingleClick {
+        binding.ivCategoryIcon.setOnSingleClick {
             val previousPosition = selectedPosition
             selectedPosition = position
 
