@@ -5,45 +5,19 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity_app.random_name.RandomNameCategoriesActivity"
-    android:background="@drawable/bg_gradient_pastel">
+    android:background="@drawable/my_nickname">
 
-    <ImageView
-        android:id="@+id/imgHeadTitle"
+    <!-- Action Bar -->
+    <FrameLayout
+        android:id="@+id/layoutActionBar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/btnBack"
-        android:layout_marginBottom="-40dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/head_title"/>
-    <!-- Back Button -->
-    <ImageView
-        android:id="@+id/btnBack"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="60dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Title -->
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/random_name"
-        android:textColor="#FF5959"
-        android:textSize="28sp"
-        android:fontFamily="@font/roboto_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnBack"
-        app:layout_constraintBottom_toBottomOf="@id/btnBack"
-        />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/actionBar"
+            layout="@layout/layout_actionbar" />
+    </FrameLayout>
 
     <!-- Categories Grid -->
     <androidx.recyclerview.widget.RecyclerView
@@ -56,7 +30,7 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="3"
         tools:listitem="@layout/item_category"
-        app:layout_constraintTop_toBottomOf="@id/imgHeadTitle"
+        app:layout_constraintTop_toBottomOf="@id/layoutActionBar"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

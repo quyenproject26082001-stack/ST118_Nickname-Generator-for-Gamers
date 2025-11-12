@@ -21,15 +21,21 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>() {
         // Get category from intent
         categoryId = intent.getStringExtra("CATEGORY_ID") ?: "top"
         categoryName = categoryId.replaceFirstChar { it.uppercase() }
-        
-        binding.tvCategoryTitle.text = categoryName
-        
+
+        // Setup action bar
+        binding.actionBar.btnActionBarLeft.setImageResource(com.charactor.avatar.maker.pfp.R.drawable.ic_back)
+        binding.actionBar.btnActionBarLeft.visibility = android.view.View.VISIBLE
+
+        binding.actionBar.tvCenter.text = categoryName
+        binding.actionBar.tvCenter.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
+        binding.actionBar.tvCenter.visibility = android.view.View.VISIBLE
+
         setupRecyclerView()
         loadNicknames()
     }
 
     override fun viewListener() {
-        binding.btnBack.setOnSingleClick {
+        binding.actionBar.btnActionBarLeft.setOnSingleClick {
             onBackPressed()
         }
     }
@@ -46,9 +52,10 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>() {
         nicknameAdapter = RandomNicknameAdapter { nickname ->
             // Save nickname and navigate to success screen
             saveNickname(nickname)
-            startIntentRightToLeft(SaveSuccessActivity::class.java, "SAVED_NICKNAME", nickname.nickname)
+            // Pass the styled nickname to SaveSuccessActivity
+            startIntentRightToLeft(SaveSuccessActivity::class.java, "SAVED_NICKNAME", nickname.styledNickname)
         }
-        
+
         binding.rvNicknames.apply {
             layoutManager = LinearLayoutManager(this@CategoryDetailActivity)
             adapter = nicknameAdapter

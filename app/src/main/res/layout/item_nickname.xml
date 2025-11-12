@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="8dp"
+    android:layout_marginVertical="3dp"
     android:background="@drawable/bg_item_nickname"
     android:paddingVertical="15dp">
 
@@ -26,8 +26,8 @@
     <!-- Copy Button -->
     <ImageView
         android:id="@+id/btnCopy"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginEnd="10dp"
         android:src="@drawable/ic_cp"
         android:scaleType="centerInside"
@@ -38,8 +38,8 @@
     <!-- Save Button -->
     <ImageView
         android:id="@+id/btnSave"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:src="@drawable/ic_download"
         android:scaleType="centerInside"
         app:layout_constraintTop_toTopOf="parent"

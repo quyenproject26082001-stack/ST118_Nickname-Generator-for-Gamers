@@ -16,12 +16,20 @@ class RandomNameCategoriesActivity : BaseActivity<ActivityRandomNameCategoriesBi
     }
 
     override fun initView() {
+        // Setup action bar
+        binding.actionBar.btnActionBarLeft.setImageResource(R.drawable.ic_back)
+        binding.actionBar.btnActionBarLeft.visibility = android.view.View.VISIBLE
+
+        binding.actionBar.tvCenter.text = getString(R.string.random_name)
+        binding.actionBar.tvCenter.setTextColor(resources.getColor(R.color.red_app, null))
+        binding.actionBar.tvCenter.visibility = android.view.View.VISIBLE
+
         setupRecyclerView()
         loadCategories()
     }
 
     override fun viewListener() {
-        binding.btnBack.setOnSingleClick {
+        binding.actionBar.btnActionBarLeft.setOnSingleClick {
             onBackPressed()
         }
     }

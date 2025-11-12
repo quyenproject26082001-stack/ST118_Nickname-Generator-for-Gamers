@@ -23,6 +23,14 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
     }
 
     override fun initView() {
+        // Setup action bar
+        binding.actionBar.btnActionBarLeft.setImageResource(com.charactor.avatar.maker.pfp.R.drawable.ic_back)
+        binding.actionBar.btnActionBarLeft.visibility = android.view.View.VISIBLE
+
+        binding.actionBar.tvCenter.text = getString(com.charactor.avatar.maker.pfp.R.string.successful)
+        binding.actionBar.tvCenter.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
+        binding.actionBar.tvCenter.visibility = android.view.View.VISIBLE
+
         // Get the saved nickname from intent
         val savedNickname = intent.getStringExtra("SAVED_NICKNAME")
 
@@ -34,7 +42,7 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
     }
 
     override fun viewListener() {
-        binding.btnBack.setOnSingleClick {
+        binding.actionBar.btnActionBarLeft.setOnSingleClick {
             onBackPressed()
         }
 

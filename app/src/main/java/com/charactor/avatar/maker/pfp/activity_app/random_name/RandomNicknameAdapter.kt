@@ -13,16 +13,17 @@ class RandomNicknameAdapter(
 ) : BaseAdapter<RandomNicknameModel, ItemRandomNicknameBinding>(ItemRandomNicknameBinding::inflate) {
 
     override fun onBind(binding: ItemRandomNicknameBinding, item: RandomNicknameModel, position: Int) {
-        binding.tvNickname.text = item.nickname
-        
-        // Copy button
+        // Display styled nickname
+        binding.tvNickname.text = item.styledNickname
+
+        // Copy button - copy the styled nickname
         binding.btnCopy.setOnSingleClick {
             val clipboard = binding.root.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("nickname", item.nickname)
+            val clip = ClipData.newPlainText("nickname", item.styledNickname)
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(binding.root.context, "Copied: ${item.nickname}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(binding.root.context, "Copied: ${item.styledNickname}", Toast.LENGTH_SHORT).show()
         }
-        
+
         // Save button
         binding.btnSave.setOnSingleClick {
             onSaveClick(item)
