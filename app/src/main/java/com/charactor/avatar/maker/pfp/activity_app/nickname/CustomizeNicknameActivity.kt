@@ -199,6 +199,9 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         binding.tvPreview.typeface = androidx.core.content.res.ResourcesCompat.getFont(this, R.font.roboto_regular)
         binding.tvPreview.text = baseText
         binding.tvLength.text = actualLength.toString()
+
+        // Enable marquee effect for auto-scrolling text
+        binding.tvPreview.isSelected = true
     }
 
     private fun getUnicodeStyleExtraLength(styleType: StyleType, baseTextLength: Int): Int {
