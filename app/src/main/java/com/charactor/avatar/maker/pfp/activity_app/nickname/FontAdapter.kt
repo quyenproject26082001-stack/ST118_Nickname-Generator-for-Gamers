@@ -13,22 +13,20 @@ class FontAdapter(
     private var selectedPosition = -1
 
     override fun onBind(binding: ItemFontBinding, item: FontModel, position: Int) {
-        binding.tvFont.text = item.displayName
+        binding.tvFont.text = "Aa"
 
         // Apply font to preview
-        val fontResId = when (item.fontFamily) {
-            "sigmar_regular" -> R.font.sigmar_regular
-            "londrina_solid_regular" -> R.font.londrina_solid_regular
-            "montserrat_bold" -> R.font.montserrat_bold
-            "montserrat_italic" -> R.font.montserrat_italic
-            "roboto_bold" -> R.font.roboto_bold
-            "roboto_italic" -> R.font.roboto_italic
-            "roboto_medium" -> R.font.roboto_medium
-            "toruksc_regular" -> R.font.toruksc_regular
-            else -> R.font.roboto_regular
-        }
+        val fontResId = binding.root.context.resources.getIdentifier(
+            item.fontFamily,
+            "font",
+            binding.root.context.packageName
+        )
 
-        val typeface = ResourcesCompat.getFont(binding.root.context, fontResId)
+        val typeface = if (fontResId != 0) {
+            ResourcesCompat.getFont(binding.root.context, fontResId)
+        } else {
+            ResourcesCompat.getFont(binding.root.context, R.font.roboto_regular)
+        }
         binding.tvFont.typeface = typeface
 
         // Set selected state
