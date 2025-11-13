@@ -29,13 +29,12 @@ enum class StyleType {
     NEGATIVE_SQUARED,
     PARENTHESIZED,
 
-    // Special Unicode Blocks (6)
+    // Special Unicode Blocks (5)
     FULLWIDTH,
     SMALL_CAPS,
     SUPERSCRIPT,
     SUBSCRIPT,
     INVERTED,
-    REGIONAL_INDICATOR,
 
     // Basic Combining Characters (8)
     STRIKETHROUGH,
@@ -206,9 +205,8 @@ enum class StyleType {
     MIRRORED_REVERSED,
     UPSIDE_DOWN_MIRRORED,
 
-    // Heavy Effects (4)
+    // Heavy Effects (3)
     ZALGO_ARROWS,
     GLITCH_HEAVY_MARKS,
-    CHAOTIC_MIX,
-    EXTREME_COMBINING
+    CHAOTIC_MIX
 }

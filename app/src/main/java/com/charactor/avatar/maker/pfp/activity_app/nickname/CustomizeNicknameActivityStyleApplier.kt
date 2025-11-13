@@ -29,13 +29,12 @@ object CustomizeNicknameActivityStyleApplier {
             StyleType.NEGATIVE_SQUARED -> conv.toNegativeSquared(text)
             StyleType.PARENTHESIZED -> conv.toParenthesized(text)
 
-            // Special Unicode Blocks (6)
+            // Special Unicode Blocks (5)
             StyleType.FULLWIDTH -> conv.toFullwidth(text)
             StyleType.SMALL_CAPS -> conv.toSmallCaps(text)
             StyleType.SUPERSCRIPT -> conv.toSuperscript(text)
             StyleType.SUBSCRIPT -> conv.toSubscript(text)
             StyleType.INVERTED -> conv.toInverted(text)
-            StyleType.REGIONAL_INDICATOR -> conv.toRegionalIndicator(text)
 
             // Basic Combining Characters (8)
             StyleType.STRIKETHROUGH -> conv.toStrikethrough(text)
@@ -206,11 +205,10 @@ object CustomizeNicknameActivityStyleApplier {
             StyleType.MIRRORED_REVERSED -> conv.toMirroredReversed(text)
             StyleType.UPSIDE_DOWN_MIRRORED -> conv.toUpsideDownMirrored(text)
 
-            // Heavy Effects (4)
+            // Heavy Effects (3)
             StyleType.ZALGO_ARROWS -> conv.toZalgoArrows(text)
             StyleType.GLITCH_HEAVY_MARKS -> conv.toGlitchHeavyMarks(text)
             StyleType.CHAOTIC_MIX -> conv.toChaoticMix(text)
-            StyleType.EXTREME_COMBINING -> conv.toExtremeCombining(text)
         }
     }
 }

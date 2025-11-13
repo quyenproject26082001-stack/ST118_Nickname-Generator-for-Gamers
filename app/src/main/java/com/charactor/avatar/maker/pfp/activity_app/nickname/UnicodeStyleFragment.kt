@@ -82,13 +82,12 @@ class UnicodeStyleFragment : Fragment() {
             UnicodeStyleModel("Negative Squared", StyleType.NEGATIVE_SQUARED, conv.toNegativeSquared(previewText)),
             UnicodeStyleModel("Parenthesized", StyleType.PARENTHESIZED, conv.toParenthesized(previewText)),
 
-            // Special Unicode Blocks (6)
+            // Special Unicode Blocks (5)
             UnicodeStyleModel("Fullwidth", StyleType.FULLWIDTH, conv.toFullwidth(previewText)),
             UnicodeStyleModel("Small Caps", StyleType.SMALL_CAPS, conv.toSmallCaps(previewText)),
             UnicodeStyleModel("Superscript", StyleType.SUPERSCRIPT, conv.toSuperscript(previewText)),
             UnicodeStyleModel("Subscript", StyleType.SUBSCRIPT, conv.toSubscript(previewText)),
             UnicodeStyleModel("Inverted", StyleType.INVERTED, conv.toInverted(previewText)),
-            UnicodeStyleModel("Regional", StyleType.REGIONAL_INDICATOR, conv.toRegionalIndicator(previewText)),
 
             // Basic Combining (8)
             UnicodeStyleModel("Strikethrough", StyleType.STRIKETHROUGH, conv.toStrikethrough(previewText)),
@@ -259,11 +258,10 @@ class UnicodeStyleFragment : Fragment() {
             UnicodeStyleModel("Mirrored Rev", StyleType.MIRRORED_REVERSED, conv.toMirroredReversed(previewText)),
             UnicodeStyleModel("Upside Mirror", StyleType.UPSIDE_DOWN_MIRRORED, conv.toUpsideDownMirrored(previewText)),
 
-            // Heavy Effects (4)
+            // Heavy Effects (3)
             UnicodeStyleModel("Zalgo Arrows", StyleType.ZALGO_ARROWS, conv.toZalgoArrows(previewText)),
             UnicodeStyleModel("Glitch Heavy", StyleType.GLITCH_HEAVY_MARKS, conv.toGlitchHeavyMarks(previewText)),
-            UnicodeStyleModel("Chaotic", StyleType.CHAOTIC_MIX, conv.toChaoticMix(previewText)),
-            UnicodeStyleModel("Extreme", StyleType.EXTREME_COMBINING, conv.toExtremeCombining(previewText))
+            UnicodeStyleModel("Chaotic", StyleType.CHAOTIC_MIX, conv.toChaoticMix(previewText))
         )
 
         if (adapter == null) {

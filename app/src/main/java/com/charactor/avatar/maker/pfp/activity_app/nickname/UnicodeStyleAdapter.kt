@@ -14,6 +14,22 @@ class UnicodeStyleAdapter(
         // Display preview text with Unicode style applied
         binding.tvFont.text = item.preview
 
+        // Add extra vertical padding for styles with diacritics above/below
+        val extraPaddingDp = if (item.styleType in listOf(
+                StyleType.CHAOTIC_MIX,
+                StyleType.ZALGO_ARROWS,
+                StyleType.ZALGO_MEDIUM,
+                StyleType.ZALGO_HEAVY
+            )) 18 else 7
+
+        val paddingPx = (extraPaddingDp * binding.root.context.resources.displayMetrics.density).toInt()
+        binding.tvFont.setPadding(
+            binding.tvFont.paddingLeft,
+            paddingPx,
+            binding.tvFont.paddingRight,
+            paddingPx
+        )
+
         // Set selected state
         val isSelected = (position == selectedPosition)
         binding.tvFont.isSelected = isSelected
