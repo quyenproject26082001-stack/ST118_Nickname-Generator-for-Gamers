@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient_pastel">
+    android:background="@drawable/img_bg_app">
 
 
     <!-- Action Bar -->
@@ -33,6 +33,7 @@
         <FrameLayout
             android:id="@+id/icon_success"
             android:layout_width="wrap_content"
+            android:layout_marginTop="-140dp"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -72,7 +73,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="12dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/your_name_has_been_saved_to_my_nickname"
             android:textColor="#585858"
@@ -86,7 +87,7 @@
             android:id="@+id/tvSuccess"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="43dp"
             android:orientation="horizontal"
             android:gravity="center">
 
@@ -101,6 +102,11 @@
                 android:text="My name"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                  />
 
 

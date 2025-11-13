@@ -39,6 +39,7 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         // Display the nickname
         if (!savedNickname.isNullOrEmpty()) {
             binding.tvSavedNickname.text = savedNickname
+            binding.tvSavedNickname.isSelected = true
             saveNicknameToPrefs(savedNickname)
         }
 

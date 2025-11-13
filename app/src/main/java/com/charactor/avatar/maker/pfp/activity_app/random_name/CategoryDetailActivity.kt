@@ -20,7 +20,7 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>() {
     override fun initView() {
         // Get category from intent
         categoryId = intent.getStringExtra("CATEGORY_ID") ?: "top"
-        categoryName = categoryId.replaceFirstChar { it.uppercase() }
+        categoryName = intent.getStringExtra("CATEGORY_NAME") ?: categoryId.replaceFirstChar { it.uppercase() }
 
         // Setup action bar
         binding.actionBar.btnActionBarLeft.setImageResource(com.charactor.avatar.maker.pfp.R.drawable.ic_back)

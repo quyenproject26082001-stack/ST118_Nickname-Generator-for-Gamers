@@ -115,13 +115,13 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
 
     @SuppressLint("MissingSuperCall", "GestureBackNavigation")
     override fun onBackPressed() {
-        if (!sharePreference.getIsRate(this) && sharePreference.getCountBack() % 2 == 0) {
+        if (!sharePreference.getIsRate(this) && sharePreference.getCountBack() % 2 != 0) {
             rateApp(sharePreference) { state ->
                 when (state) {
                     RateState.LESS3 -> {
                         lifecycleScope.launch(Dispatchers.Main) {
                             delay(1000)
-                            exitProcess(0)
+                            finishAffinity()
                         }
                     }
 
@@ -131,14 +131,15 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
                             sharePreference.setCountBack(sharePreference.getCountBack() + 1)
                             withContext(Dispatchers.Main) {
                                 delay(1000)
-                                exitProcess(0)
+                                finishAffinity()
                             }
                         }
                     }
                 }
             }
         } else {
-            exitProcess(0)
+            sharePreference.setCountBack(sharePreference.getCountBack() + 1)
+            finishAffinity()
         }
     }
 

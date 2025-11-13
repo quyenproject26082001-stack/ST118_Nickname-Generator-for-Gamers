@@ -45,7 +45,11 @@ class RandomNameCategoriesActivity : BaseActivity<ActivityRandomNameCategoriesBi
     private fun setupRecyclerView() {
         categoryAdapter = CategoryAdapter { category ->
             // Navigate to category detail
-            startIntentRightToLeft(CategoryDetailActivity::class.java, "CATEGORY_ID", category.id)
+            val intent = android.content.Intent(this, CategoryDetailActivity::class.java)
+            intent.putExtra("CATEGORY_ID", category.id)
+            intent.putExtra("CATEGORY_NAME", category.name)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         binding.rvCategories.adapter = categoryAdapter
