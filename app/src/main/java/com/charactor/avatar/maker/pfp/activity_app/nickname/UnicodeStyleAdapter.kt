@@ -15,7 +15,13 @@ class UnicodeStyleAdapter(
         binding.tvFont.text = item.preview
 
         // Set selected state
-        binding.tvFont.isSelected = (position == selectedPosition)
+        val isSelected = (position == selectedPosition)
+        binding.tvFont.isSelected = isSelected
+
+        // Enable marquee for selected item
+        if (isSelected) {
+            binding.tvFont.isSelected = true
+        }
 
         binding.tvFont.setOnSingleClick {
             val previousPosition = selectedPosition
