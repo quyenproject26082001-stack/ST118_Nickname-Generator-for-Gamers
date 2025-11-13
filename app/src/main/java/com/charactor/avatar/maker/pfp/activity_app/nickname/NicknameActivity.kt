@@ -3,8 +3,10 @@ package com.charactor.avatar.maker.pfp.activity_app.nickname
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.charactor.avatar.maker.pfp.R
+import com.charactor.avatar.maker.pfp.activity_app.random_name.SaveSuccessActivity
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
+import com.charactor.avatar.maker.pfp.core.extensions.startIntentRightToLeft
 import com.charactor.avatar.maker.pfp.databinding.ActivityNicknameBinding
 
 class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
@@ -33,8 +35,8 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
         
         // Setup RecyclerView
         nicknameAdapter = NicknameAdapter { nickname ->
-            // Handle save click
-            Toast.makeText(this, getString(R.string.saved, nickname.text), Toast.LENGTH_SHORT).show()
+            // Handle save click - Navigate to SaveSuccessActivity
+            startIntentRightToLeft(SaveSuccessActivity::class.java, "SAVED_NICKNAME", nickname.text)
         }
         
         binding.rvNicknames.apply {
@@ -64,8 +66,8 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
     private fun generateNicknames() {
         val nicknames = mutableListOf<NicknameModel>()
 
-        // Generate different styled nicknames with symbols
-        val symbols = listOf(
+        // All available symbols
+        val allSymbols = listOf(
             "★" to "★",
             "♥" to "♥",
             "◆" to "◆",
@@ -73,17 +75,19 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
             "▲" to "▲",
             "✦" to "✦",
             "❖" to "❖",
-            "◈" to "◈"
+            "◈" to "◈",
+            "✧" to "✧",
+            "♦" to "♦",
+            "◇" to "◇",
+            "○" to "○",
+            "△" to "△",
+            "▽" to "▽",
+            "◉" to "◉",
+            "◎" to "◎"
         )
 
-        // Generate nicknames with symbols (plain text)
-        symbols.forEach { (leftSymbol, rightSymbol) ->
-            val nickname = "$leftSymbol $inputName $rightSymbol"
-            nicknames.add(NicknameModel(nickname))
-        }
-
-        // Generate nicknames with Unicode styles
-        val unicodeStyles = listOf(
+        // All available Unicode styles
+        val allUnicodeStyles = listOf(
             StyleType.BOLD,
             StyleType.ITALIC,
             StyleType.BOLD_ITALIC,
@@ -102,8 +106,20 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
             StyleType.STRIKETHROUGH
         )
 
+        // Randomly select 8 symbols
+        val randomSymbols = allSymbols.shuffled().take(8)
+
+        // Generate nicknames with random symbols
+        randomSymbols.forEach { (leftSymbol, rightSymbol) ->
+            val nickname = "$leftSymbol $inputName $rightSymbol"
+            nicknames.add(NicknameModel(nickname))
+        }
+
+        // Randomly select 12 Unicode styles to make total 20 items
+        val randomStyles = allUnicodeStyles.shuffled().take(12)
+
         // Generate styled nicknames
-        unicodeStyles.forEach { styleType ->
+        randomStyles.forEach { styleType ->
             val styledText = CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(inputName, styleType)
             nicknames.add(NicknameModel(styledText))
         }
