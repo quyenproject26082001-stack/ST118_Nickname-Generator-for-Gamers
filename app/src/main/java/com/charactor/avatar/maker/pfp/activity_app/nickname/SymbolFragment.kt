@@ -131,12 +131,11 @@ class SymbolFragment : Fragment() {
         }
 
         val spanCount = 3
-        val spacing = 12 // 12dp spacing between items
         val includeEdge = true
 
         binding.rvSymbols.apply {
             layoutManager = GridLayoutManager(requireContext(), spanCount)
-            addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
+            addItemDecoration(GridSpacingItemDecoration(spanCount, 0, includeEdge))
             this.adapter = adapter
         }
 
