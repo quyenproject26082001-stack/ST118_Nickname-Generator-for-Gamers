@@ -15,7 +15,8 @@ class SavedNicknameAdapter(
 
     override fun onBind(binding: ItemSavedNicknameBinding, item: SavedNicknameModel, position: Int) {
         binding.tvNickname.text = item.nickname
-        
+        binding.tvNickname.isSelected = true // Enable marquee effect
+
         // Copy button
         binding.btnCopy.setOnSingleClick {
             val clipboard = binding.root.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

@@ -18,7 +18,8 @@ class NicknameAdapter(
 
     override fun onBind(binding: ItemNicknameBinding, item: NicknameModel, position: Int) {
         binding.tvNickname.text = item.text
-        
+        binding.tvNickname.isSelected = true // Enable marquee effect
+
         // Set font based on fontFamily
         val fontResId = when (item.fontFamily) {
             "sigmar_regular" -> R.font.sigmar_regular
