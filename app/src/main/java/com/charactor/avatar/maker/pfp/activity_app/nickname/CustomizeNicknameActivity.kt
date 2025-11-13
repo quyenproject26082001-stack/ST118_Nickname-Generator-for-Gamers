@@ -147,9 +147,9 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         // Connect TabLayout with ViewPager2
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Left Symbol"
-                1 -> "Unicode Styles"
-                2 -> "Right Symbol"
+                0 -> getString(R.string.left_symbol)
+                1 -> getString(R.string.unicode_styles)
+                2 -> getString(R.string.right_symbol)
                 else -> ""
             }
         }.attach()
@@ -244,7 +244,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("nickname", text)
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
     }
 
     private fun saveState() {
@@ -336,7 +336,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
                 saveState()
                 updateUndoRedoButtons()
                 dialog.dismiss()
-                Toast.makeText(this, "Name updated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.name_updated), Toast.LENGTH_SHORT).show()
             } else {
                 // Restore to original name when text is empty
                 inputName = originalName
@@ -346,7 +346,8 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
                 saveState()
                 updateUndoRedoButtons()
                 dialog.dismiss()
-                Toast.makeText(this, "Name restored to original", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.name_restored_to_original), Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -15,18 +15,10 @@
             android:layout_marginHorizontal="16dp"
             android:background="@drawable/bg_16_stroke_gradient_solid_black"
             android:gravity="center_horizontal"
+            android:paddingVertical="20dp"
             android:orientation="vertical">
             <!--            tvTitle-->
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:text="@string/delete"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+
             <!--            tvDescription-->
             <TextView
                 android:id="@+id/tvDescription"
@@ -44,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="21dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginBottom="20dp">
 
                 <include layout="@layout/layout_bottom" android:id="@+id/flBottom"/>

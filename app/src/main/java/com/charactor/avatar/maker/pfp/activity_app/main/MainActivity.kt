@@ -72,6 +72,11 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
             join = Paint.Join.ROUND,
             miter = 10f
         )
+
+        // Enable marquee effect for long text
+        binding.tvMyName.isSelected = true
+        binding.tv1.isSelected = true
+        binding.tv2.isSelected = true
     }
 
     override fun viewListener() {
@@ -153,6 +158,12 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
         binding.apply {
             tv1.text = strings(R.string.random_name)
             tv2.text = strings(R.string.My_NickName)
+            tvMyName.text = strings(R.string.my_name)
+
+            // Re-enable marquee after text update
+            tvMyName.isSelected = true
+            tv1.isSelected = true
+            tv2.isSelected = true
         }
     }
 

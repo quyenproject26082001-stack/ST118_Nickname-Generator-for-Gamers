@@ -50,7 +50,6 @@ class YesNoDialog(
 
     private fun initText() {
         binding.apply {
-            tvTitle.text = context.getString(title)
             tvDescription.text = context.getString(description)
         }
     }

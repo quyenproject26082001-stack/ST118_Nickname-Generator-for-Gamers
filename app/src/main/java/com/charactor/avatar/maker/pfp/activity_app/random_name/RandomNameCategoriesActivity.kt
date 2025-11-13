@@ -53,18 +53,18 @@ class RandomNameCategoriesActivity : BaseActivity<ActivityRandomNameCategoriesBi
     
     private fun loadCategories() {
         val categories = listOf(
-            CategoryModel("top", "Top", R.drawable.top_img),
-            CategoryModel("girl", "Girl", R.drawable.girl_img),
-            CategoryModel("animals", "Animals", R.drawable.animal_img),
-            CategoryModel("loved", "Loved", R.drawable.love_img),
-            CategoryModel("cool", "Cool", R.drawable.cool_img),
-            CategoryModel("cute", "Cute", R.drawable.cute_img),
-            CategoryModel("film", "Film", R.drawable.film_img),
-            CategoryModel("unique", "Unique", R.drawable.unique_img),
-            CategoryModel("boy", "Boy", R.drawable.boy_img),
-            CategoryModel("food", "Food", R.drawable.food_img),
-            CategoryModel("music", "Music", R.drawable.music_img),
-            CategoryModel("game", "Game", R.drawable.game_img)
+            CategoryModel("top", getString(R.string.top), R.drawable.top_img),
+            CategoryModel("girl", getString(R.string.girl), R.drawable.girl_img),
+            CategoryModel("animals", getString(R.string.animals), R.drawable.animal_img),
+            CategoryModel("loved", getString(R.string.loved), R.drawable.love_img),
+            CategoryModel("cool", getString(R.string.cool), R.drawable.cool_img),
+            CategoryModel("cute", getString(R.string.cute), R.drawable.cute_img),
+            CategoryModel("film", getString(R.string.film), R.drawable.film_img),
+            CategoryModel("unique", getString(R.string.unique), R.drawable.unique_img),
+            CategoryModel("boy", getString(R.string.boy), R.drawable.boy_img),
+            CategoryModel("food", getString(R.string.food), R.drawable.food_img),
+            CategoryModel("music", getString(R.string.music), R.drawable.music_img),
+            CategoryModel("game", getString(R.string.game), R.drawable.game_img)
         )
 
         categoryAdapter.submitList(categories)

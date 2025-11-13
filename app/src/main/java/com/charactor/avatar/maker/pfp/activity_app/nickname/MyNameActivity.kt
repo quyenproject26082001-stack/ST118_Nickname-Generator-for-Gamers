@@ -2,6 +2,7 @@ package com.charactor.avatar.maker.pfp.activity_app.nickname
 
 import android.view.LayoutInflater
 import android.widget.Toast
+import com.charactor.avatar.maker.pfp.R
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.core.extensions.startIntentRightToLeft
@@ -18,7 +19,7 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
         binding.actionBar.btnActionBarLeft.setImageResource(com.charactor.avatar.maker.pfp.R.drawable.ic_back)
         binding.actionBar.btnActionBarLeft.visibility = android.view.View.VISIBLE
 
-        binding.actionBar.tvCenter.text = "My name"
+        binding.actionBar.tvCenter.text = getString(R.string.my_name)
         binding.actionBar.tvCenter.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
         binding.actionBar.tvCenter.visibility = android.view.View.VISIBLE
     }
@@ -33,7 +34,7 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
         binding.btnGenerate.setOnSingleClick {
             val inputName = binding.edtInputName.text.toString().trim()
             if (inputName.isEmpty()) {
-                Toast.makeText(this, "Please input your name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.please_input_your_name), Toast.LENGTH_SHORT).show()
                 return@setOnSingleClick
             }
 
@@ -45,7 +46,7 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
         binding.btnCustomNickname.setOnSingleClick {
             val inputName = binding.edtInputName.text.toString().trim()
             if (inputName.isEmpty()) {
-                Toast.makeText(this, "Please input your name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.please_input_your_name), Toast.LENGTH_SHORT).show()
                 return@setOnSingleClick
             }
 

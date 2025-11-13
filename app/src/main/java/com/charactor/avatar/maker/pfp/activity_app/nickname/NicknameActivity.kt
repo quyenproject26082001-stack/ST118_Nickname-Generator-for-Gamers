@@ -2,6 +2,7 @@ package com.charactor.avatar.maker.pfp.activity_app.nickname
 
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.charactor.avatar.maker.pfp.R
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.databinding.ActivityNicknameBinding
@@ -23,7 +24,7 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
         binding.actionBar.btnActionBarLeft.setImageResource(com.charactor.avatar.maker.pfp.R.drawable.ic_back)
         binding.actionBar.btnActionBarLeft.visibility = android.view.View.VISIBLE
 
-        binding.actionBar.tvCenter.text = "Nickname"
+        binding.actionBar.tvCenter.text = getString(R.string.nickname)
         binding.actionBar.tvCenter.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
         binding.actionBar.tvCenter.visibility = android.view.View.VISIBLE
 
@@ -33,7 +34,7 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
         // Setup RecyclerView
         nicknameAdapter = NicknameAdapter { nickname ->
             // Handle save click
-            Toast.makeText(this, "Saved: ${nickname.text}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.saved, nickname.text), Toast.LENGTH_SHORT).show()
         }
         
         binding.rvNicknames.apply {
@@ -62,8 +63,8 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
 
     private fun generateNicknames() {
         val nicknames = mutableListOf<NicknameModel>()
-        
-        // Generate different styled nicknames
+
+        // Generate different styled nicknames with symbols
         val symbols = listOf(
             "★" to "★",
             "♥" to "♥",
@@ -74,31 +75,39 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
             "❖" to "❖",
             "◈" to "◈"
         )
-        
-        val fonts = listOf(
-            "roboto_regular",
-            "roboto_bold",
-            "roboto_italic",
-            "roboto_medium",
-            "sigmar_regular",
-            "londrina_solid_regular",
-            "montserrat_bold",
-            "montserrat_italic",
-            "toruksc_regular"
-        )
-        
-        // Generate nicknames with symbols and different fonts
-        symbols.forEachIndexed { index, (leftSymbol, rightSymbol) ->
-            val font = fonts[index % fonts.size]
+
+        // Generate nicknames with symbols (plain text)
+        symbols.forEach { (leftSymbol, rightSymbol) ->
             val nickname = "$leftSymbol $inputName $rightSymbol"
-            nicknames.add(NicknameModel(nickname, font))
+            nicknames.add(NicknameModel(nickname))
         }
-        
-        // Add plain nicknames with different fonts
-        fonts.forEach { font ->
-            nicknames.add(NicknameModel(inputName, font))
+
+        // Generate nicknames with Unicode styles
+        val unicodeStyles = listOf(
+            StyleType.BOLD,
+            StyleType.ITALIC,
+            StyleType.BOLD_ITALIC,
+            StyleType.SCRIPT,
+            StyleType.BOLD_SCRIPT,
+            StyleType.FRAKTUR,
+            StyleType.DOUBLE_STRUCK,
+            StyleType.SANS_BOLD,
+            StyleType.MONOSPACE,
+            StyleType.CIRCLED,
+            StyleType.SQUARED,
+            StyleType.NEGATIVE_CIRCLED,
+            StyleType.FULLWIDTH,
+            StyleType.SMALL_CAPS,
+            StyleType.UNDERLINE,
+            StyleType.STRIKETHROUGH
+        )
+
+        // Generate styled nicknames
+        unicodeStyles.forEach { styleType ->
+            val styledText = CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(inputName, styleType)
+            nicknames.add(NicknameModel(styledText))
         }
-        
+
         // Submit list to adapter
         nicknameAdapter.submitList(nicknames)
     }

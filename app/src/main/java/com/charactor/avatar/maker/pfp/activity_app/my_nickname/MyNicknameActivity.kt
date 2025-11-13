@@ -35,7 +35,7 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
         binding.actionBar.btnActionBarLeft.setImageResource(R.drawable.ic_back)
         binding.actionBar.btnActionBarLeft.visibility = View.VISIBLE
 
-        binding.actionBar.tvCenter.text = "My nickname"
+        binding.actionBar.tvCenter.text = getString(R.string.my_nickname)
         binding.actionBar.tvCenter.setTextColor(resources.getColor(R.color.red_app, null))
         binding.actionBar.tvCenter.visibility = View.VISIBLE
         
@@ -97,7 +97,8 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
         savedNicknameAdapter.submitList(savedNicknames.toList())
         saveNicknamesToPrefs()
         updateEmptyState()
-        android.widget.Toast.makeText(this, "Deleted: ${nickname.nickname}", android.widget.Toast.LENGTH_SHORT).show()
+        android.widget.Toast.makeText(this,
+            getString(R.string.deleted, nickname.nickname), android.widget.Toast.LENGTH_SHORT).show()
     }
     
     private fun updateEmptyState() {
@@ -138,10 +139,10 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
                     savedNicknameAdapter.submitList(savedNicknames.toList())
                     saveNicknamesToPrefs()
                     dialog.dismiss()
-                    Toast.makeText(this, "Nickname updated", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.nickname_updated), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(this, "Please enter a nickname", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.please_enter_a_nickname), Toast.LENGTH_SHORT).show()
             }
         }
 
