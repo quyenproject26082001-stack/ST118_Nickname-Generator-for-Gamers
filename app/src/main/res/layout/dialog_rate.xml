@@ -32,7 +32,7 @@
                 android:freezesText="true"
                 android:gravity="center"
                 android:text="@string/zero_star_title"
-                android:textColor="@color/white"
+                android:textColor="@color/red_app"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
