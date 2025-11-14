@@ -66,57 +66,19 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
     private fun generateNicknames() {
         val nicknames = mutableListOf<NicknameModel>()
 
-        // All available symbols
-        val allSymbols = listOf(
-            "★" to "★",
-            "♥" to "♥",
-            "◆" to "◆",
-            "●" to "●",
-            "▲" to "▲",
-            "✦" to "✦",
-            "❖" to "❖",
-            "◈" to "◈",
-            "✧" to "✧",
-            "♦" to "♦",
-            "◇" to "◇",
-            "○" to "○",
-            "△" to "△",
-            "▽" to "▽",
-            "◉" to "◉",
-            "◎" to "◎"
-        )
+        // Use FULL emoji collection from CustomizeNicknameActivity (200+ emojis)
+        // Randomly select 8 emojis
+        val randomEmojis = SymbolConstants.getRandomEmojis(8)
 
-        // All available Unicode styles
-        val allUnicodeStyles = listOf(
-            StyleType.BOLD,
-            StyleType.ITALIC,
-            StyleType.BOLD_ITALIC,
-            StyleType.SCRIPT,
-            StyleType.BOLD_SCRIPT,
-            StyleType.FRAKTUR,
-            StyleType.DOUBLE_STRUCK,
-            StyleType.SANS_BOLD,
-            StyleType.MONOSPACE,
-            StyleType.CIRCLED,
-            StyleType.SQUARED,
-            StyleType.NEGATIVE_CIRCLED,
-            StyleType.FULLWIDTH,
-            StyleType.SMALL_CAPS,
-            StyleType.UNDERLINE,
-            StyleType.STRIKETHROUGH
-        )
-
-        // Randomly select 8 symbols
-        val randomSymbols = allSymbols.shuffled().take(8)
-
-        // Generate nicknames with random symbols
-        randomSymbols.forEach { (leftSymbol, rightSymbol) ->
-            val nickname = "$leftSymbol $inputName $rightSymbol"
+        // Generate nicknames with random emojis
+        randomEmojis.forEach { emoji ->
+            val nickname = "$emoji $inputName $emoji"
             nicknames.add(NicknameModel(nickname))
         }
 
+        // Use FULL styles collection from CustomizeNicknameActivity (100+ styles)
         // Randomly select 12 Unicode styles to make total 20 items
-        val randomStyles = allUnicodeStyles.shuffled().take(12)
+        val randomStyles = StyleConstants.ALL_STYLES.shuffled().take(12)
 
         // Generate styled nicknames
         randomStyles.forEach { styleType ->

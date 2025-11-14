@@ -179,70 +179,16 @@ object NicknameDataSource {
         }
     }
     
-    // List of popular Unicode styles for random selection
-    private val popularStyles = listOf(
-        StyleType.BOLD,
-        StyleType.ITALIC,
-        StyleType.BOLD_ITALIC,
-        StyleType.SCRIPT,
-        StyleType.BOLD_SCRIPT,
-        StyleType.FRAKTUR,
-        StyleType.DOUBLE_STRUCK,
-        StyleType.SANS_BOLD,
-        StyleType.MONOSPACE,
-        StyleType.CIRCLED,
-        StyleType.SQUARED,
-        StyleType.FULLWIDTH,
-        StyleType.SMALL_CAPS,
-        StyleType.UNDERLINE,
-        StyleType.STRIKETHROUGH,
-        StyleType.BOLD_UNDERLINE,
-        StyleType.ITALIC_UNDERLINE,
-        StyleType.STARS,
-        StyleType.HEARTS,
-        StyleType.SPARKLES,
-        StyleType.AESTHETIC,
-        StyleType.VAPORWAVE,
-        StyleType.BUBBLE_TEXT,
-        StyleType.FANCY_MIX
-    )
-
     fun getRandomNicknames(categoryId: String, count: Int = 20): List<RandomNicknameModel> {
         val allNicknames = getNicknamesForCategory(categoryId)
-        val conv = UnicodeStyleConverter
 
         return allNicknames.shuffled().take(count).map { nickname ->
-            // Randomly select a Unicode style
-            val randomStyle = popularStyles.random()
+            // Use FULL styles collection from CustomizeNicknameActivity (100+ styles)
+            // Randomly select a Unicode style from ALL available styles
+            val randomStyle = com.charactor.avatar.maker.pfp.activity_app.nickname.StyleConstants.ALL_STYLES.random()
 
-            // Apply the Unicode style
-            val styledNickname = when (randomStyle) {
-                StyleType.BOLD -> conv.toBold(nickname)
-                StyleType.ITALIC -> conv.toItalic(nickname)
-                StyleType.BOLD_ITALIC -> conv.toBoldItalic(nickname)
-                StyleType.SCRIPT -> conv.toScript(nickname)
-                StyleType.BOLD_SCRIPT -> conv.toBoldScript(nickname)
-                StyleType.FRAKTUR -> conv.toFraktur(nickname)
-                StyleType.DOUBLE_STRUCK -> conv.toDoubleStruck(nickname)
-                StyleType.SANS_BOLD -> conv.toSansBold(nickname)
-                StyleType.MONOSPACE -> conv.toMonospace(nickname)
-                StyleType.CIRCLED -> conv.toCircled(nickname)
-                StyleType.SQUARED -> conv.toSquared(nickname)
-                StyleType.FULLWIDTH -> conv.toFullwidth(nickname)
-                StyleType.SMALL_CAPS -> conv.toSmallCaps(nickname)
-                StyleType.UNDERLINE -> conv.toUnderline(nickname)
-                StyleType.STRIKETHROUGH -> conv.toStrikethrough(nickname)
-                StyleType.BOLD_UNDERLINE -> conv.toBoldUnderline(nickname)
-                StyleType.ITALIC_UNDERLINE -> conv.toItalicUnderline(nickname)
-                StyleType.STARS -> conv.toStars(nickname)
-                StyleType.HEARTS -> conv.toHearts(nickname)
-                StyleType.SPARKLES -> conv.toSparkles(nickname)
-                StyleType.AESTHETIC -> conv.toAesthetic(nickname)
-                StyleType.VAPORWAVE -> conv.toVaporwave(nickname)
-                StyleType.BUBBLE_TEXT -> conv.toBubbleText(nickname)
-                StyleType.FANCY_MIX -> conv.toFancyMix(nickname)
-                else -> nickname // Fallback to original
-            }
+            // Apply the Unicode style using the same applier as CustomizeNicknameActivity
+            val styledNickname = com.charactor.avatar.maker.pfp.activity_app.nickname.CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(nickname, randomStyle)
 
             RandomNicknameModel(nickname, categoryId, styledNickname)
         }
