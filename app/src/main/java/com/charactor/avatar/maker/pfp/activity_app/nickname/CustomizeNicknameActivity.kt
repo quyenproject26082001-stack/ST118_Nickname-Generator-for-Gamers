@@ -347,6 +347,21 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         updatePreview()
         // Update Unicode style fragment with restored name
         unicodeStyleFragment?.updatePreviewText(inputName)
+
+        // Update selection for left symbol
+        if (leftSymbol.isNotEmpty()) {
+            leftSymbolFragment?.setInitialSelection(leftSymbol)
+        }
+
+        // Update selection for right symbol
+        if (rightSymbol.isNotEmpty()) {
+            rightSymbolFragment?.setInitialSelection(rightSymbol)
+        }
+
+        // Update selection for unicode style
+        if (currentUnicodeStyle != null) {
+            unicodeStyleFragment?.setInitialSelection(currentUnicodeStyle!!)
+        }
     }
 
     private fun updateUndoRedoButtons() {

@@ -14,7 +14,14 @@ class UnicodeStyleAdapter(
     fun setInitialSelection(styleType: StyleType) {
         val position = styles.indexOfFirst { it.styleType == styleType }
         if (position != -1) {
+            val previousPosition = selectedPosition
             selectedPosition = position
+
+            // Notify previous position to deselect
+            if (previousPosition != -1 && previousPosition != position) {
+                notifyItemChanged(previousPosition)
+            }
+            // Notify new position to select
             notifyItemChanged(position)
         }
     }
