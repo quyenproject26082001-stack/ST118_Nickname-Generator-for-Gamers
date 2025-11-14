@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import com.charactor.avatar.maker.pfp.activity_app.main.MainActivity
 import com.charactor.avatar.maker.pfp.activity_app.my_nickname.MyNicknameActivity
 import com.charactor.avatar.maker.pfp.activity_app.my_nickname.SavedNicknameModel
+import com.charactor.avatar.maker.pfp.activity_app.nickname.StyleType
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.core.extensions.startIntentRightToLeft
@@ -33,14 +34,18 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         binding.actionBar.tvCenter.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
         binding.actionBar.tvCenter.visibility = android.view.View.VISIBLE
 
-        // Get the saved nickname from intent
+        // Get the saved nickname and metadata from intent
         val savedNickname = intent.getStringExtra("SAVED_NICKNAME")
+        val originalText = intent.getStringExtra("ORIGINAL_TEXT")
+        val leftSymbol = intent.getStringExtra("LEFT_SYMBOL")
+        val rightSymbol = intent.getStringExtra("RIGHT_SYMBOL")
+        val styleTypeName = intent.getStringExtra("STYLE_TYPE")
 
         // Display the nickname
         if (!savedNickname.isNullOrEmpty()) {
             binding.tvSavedNickname.text = savedNickname
             binding.tvSavedNickname.isSelected = true
-            saveNicknameToPrefs(savedNickname)
+            saveNicknameToPrefs(savedNickname, originalText, leftSymbol, rightSymbol, styleTypeName)
         }
 
         // Start success animation
@@ -76,13 +81,34 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         // No action bar needed
     }
 
-    private fun saveNicknameToPrefs(nickname: String) {
+    private fun saveNicknameToPrefs(
+        nickname: String,
+        originalText: String?,
+        leftSymbol: String?,
+        rightSymbol: String?,
+        styleTypeName: String?
+    ) {
         val json = sharePreference.preferences.getString(PREF_KEY_SAVED_NICKNAMES, "[]")
         val type = object : TypeToken<MutableList<SavedNicknameModel>>(){}.type
         val nicknames: MutableList<SavedNicknameModel> = Gson().fromJson(json, type) ?: mutableListOf()
 
-        // Add new nickname
-        nicknames.add(SavedNicknameModel(nickname = nickname))
+        // Parse StyleType from name
+        val styleType = try {
+            if (styleTypeName != null) StyleType.valueOf(styleTypeName) else null
+        } catch (e: Exception) {
+            null
+        }
+
+        // Add new nickname with metadata
+        nicknames.add(
+            SavedNicknameModel(
+                nickname = nickname,
+                originalText = originalText,
+                leftSymbol = leftSymbol,
+                rightSymbol = rightSymbol,
+                styleType = styleType
+            )
+        )
 
         // Save back to preferences
         val newJson = Gson().toJson(nicknames)

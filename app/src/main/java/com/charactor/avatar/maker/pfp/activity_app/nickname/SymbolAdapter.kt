@@ -5,10 +5,19 @@ import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.databinding.ItemSymbolBinding
 
 class SymbolAdapter(
+    private val symbols: List<String>,
     private val onSymbolClick: (String) -> Unit
 ) : BaseAdapter<String, ItemSymbolBinding>(ItemSymbolBinding::inflate) {
 
     private var selectedPosition = -1
+
+    fun setInitialSelection(symbol: String) {
+        val position = symbols.indexOf(symbol)
+        if (position != -1) {
+            selectedPosition = position
+            notifyItemChanged(position)
+        }
+    }
 
     override fun onBind(binding: ItemSymbolBinding, item: String, position: Int) {
         binding.tvSymbol.text = item

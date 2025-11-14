@@ -79,8 +79,15 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
                 showDeleteConfirmDialog(nickname)
             },
             onEditClick = { nickname ->
-                // Navigate to CustomizeNicknameActivity to edit the nickname
-                startIntentRightToLeft(CustomizeNicknameActivity::class.java, "INPUT_NAME", nickname.nickname)
+                // Navigate to CustomizeNicknameActivity with metadata to restore state
+                val intent = android.content.Intent(this, CustomizeNicknameActivity::class.java)
+                // Use originalText if available, otherwise use the full nickname
+                intent.putExtra("INPUT_NAME", nickname.originalText ?: nickname.nickname)
+                intent.putExtra("LEFT_SYMBOL", nickname.leftSymbol)
+                intent.putExtra("RIGHT_SYMBOL", nickname.rightSymbol)
+                intent.putExtra("STYLE_TYPE", nickname.styleType?.name)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         )
 

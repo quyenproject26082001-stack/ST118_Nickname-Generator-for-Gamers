@@ -36,8 +36,10 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     private var rightSymbol: String = ""
     private var currentUnicodeStyle: StyleType? = null
 
-    // Reference to UnicodeStyleFragment for real-time updates
+    // Reference to fragments for real-time updates and initial selection
     private var unicodeStyleFragment: UnicodeStyleFragment? = null
+    private var leftSymbolFragment: SymbolFragment? = null
+    private var rightSymbolFragment: SymbolFragment? = null
 
     // History for undo/redo
     private val historyStack = mutableListOf<NicknameState>()
@@ -55,8 +57,18 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     }
 
     override fun initView() {
-        // Get input name from intent
+        // Get input name and metadata from intent
         inputName = intent.getStringExtra("INPUT_NAME") ?: ""
+        leftSymbol = intent.getStringExtra("LEFT_SYMBOL") ?: ""
+        rightSymbol = intent.getStringExtra("RIGHT_SYMBOL") ?: ""
+
+        // Restore style type if provided
+        val styleTypeName = intent.getStringExtra("STYLE_TYPE")
+        currentUnicodeStyle = try {
+            if (styleTypeName != null) StyleType.valueOf(styleTypeName) else null
+        } catch (e: Exception) {
+            null
+        }
 
         // Save initial state
         saveState()
@@ -90,8 +102,15 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             // Save text from preview (with Unicode style applied)
             val finalText = binding.tvPreview.text.toString()
 
-            // Navigate to SaveSuccessActivity with the nickname
-            startIntentRightToLeft(SaveSuccessActivity::class.java, "SAVED_NICKNAME", finalText)
+            // Navigate to SaveSuccessActivity with the nickname and metadata
+            val intent = android.content.Intent(this, SaveSuccessActivity::class.java)
+            intent.putExtra("SAVED_NICKNAME", finalText)
+            intent.putExtra("ORIGINAL_TEXT", inputName)
+            intent.putExtra("LEFT_SYMBOL", leftSymbol)
+            intent.putExtra("RIGHT_SYMBOL", rightSymbol)
+            intent.putExtra("STYLE_TYPE", currentUnicodeStyle?.name)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         // Copy button
@@ -117,7 +136,14 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     }
 
     private fun setupViewPager() {
-        // Create and store reference to UnicodeStyleFragment
+        // Create and store references to fragments
+        leftSymbolFragment = SymbolFragment.newInstance(true) { symbol ->
+            leftSymbol = symbol
+            saveState()
+            updatePreview()
+            updateUndoRedoButtons()
+        }
+
         unicodeStyleFragment = UnicodeStyleFragment.newInstance(inputName) { styleType ->
             currentUnicodeStyle = styleType
             saveState()
@@ -125,24 +151,24 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             updateUndoRedoButtons()
         }
 
+        rightSymbolFragment = SymbolFragment.newInstance(false) { symbol ->
+            rightSymbol = symbol
+            saveState()
+            updatePreview()
+            updateUndoRedoButtons()
+        }
+
         val fragments = listOf<Fragment>(
-            SymbolFragment.newInstance(true) { symbol ->
-                leftSymbol = symbol
-                saveState()
-                updatePreview()
-                updateUndoRedoButtons()
-            },
+            leftSymbolFragment!!,
             unicodeStyleFragment!!,
-            SymbolFragment.newInstance(false) { symbol ->
-                rightSymbol = symbol
-                saveState()
-                updatePreview()
-                updateUndoRedoButtons()
-            }
+            rightSymbolFragment!!
         )
 
         val adapter = CustomizeViewPagerAdapter(this, fragments)
         binding.viewPager.adapter = adapter
+
+        // Preload all tabs to ensure they're ready for initial selection
+        binding.viewPager.offscreenPageLimit = 2
 
         // Connect TabLayout with ViewPager2
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -156,6 +182,19 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
 
         // Set default tab to Unicode Styles (position 1)
         binding.viewPager.currentItem = 1
+
+        // Set initial selections for restored state (with delay to ensure RecyclerViews are ready)
+        binding.viewPager.postDelayed({
+            if (leftSymbol.isNotEmpty()) {
+                leftSymbolFragment?.setInitialSelection(leftSymbol)
+            }
+            if (rightSymbol.isNotEmpty()) {
+                rightSymbolFragment?.setInitialSelection(rightSymbol)
+            }
+            if (currentUnicodeStyle != null) {
+                unicodeStyleFragment?.setInitialSelection(currentUnicodeStyle!!)
+            }
+        }, 300) // 300ms delay to ensure all tabs are initialized
     }
 
     private fun updatePreview() {

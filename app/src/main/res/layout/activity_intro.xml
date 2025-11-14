@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:dotsColor="#ED5555"
+        app:dotsColor="#C2C2C2"
         app:dotsCornerRadius="8dp"
         app:dotsSize="8dp"
         android:layout_marginStart="20dp"

@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.charactor.avatar.maker.pfp.databinding.FragmentSymbolBinding
 
 class SymbolFragment : Fragment() {
-    
+
     private var _binding: FragmentSymbolBinding? = null
     private val binding get() = _binding!!
-    
+
     private var isLeftSymbol: Boolean = true
     private var onSymbolSelected: ((String) -> Unit)? = null
+    private var adapter: SymbolAdapter? = null
     
     companion object {
         private const val ARG_IS_LEFT = "is_left"
@@ -126,7 +127,7 @@ class SymbolFragment : Fragment() {
             "🕯️", "🪔", "🧯", "🛢️", "💸", "💵", "💴", "💶", "💷", "💰"
         )
 
-        val adapter = SymbolAdapter { symbol ->
+        adapter = SymbolAdapter(symbols) { symbol ->
             onSymbolSelected?.invoke(symbol)
         }
 
@@ -136,10 +137,14 @@ class SymbolFragment : Fragment() {
         binding.rvSymbols.apply {
             layoutManager = GridLayoutManager(requireContext(), spanCount)
             addItemDecoration(GridSpacingItemDecoration(spanCount, 0, includeEdge))
-            this.adapter = adapter
+            this.adapter = this@SymbolFragment.adapter
         }
 
-        adapter.submitList(symbols)
+        adapter?.submitList(symbols)
+    }
+
+    fun setInitialSelection(symbol: String) {
+        adapter?.setInitialSelection(symbol)
     }
     
     override fun onDestroyView() {

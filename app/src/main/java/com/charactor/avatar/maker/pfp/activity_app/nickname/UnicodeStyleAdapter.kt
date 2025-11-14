@@ -5,10 +5,19 @@ import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.databinding.ItemFontBinding
 
 class UnicodeStyleAdapter(
+    private val styles: List<UnicodeStyleModel>,
     private val onStyleClick: (StyleType) -> Unit
 ) : BaseAdapter<UnicodeStyleModel, ItemFontBinding>(ItemFontBinding::inflate) {
 
     private var selectedPosition = -1
+
+    fun setInitialSelection(styleType: StyleType) {
+        val position = styles.indexOfFirst { it.styleType == styleType }
+        if (position != -1) {
+            selectedPosition = position
+            notifyItemChanged(position)
+        }
+    }
 
     override fun onBind(binding: ItemFontBinding, item: UnicodeStyleModel, position: Int) {
         // Display preview text with Unicode style applied

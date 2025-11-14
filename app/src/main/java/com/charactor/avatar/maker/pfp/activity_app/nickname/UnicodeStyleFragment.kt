@@ -17,6 +17,7 @@ class UnicodeStyleFragment : Fragment() {
     private var onStyleSelected: ((StyleType) -> Unit)? = null
     private var currentPreviewText: String = "Aa"
     private var adapter: UnicodeStyleAdapter? = null
+    private var currentStyles: List<UnicodeStyleModel> = emptyList()
 
     companion object {
         private const val ARG_PREVIEW_TEXT = "preview_text"
@@ -53,6 +54,10 @@ class UnicodeStyleFragment : Fragment() {
     fun updatePreviewText(newText: String) {
         currentPreviewText = newText
         refreshStylesList()
+    }
+
+    fun setInitialSelection(styleType: StyleType) {
+        adapter?.setInitialSelection(styleType)
     }
 
     private fun setupRecyclerView() {
@@ -264,8 +269,11 @@ class UnicodeStyleFragment : Fragment() {
             UnicodeStyleModel("Chaotic", StyleType.CHAOTIC_MIX, conv.toChaoticMix(previewText))
         )
 
+        // Update current styles
+        currentStyles = styles
+
         if (adapter == null) {
-            adapter = UnicodeStyleAdapter { styleType ->
+            adapter = UnicodeStyleAdapter(currentStyles) { styleType ->
                 onStyleSelected?.invoke(styleType)
             }
 
@@ -278,6 +286,12 @@ class UnicodeStyleFragment : Fragment() {
                 addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
                 this.adapter = this@UnicodeStyleFragment.adapter
             }
+        } else {
+            // Recreate adapter with new styles when text changes
+            adapter = UnicodeStyleAdapter(currentStyles) { styleType ->
+                onStyleSelected?.invoke(styleType)
+            }
+            binding.rvFonts.adapter = adapter
         }
 
         adapter?.submitList(styles)
