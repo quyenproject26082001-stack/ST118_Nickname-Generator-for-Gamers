@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/share"
-                android:textColor="@color/white"
+                android:textColor="@color/red_app"
                 android:textSize="16sp" />
         </LinearLayout>
 
