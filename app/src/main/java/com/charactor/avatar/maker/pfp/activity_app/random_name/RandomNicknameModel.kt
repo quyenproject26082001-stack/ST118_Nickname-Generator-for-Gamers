@@ -1,8 +1,13 @@
 package com.charactor.avatar.maker.pfp.activity_app.random_name
 
+import com.charactor.avatar.maker.pfp.activity_app.nickname.StyleType
+
 data class RandomNicknameModel(
-    val nickname: String,
+    val nickname: String, // Original nickname without style
     val category: String,
-    val styledNickname: String // Nickname with Unicode style applied
+    val styledNickname: String, // Nickname with Unicode style applied
+    val styleType: StyleType? = null, // Style type applied
+    val leftSymbol: String? = null, // Left emoji symbol
+    val rightSymbol: String? = null // Right emoji symbol
 )
 

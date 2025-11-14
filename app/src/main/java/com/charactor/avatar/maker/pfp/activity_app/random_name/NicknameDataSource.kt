@@ -183,14 +183,29 @@ object NicknameDataSource {
         val allNicknames = getNicknamesForCategory(categoryId)
 
         return allNicknames.shuffled().take(count).map { nickname ->
-            // Use FULL styles collection from CustomizeNicknameActivity (100+ styles)
+            // Use FULL emoji collection from CustomizeNicknameActivity (200+ emojis)
+            // Randomly select an emoji for decoration
+            val randomEmoji = com.charactor.avatar.maker.pfp.activity_app.nickname.SymbolConstants.ALL_EMOJIS.random()
+
+            // Use FULL styles collection from CustomizeNicknameActivity (180+ styles)
             // Randomly select a Unicode style from ALL available styles
             val randomStyle = com.charactor.avatar.maker.pfp.activity_app.nickname.StyleConstants.ALL_STYLES.random()
 
             // Apply the Unicode style using the same applier as CustomizeNicknameActivity
             val styledNickname = com.charactor.avatar.maker.pfp.activity_app.nickname.CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(nickname, randomStyle)
 
-            RandomNicknameModel(nickname, categoryId, styledNickname)
+            // Add emoji decoration to styled nickname
+            val finalNickname = "$randomEmoji $styledNickname $randomEmoji"
+
+            // Return with metadata for saving
+            RandomNicknameModel(
+                nickname = nickname,
+                category = categoryId,
+                styledNickname = finalNickname,
+                styleType = randomStyle,
+                leftSymbol = randomEmoji,
+                rightSymbol = randomEmoji
+            )
         }
     }
 }

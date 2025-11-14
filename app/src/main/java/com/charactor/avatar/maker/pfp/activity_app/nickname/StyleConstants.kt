@@ -1,5 +1,7 @@
 package com.charactor.avatar.maker.pfp.activity_app.nickname
 
+import com.charactor.avatar.maker.pfp.core.utils.UnicodeStyleConverter
+
 /**
  * Central repository for all Unicode styles used across the app
  * This ensures consistency between NicknameActivity, CategoryDetailActivity, and CustomizeNicknameActivity
@@ -300,6 +302,153 @@ object StyleConstants {
      */
     fun getAllStyles(): List<StyleType> {
         return ALL_STYLES
+    }
+
+    /**
+     * Generate UnicodeStyleModel list from StyleType list with preview text
+     * Used in UnicodeStyleFragment to display styles with preview
+     */
+    fun generateStyleModels(previewText: String): List<UnicodeStyleModel> {
+        val conv = UnicodeStyleConverter
+
+        return ALL_STYLES.map { styleType ->
+            val displayName = getDisplayName(styleType)
+            val preview = CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(previewText, styleType)
+            UnicodeStyleModel(displayName, styleType, preview)
+        }
+    }
+
+    /**
+     * Get display name for StyleType
+     */
+    private fun getDisplayName(styleType: StyleType): String {
+        return when (styleType) {
+            // Mathematical Alphanumeric (13)
+            StyleType.BOLD -> "Bold"
+            StyleType.ITALIC -> "Italic"
+            StyleType.BOLD_ITALIC -> "Bold Italic"
+            StyleType.SCRIPT -> "Script"
+            StyleType.BOLD_SCRIPT -> "Bold Script"
+            StyleType.FRAKTUR -> "Fraktur"
+            StyleType.BOLD_FRAKTUR -> "Bold Fraktur"
+            StyleType.DOUBLE_STRUCK -> "Double Struck"
+            StyleType.SANS -> "Sans"
+            StyleType.SANS_BOLD -> "Sans Bold"
+            StyleType.SANS_ITALIC -> "Sans Italic"
+            StyleType.SANS_BOLD_ITALIC -> "Sans Bold Italic"
+            StyleType.MONOSPACE -> "Monospace"
+
+            // Enclosed Characters (5)
+            StyleType.CIRCLED -> "Circled"
+            StyleType.SQUARED -> "Squared"
+            StyleType.NEGATIVE_CIRCLED -> "Negative Circled"
+            StyleType.NEGATIVE_SQUARED -> "Negative Squared"
+            StyleType.PARENTHESIZED -> "Parenthesized"
+
+            // Special Unicode Blocks (5)
+            StyleType.FULLWIDTH -> "Fullwidth"
+            StyleType.SMALL_CAPS -> "Small Caps"
+            StyleType.SUPERSCRIPT -> "Superscript"
+            StyleType.SUBSCRIPT -> "Subscript"
+            StyleType.INVERTED -> "Inverted"
+
+            // Basic Combining (8)
+            StyleType.STRIKETHROUGH -> "Strikethrough"
+            StyleType.UNDERLINE -> "Underline"
+            StyleType.OVERLINE -> "Overline"
+            StyleType.SLASH -> "Slash"
+            StyleType.DOTTED -> "Dotted"
+            StyleType.DOUBLE_UNDERLINE -> "Double Underline"
+            StyleType.TILDE -> "Tilde"
+            StyleType.RING_ABOVE -> "Ring Above"
+
+            // More Diacritics (8)
+            StyleType.DIAERESIS -> "Diaeresis"
+            StyleType.ACUTE -> "Acute"
+            StyleType.GRAVE -> "Grave"
+            StyleType.CIRCUMFLEX -> "Circumflex"
+            StyleType.CARON -> "Caron"
+            StyleType.BREVE -> "Breve"
+            StyleType.MACRON -> "Macron"
+            StyleType.DOUBLE_ACUTE -> "Double Acute"
+
+            // Math + Underline (5)
+            StyleType.SCRIPT_UNDERLINE -> "Script Underline"
+            StyleType.FRAKTUR_UNDERLINE -> "Fraktur Underline"
+            StyleType.MONOSPACE_UNDERLINE -> "Monospace Underline"
+            StyleType.SANS_BOLD_UNDERLINE -> "Sans Bold Underline"
+            StyleType.DOUBLE_STRUCK_UNDERLINE -> "Double Struck Underline"
+
+            // Bold/Italic Combos (6)
+            StyleType.BOLD_UNDERLINE -> "Bold Underline"
+            StyleType.ITALIC_UNDERLINE -> "Italic Underline"
+            StyleType.BOLD_STRIKETHROUGH -> "Bold Strikethrough"
+            StyleType.BOLD_DOTTED -> "Bold Dotted"
+            StyleType.ITALIC_DOTTED -> "Italic Dotted"
+            StyleType.BOLD_TILDE -> "Bold Tilde"
+
+            // Italic/Other (1)
+            StyleType.ITALIC_STRIKETHROUGH -> "Italic Strikethrough"
+
+            // More Math + Combining (7)
+            StyleType.BOLD_CIRCUMFLEX -> "Bold Circumflex"
+            StyleType.ITALIC_CARON -> "Italic Caron"
+            StyleType.SCRIPT_TILDE -> "Script Tilde"
+            StyleType.MONOSPACE_STRIKETHROUGH -> "Monospace Strikethrough"
+            StyleType.SANS_BOLD_STRIKETHROUGH -> "Sans Bold Strikethrough"
+            StyleType.FRAKTUR_DOTTED -> "Fraktur Dotted"
+            StyleType.DOUBLE_STRUCK_STRIKETHROUGH -> "Double Struck Strikethrough"
+
+            // Zalgo/Glitch (3)
+            StyleType.ZALGO_LIGHT -> "Zalgo Light"
+            StyleType.ZALGO_MEDIUM -> "Zalgo Medium"
+            StyleType.ZALGO_HEAVY -> "Zalgo Heavy"
+
+            // Decorative Brackets (15)
+            StyleType.SQUARE_BRACKETS -> "Square Brackets"
+            StyleType.DOUBLE_BRACKETS -> "Double Brackets"
+            StyleType.CURLY_BRACKETS -> "Curly Brackets"
+            StyleType.WHITE_BRACKETS -> "White Brackets"
+            StyleType.TORTOISE_BRACKETS -> "Tortoise Brackets"
+            StyleType.ANGLE_BRACKETS -> "Angle Brackets"
+            StyleType.DOUBLE_ANGLE_BRACKETS -> "Double Angle"
+            StyleType.CORNER_BRACKETS -> "Corner Brackets"
+            StyleType.FLOOR_BRACKETS -> "Floor Brackets"
+            StyleType.PARENTHESES -> "Parentheses"
+            StyleType.SQUARE_PARENTHESES -> "Square Parentheses"
+            StyleType.CURLY_PARENTHESES -> "Curly Parentheses"
+            StyleType.ARROW_BRACKETS -> "Arrow Brackets"
+            StyleType.QUOTATION_MARKS -> "Quotation Marks"
+            StyleType.SINGLE_QUOTES -> "Single Quotes"
+
+            // Emoji Decorations (5)
+            StyleType.STARS -> "Stars"
+            StyleType.HEARTS -> "Hearts"
+            StyleType.SPARKLES -> "Sparkles"
+            StyleType.CROWN -> "Crown"
+            StyleType.FLOWERS -> "Flowers"
+
+            // Arrow Decorations (5)
+            StyleType.ARROWS_LEFT -> "Arrows Left"
+            StyleType.ARROWS_RIGHT -> "Arrows Right"
+            StyleType.ARROWS_BOTH -> "Arrows Both"
+            StyleType.DOUBLE_ARROWS -> "Double Arrows"
+            StyleType.TRIANGLE_ARROWS -> "Triangle Arrows"
+
+            // Box Drawing (4)
+            StyleType.BOX_SINGLE -> "Box Single"
+            StyleType.BOX_DOUBLE -> "Box Double"
+            StyleType.BOX_ROUNDED -> "Box Rounded"
+            StyleType.BOX_HEAVY -> "Box Heavy"
+
+            // Block Backgrounds (4)
+            StyleType.BLOCK_LIGHT -> "Block Light"
+            StyleType.BLOCK_MEDIUM -> "Block Medium"
+            StyleType.BLOCK_HEAVY -> "Block Heavy"
+            StyleType.BLOCK_FULL -> "Block Full"
+
+            else -> styleType.name.replace("_", " ").lowercase().replaceFirstChar { it.uppercase() }
+        }
     }
 }
 

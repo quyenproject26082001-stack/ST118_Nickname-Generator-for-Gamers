@@ -50,10 +50,17 @@ class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>() {
     
     private fun setupRecyclerView() {
         nicknameAdapter = RandomNicknameAdapter { nickname ->
-            // Save nickname and navigate to success screen
+            // Save nickname and navigate to success screen with metadata
             saveNickname(nickname)
-            // Pass the styled nickname to SaveSuccessActivity
-            startIntentRightToLeft(SaveSuccessActivity::class.java, "SAVED_NICKNAME", nickname.styledNickname)
+            // Pass the styled nickname and metadata to SaveSuccessActivity
+            val intent = android.content.Intent(this@CategoryDetailActivity, SaveSuccessActivity::class.java)
+            intent.putExtra("SAVED_NICKNAME", nickname.styledNickname)
+            intent.putExtra("ORIGINAL_TEXT", nickname.nickname) // Original text without style
+            intent.putExtra("LEFT_SYMBOL", nickname.leftSymbol) // Left emoji symbol
+            intent.putExtra("RIGHT_SYMBOL", nickname.rightSymbol) // Right emoji symbol
+            intent.putExtra("STYLE_TYPE", nickname.styleType?.name) // Style type applied
+            startActivity(intent)
+            overridePendingTransition(com.charactor.avatar.maker.pfp.R.anim.slide_in_right, com.charactor.avatar.maker.pfp.R.anim.slide_out_left)
         }
 
         binding.rvNicknames.apply {

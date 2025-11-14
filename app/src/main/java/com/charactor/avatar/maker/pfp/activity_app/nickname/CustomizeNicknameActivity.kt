@@ -57,7 +57,8 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         val inputName: String,
         val leftSymbol: String,
         val rightSymbol: String,
-        val unicodeStyle: StyleType?
+        val unicodeStyle: StyleType?,
+        val currentTabIndex: Int
     )
 
     override fun setViewBinding(): ActivityCustomizeNicknameBinding {
@@ -312,7 +313,8 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
     }
 
     private fun saveState() {
-        val state = NicknameState(inputName, leftSymbol, rightSymbol, currentUnicodeStyle)
+        val currentTab = binding.viewPager.currentItem
+        val state = NicknameState(inputName, leftSymbol, rightSymbol, currentUnicodeStyle, currentTab)
 
         // Remove all states after current index
         if (currentHistoryIndex < historyStack.size - 1) {
@@ -345,6 +347,10 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         rightSymbol = state.rightSymbol
         currentUnicodeStyle = state.unicodeStyle
         updatePreview()
+
+        // Switch to the tab that was active when this state was saved
+        binding.viewPager.setCurrentItem(state.currentTabIndex, true)
+
         // Update Unicode style fragment with restored name
         unicodeStyleFragment?.updatePreviewText(inputName)
 

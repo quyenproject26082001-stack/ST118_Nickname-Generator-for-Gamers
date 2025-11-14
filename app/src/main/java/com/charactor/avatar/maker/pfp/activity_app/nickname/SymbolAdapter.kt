@@ -11,6 +11,9 @@ class SymbolAdapter(
 
     private var selectedPosition = -1
 
+    // Callback to notify fragment to scroll to position
+    var onScrollToPosition: ((Int) -> Unit)? = null
+
     fun setInitialSelection(symbol: String) {
         val position = symbols.indexOf(symbol)
         if (position != -1) {
@@ -23,6 +26,9 @@ class SymbolAdapter(
             }
             // Notify new position to select
             notifyItemChanged(position)
+
+            // Scroll to selected position
+            onScrollToPosition?.invoke(position)
         }
     }
 

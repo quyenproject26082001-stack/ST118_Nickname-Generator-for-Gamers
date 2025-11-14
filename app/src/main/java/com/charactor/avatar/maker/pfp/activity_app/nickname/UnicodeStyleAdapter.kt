@@ -11,6 +11,9 @@ class UnicodeStyleAdapter(
 
     private var selectedPosition = -1
 
+    // Callback to notify fragment to scroll to position
+    var onScrollToPosition: ((Int) -> Unit)? = null
+
     fun setInitialSelection(styleType: StyleType) {
         val position = styles.indexOfFirst { it.styleType == styleType }
         if (position != -1) {
@@ -23,6 +26,9 @@ class UnicodeStyleAdapter(
             }
             // Notify new position to select
             notifyItemChanged(position)
+
+            // Scroll to selected position
+            onScrollToPosition?.invoke(position)
         }
     }
 

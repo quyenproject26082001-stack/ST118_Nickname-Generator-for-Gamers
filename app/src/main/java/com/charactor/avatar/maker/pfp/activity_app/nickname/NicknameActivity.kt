@@ -35,8 +35,15 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
         
         // Setup RecyclerView
         nicknameAdapter = NicknameAdapter { nickname ->
-            // Handle save click - Navigate to SaveSuccessActivity
-            startIntentRightToLeft(SaveSuccessActivity::class.java, "SAVED_NICKNAME", nickname.text)
+            // Handle save click - Navigate to SaveSuccessActivity with metadata
+            val intent = android.content.Intent(this@NicknameActivity, SaveSuccessActivity::class.java)
+            intent.putExtra("SAVED_NICKNAME", nickname.text)
+            intent.putExtra("ORIGINAL_TEXT", nickname.originalText)
+            intent.putExtra("LEFT_SYMBOL", nickname.leftSymbol)
+            intent.putExtra("RIGHT_SYMBOL", nickname.rightSymbol)
+            intent.putExtra("STYLE_TYPE", nickname.styleType?.name)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
         
         binding.rvNicknames.apply {
@@ -66,24 +73,30 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
     private fun generateNicknames() {
         val nicknames = mutableListOf<NicknameModel>()
 
-        // Use FULL emoji collection from CustomizeNicknameActivity (200+ emojis)
-        // Randomly select 8 emojis
-        val randomEmojis = SymbolConstants.getRandomEmojis(8)
+        // Generate 20 nicknames with BOTH emoji AND unicode style (like CategoryDetailActivity)
+        // Use FULL emoji collection (200+ emojis) and FULL styles collection (180+ styles)
+        repeat(20) {
+            // Random emoji from SymbolConstants
+            val randomEmoji = SymbolConstants.ALL_EMOJIS.random()
 
-        // Generate nicknames with random emojis
-        randomEmojis.forEach { emoji ->
-            val nickname = "$emoji $inputName $emoji"
-            nicknames.add(NicknameModel(nickname))
-        }
+            // Random unicode style from StyleConstants
+            val randomStyle = StyleConstants.ALL_STYLES.random()
 
-        // Use FULL styles collection from CustomizeNicknameActivity (100+ styles)
-        // Randomly select 12 Unicode styles to make total 20 items
-        val randomStyles = StyleConstants.ALL_STYLES.shuffled().take(12)
+            // Apply unicode style to text
+            val styledText = CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(inputName, randomStyle)
 
-        // Generate styled nicknames
-        randomStyles.forEach { styleType ->
-            val styledText = CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(inputName, styleType)
-            nicknames.add(NicknameModel(styledText))
+            // Add emoji decoration to both sides
+            val finalNickname = "$randomEmoji $styledText $randomEmoji"
+
+            nicknames.add(
+                NicknameModel(
+                    text = finalNickname,
+                    originalText = inputName,
+                    leftSymbol = randomEmoji,
+                    rightSymbol = randomEmoji,
+                    styleType = randomStyle
+                )
+            )
         }
 
         // Submit list to adapter
