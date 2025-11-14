@@ -137,6 +137,8 @@ class SymbolFragment : Fragment() {
         binding.rvSymbols.apply {
             layoutManager = GridLayoutManager(requireContext(), spanCount)
             addItemDecoration(GridSpacingItemDecoration(spanCount, 0, includeEdge))
+            setHasFixedSize(true) // Optimization: Skip measure when items change
+            setItemViewCacheSize(20) // Optimization: Cache more views for smooth scroll
             this.adapter = this@SymbolFragment.adapter
         }
 

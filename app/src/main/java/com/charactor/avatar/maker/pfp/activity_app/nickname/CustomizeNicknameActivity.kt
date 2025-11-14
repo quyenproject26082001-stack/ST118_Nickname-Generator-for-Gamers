@@ -27,6 +27,10 @@ import com.charactor.avatar.maker.pfp.databinding.ActivityCustomizeNicknameBindi
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>() {
 
@@ -106,25 +110,29 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             // Save text from preview (with Unicode style applied)
             val finalText = binding.tvPreview.text.toString()
 
-            // Check if nickname already exists
-            if (isNicknameDuplicate(finalText)) {
-                Toast.makeText(
-                    this,
-                    getString(R.string.nickname_already_exists),
-                    Toast.LENGTH_SHORT
-                ).show()
-                return@setOnSingleClick
-            }
+            // Check if nickname already exists on background thread
+            lifecycleScope.launch {
+                val isDuplicate = isNicknameDuplicate(finalText)
 
-            // Navigate to SaveSuccessActivity with the nickname and metadata
-            val intent = android.content.Intent(this, SaveSuccessActivity::class.java)
-            intent.putExtra("SAVED_NICKNAME", finalText)
-            intent.putExtra("ORIGINAL_TEXT", inputName)
-            intent.putExtra("LEFT_SYMBOL", leftSymbol)
-            intent.putExtra("RIGHT_SYMBOL", rightSymbol)
-            intent.putExtra("STYLE_TYPE", currentUnicodeStyle?.name)
-            startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                if (isDuplicate) {
+                    Toast.makeText(
+                        this@CustomizeNicknameActivity,
+                        getString(R.string.nickname_already_exists),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@launch
+                }
+
+                // Navigate to SaveSuccessActivity with the nickname and metadata
+                val intent = android.content.Intent(this@CustomizeNicknameActivity, SaveSuccessActivity::class.java)
+                intent.putExtra("SAVED_NICKNAME", finalText)
+                intent.putExtra("ORIGINAL_TEXT", inputName)
+                intent.putExtra("LEFT_SYMBOL", leftSymbol)
+                intent.putExtra("RIGHT_SYMBOL", rightSymbol)
+                intent.putExtra("STYLE_TYPE", currentUnicodeStyle?.name)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            }
         }
 
         // Copy button
@@ -208,7 +216,7 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             if (currentUnicodeStyle != null) {
                 unicodeStyleFragment?.setInitialSelection(currentUnicodeStyle!!)
             }
-        }, 300) // 300ms delay to ensure all tabs are initialized
+        }, 200) // 200ms delay to ensure all tabs are initialized (optimized from 300ms)
     }
 
     private fun updatePreview() {
@@ -360,12 +368,12 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         }
     }
 
-    private fun isNicknameDuplicate(nickname: String): Boolean {
+    private suspend fun isNicknameDuplicate(nickname: String): Boolean = withContext(Dispatchers.IO) {
         val json = sharePreference.preferences.getString(PREF_KEY_SAVED_NICKNAMES, "[]")
         val type = object : TypeToken<List<SavedNicknameModel>>(){}.type
         val nicknames: List<SavedNicknameModel> = Gson().fromJson(json, type) ?: emptyList()
 
-        return nicknames.any { it.nickname == nickname }
+        return@withContext nicknames.any { it.nickname == nickname }
     }
 
     private fun showEditNameDialog() {

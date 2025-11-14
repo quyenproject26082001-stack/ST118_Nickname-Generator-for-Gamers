@@ -16,6 +16,10 @@ import com.charactor.avatar.maker.pfp.core.extensions.startIntentRightToLeft
 import com.charactor.avatar.maker.pfp.databinding.ActivitySaveSuccessBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
 
@@ -47,7 +51,9 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         if (!savedNickname.isNullOrEmpty()) {
             binding.tvSavedNickname.text = savedNickname
             binding.tvSavedNickname.isSelected = true
-            saveNicknameToPrefs(savedNickname, originalText, leftSymbol, rightSymbol, styleTypeName)
+            lifecycleScope.launch {
+                saveNicknameToPrefs(savedNickname, originalText, leftSymbol, rightSymbol, styleTypeName)
+            }
         }
 
         // Start success animation
@@ -83,13 +89,13 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         // No action bar needed
     }
 
-    private fun saveNicknameToPrefs(
+    private suspend fun saveNicknameToPrefs(
         nickname: String,
         originalText: String?,
         leftSymbol: String?,
         rightSymbol: String?,
         styleTypeName: String?
-    ) {
+    ) = withContext(Dispatchers.IO) {
         val json = sharePreference.preferences.getString(PREF_KEY_SAVED_NICKNAMES, "[]")
         val type = object : TypeToken<MutableList<SavedNicknameModel>>(){}.type
         val nicknames: MutableList<SavedNicknameModel> = Gson().fromJson(json, type) ?: mutableListOf()
@@ -97,12 +103,14 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         // Check if nickname already exists
         val isDuplicate = nicknames.any { it.nickname == nickname }
         if (isDuplicate) {
-            Toast.makeText(
-                this,
-                getString(R.string.nickname_already_exists),
-                Toast.LENGTH_SHORT
-            ).show()
-            return
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@SaveSuccessActivity,
+                    getString(R.string.nickname_already_exists),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            return@withContext
         }
 
         // Parse StyleType from name

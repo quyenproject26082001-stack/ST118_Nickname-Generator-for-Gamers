@@ -18,6 +18,10 @@ import com.charactor.avatar.maker.pfp.databinding.ActivityMyNicknameBinding
 import com.charactor.avatar.maker.pfp.databinding.DialogConfirmBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
 
@@ -46,8 +50,10 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
         binding.actionBar.tvCenter.visibility = View.VISIBLE
 
         setupRecyclerView()
-        loadSavedNicknames()
-        updateEmptyState()
+        lifecycleScope.launch {
+            loadSavedNicknames()
+            updateEmptyState()
+        }
     }
 
     override fun viewListener() {
@@ -97,17 +103,19 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
         }
     }
     
-    private fun loadSavedNicknames() {
+    private suspend fun loadSavedNicknames() = withContext(Dispatchers.IO) {
         val json = sharePreference.preferences.getString(PREF_KEY_SAVED_NICKNAMES, "[]")
         val type = object : TypeToken<List<SavedNicknameModel>>(){}.type
         val nicknames: List<SavedNicknameModel> = Gson().fromJson(json, type) ?: emptyList()
-        
-        savedNicknames.clear()
-        savedNicknames.addAll(nicknames)
-        savedNicknameAdapter.submitList(savedNicknames.toList())
+
+        withContext(Dispatchers.Main) {
+            savedNicknames.clear()
+            savedNicknames.addAll(nicknames)
+            savedNicknameAdapter.submitList(savedNicknames.toList())
+        }
     }
     
-    private fun saveNicknamesToPrefs() {
+    private suspend fun saveNicknamesToPrefs() = withContext(Dispatchers.IO) {
         val json = Gson().toJson(savedNicknames)
         sharePreference.preferences.edit()
             .putString(PREF_KEY_SAVED_NICKNAMES, json)
@@ -117,7 +125,9 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
     private fun deleteNickname(nickname: SavedNicknameModel) {
         savedNicknames.remove(nickname)
         savedNicknameAdapter.submitList(savedNicknames.toList())
-        saveNicknamesToPrefs()
+        lifecycleScope.launch {
+            saveNicknamesToPrefs()
+        }
         updateEmptyState()
         android.widget.Toast.makeText(this,
             getString(R.string.deleted, nickname.nickname), android.widget.Toast.LENGTH_SHORT).show()
@@ -149,6 +159,7 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
         dialog.window?.setLayout(width, android.view.ViewGroup.LayoutParams.MATCH_PARENT)
 
         // Customize dialog text and buttons for delete confirmation
+        dialogBinding.tvTitle.text = getString(R.string.delete)
         dialogBinding.tvDescription.text = getString(R.string.are_you_sure_want_to_delete_this_item)
 
         // Access included layout's binding

@@ -284,6 +284,8 @@ class UnicodeStyleFragment : Fragment() {
             binding.rvFonts.apply {
                 layoutManager = GridLayoutManager(requireContext(), spanCount)
                 addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
+                setHasFixedSize(true) // Optimization: Skip measure when items change
+                setItemViewCacheSize(20) // Optimization: Cache more views for smooth scroll
                 this.adapter = this@UnicodeStyleFragment.adapter
             }
         } else {
