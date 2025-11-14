@@ -419,6 +419,10 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
                 updatePreview()
                 // Update Unicode style list items with new text
                 unicodeStyleFragment?.updatePreviewText(inputName)
+                // Restore selection for unicode style
+                if (currentUnicodeStyle != null) {
+                    unicodeStyleFragment?.setInitialSelection(currentUnicodeStyle!!)
+                }
                 // Save state for undo/redo
                 saveState()
                 updateUndoRedoButtons()
@@ -429,6 +433,10 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
                 inputName = originalName
                 updatePreview()
                 unicodeStyleFragment?.updatePreviewText(originalName)
+                // Restore selection for unicode style
+                if (currentUnicodeStyle != null) {
+                    unicodeStyleFragment?.setInitialSelection(currentUnicodeStyle!!)
+                }
                 // Save state for undo/redo
                 saveState()
                 updateUndoRedoButtons()

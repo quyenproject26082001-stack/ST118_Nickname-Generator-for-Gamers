@@ -41,6 +41,7 @@
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:maxLines="1"
+                android:maxLength="15"
                 android:inputType="textPersonName" />
 
         </com.google.android.material.textfield.TextInputLayout>
