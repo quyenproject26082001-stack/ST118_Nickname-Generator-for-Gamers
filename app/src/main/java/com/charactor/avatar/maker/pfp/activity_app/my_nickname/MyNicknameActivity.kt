@@ -1,8 +1,12 @@
 package com.charactor.avatar.maker.pfp.activity_app.my_nickname
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.charactor.avatar.maker.pfp.R
 import com.charactor.avatar.maker.pfp.activity_app.main.MainActivity
@@ -11,6 +15,7 @@ import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.core.extensions.startIntentRightToLeft
 import com.charactor.avatar.maker.pfp.databinding.ActivityMyNicknameBinding
+import com.charactor.avatar.maker.pfp.databinding.DialogConfirmBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -71,7 +76,7 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
     private fun setupRecyclerView() {
         savedNicknameAdapter = SavedNicknameAdapter(
             onDeleteClick = { nickname ->
-                deleteNickname(nickname)
+                showDeleteConfirmDialog(nickname)
             },
             onEditClick = { nickname ->
                 // Navigate to CustomizeNicknameActivity to edit the nickname
@@ -119,6 +124,50 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
             binding.layoutEmpty.visibility = View.GONE
             binding.rvSavedNicknames.visibility = View.VISIBLE
         }
+    }
+
+    private fun showDeleteConfirmDialog(nickname: SavedNicknameModel) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val dialogBinding = DialogConfirmBinding.inflate(LayoutInflater.from(this))
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Disable cancel on outside touch
+        dialog.setCanceledOnTouchOutside(false)
+
+        // Set dialog width to match parent with horizontal margin
+        val displayMetrics = resources.displayMetrics
+        val width = displayMetrics.widthPixels
+        dialog.window?.setLayout(width, android.view.ViewGroup.LayoutParams.MATCH_PARENT)
+
+        // Customize dialog text and buttons for delete confirmation
+        dialogBinding.tvDescription.text = getString(R.string.are_you_sure_want_to_delete_this_item)
+
+        // Access included layout's binding
+        val bottomBinding = dialogBinding.flBottom
+
+        // Customize button text - No and Yes
+        bottomBinding.tvBottomLeft.text = getString(R.string.no)
+        bottomBinding.tvBottomLeft.setTextColor(resources.getColor(R.color.red_app, null))
+        bottomBinding.tvBottomRight.text = getString(R.string.yes)
+
+        // Customize button icons (optional - hide or change icons)
+        bottomBinding.imvBottomLeft.visibility = View.GONE
+        bottomBinding.imvBottomRight.visibility = View.GONE
+
+        // Left button - No (Cancel)
+        bottomBinding.btnBottomLeft.setOnSingleClick {
+            dialog.dismiss()
+        }
+
+        // Right button - Yes (Delete/Confirm)
+        bottomBinding.btnBottomRight.setOnSingleClick {
+            deleteNickname(nickname)
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
 
