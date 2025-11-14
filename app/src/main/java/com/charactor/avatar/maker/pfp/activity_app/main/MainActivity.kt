@@ -125,7 +125,13 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
                         }
                     }
 
-                    RateState.GREATER3 -> {}
+                    RateState.GREATER3 -> {
+                        // Thoát app sau khi rate
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            delay(1000)
+                            finishAffinity()
+                        }
+                    }
                     RateState.CANCEL -> {
                         lifecycleScope.launch {
                             sharePreference.setCountBack(sharePreference.getCountBack() + 1)

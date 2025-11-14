@@ -1,27 +1,25 @@
 package com.charactor.avatar.maker.pfp.activity_app.my_nickname
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
-import android.view.Window
-import android.widget.EditText
-import android.widget.Toast
-import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.charactor.avatar.maker.pfp.R
+import com.charactor.avatar.maker.pfp.activity_app.main.MainActivity
+import com.charactor.avatar.maker.pfp.activity_app.nickname.CustomizeNicknameActivity
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
+import com.charactor.avatar.maker.pfp.core.extensions.startIntentRightToLeft
 import com.charactor.avatar.maker.pfp.databinding.ActivityMyNicknameBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
-    
+
     private lateinit var savedNicknameAdapter: SavedNicknameAdapter
     private val savedNicknames = mutableListOf<SavedNicknameModel>()
-    
+    private var fromSuccess: Boolean = false
+
     companion object {
         private const val PREF_KEY_SAVED_NICKNAMES = "saved_nicknames"
     }
@@ -31,6 +29,9 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
     }
 
     override fun initView() {
+        // Get flag from intent
+        fromSuccess = intent.getBooleanExtra("FROM_SUCCESS", false)
+
         // Setup action bar
         binding.actionBar.btnActionBarLeft.setImageResource(R.drawable.ic_back)
         binding.actionBar.btnActionBarLeft.visibility = View.VISIBLE
@@ -38,7 +39,7 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
         binding.actionBar.tvCenter.text = getString(R.string.my_nickname)
         binding.actionBar.tvCenter.setTextColor(resources.getColor(R.color.red_app, null))
         binding.actionBar.tvCenter.visibility = View.VISIBLE
-        
+
         setupRecyclerView()
         loadSavedNicknames()
         updateEmptyState()
@@ -47,7 +48,15 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
     override fun viewListener() {
         // Back button
         binding.actionBar.btnActionBarLeft.setOnSingleClick {
-            onBackPressed()
+            if (fromSuccess) {
+                // Navigate to Home if came from success screen
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                finish()
+            } else {
+                onBackPressed()
+            }
         }
     }
 
@@ -65,7 +74,8 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
                 deleteNickname(nickname)
             },
             onEditClick = { nickname ->
-                showEditNicknameDialog(nickname)
+                // Navigate to CustomizeNicknameActivity to edit the nickname
+                startIntentRightToLeft(CustomizeNicknameActivity::class.java, "INPUT_NAME", nickname.nickname)
             }
         )
 
@@ -109,44 +119,6 @@ class MyNicknameActivity : BaseActivity<ActivityMyNicknameBinding>() {
             binding.layoutEmpty.visibility = View.GONE
             binding.rvSavedNicknames.visibility = View.VISIBLE
         }
-    }
-
-    private fun showEditNicknameDialog(nickname: SavedNicknameModel) {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_edit_name)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        // Set dialog width to match parent with horizontal margin 25dp
-        val displayMetrics = resources.displayMetrics
-        val width = displayMetrics.widthPixels - (25 * 2 * displayMetrics.density).toInt()
-        dialog.window?.setLayout(width, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
-
-        val etEditName = dialog.findViewById<EditText>(R.id.etEditName)
-        val btnUpdate = dialog.findViewById<AppCompatButton>(R.id.btnUpdate)
-
-        // Set current nickname
-        etEditName.setText(nickname.nickname)
-        etEditName.setSelection(nickname.nickname.length)
-
-        btnUpdate.setOnSingleClick {
-            val newNickname = etEditName.text.toString().trim()
-            if (newNickname.isNotEmpty()) {
-                // Update nickname in list
-                val index = savedNicknames.indexOfFirst { it.id == nickname.id }
-                if (index != -1) {
-                    savedNicknames[index] = SavedNicknameModel(id = nickname.id, nickname = newNickname)
-                    savedNicknameAdapter.submitList(savedNicknames.toList())
-                    saveNicknamesToPrefs()
-                    dialog.dismiss()
-                    Toast.makeText(this, getString(R.string.nickname_updated), Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(this, getString(R.string.please_enter_a_nickname), Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        dialog.show()
     }
 }
 

@@ -63,8 +63,8 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         }
 
         binding.btnMyNickname.setOnSingleClick {
-            // Navigate to My Nickname
-            startIntentRightToLeft(MyNicknameActivity::class.java)
+            // Navigate to My Nickname with flag to return to home on back
+            startIntentRightToLeft(MyNicknameActivity::class.java, "FROM_SUCCESS", true)
         }
     }
 

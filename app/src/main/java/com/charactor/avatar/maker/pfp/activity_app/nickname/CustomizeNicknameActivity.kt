@@ -153,6 +153,9 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
                 else -> ""
             }
         }.attach()
+
+        // Set default tab to Unicode Styles (position 1)
+        binding.viewPager.currentItem = 1
     }
 
     private fun updatePreview() {
