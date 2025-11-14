@@ -17,6 +17,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.charactor.avatar.maker.pfp.R
+import com.charactor.avatar.maker.pfp.activity_app.my_nickname.SavedNicknameModel
 import com.charactor.avatar.maker.pfp.activity_app.random_name.SaveSuccessActivity
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.gone
@@ -24,11 +25,14 @@ import com.charactor.avatar.maker.pfp.core.extensions.setOnSingleClick
 import com.charactor.avatar.maker.pfp.core.extensions.startIntentRightToLeft
 import com.charactor.avatar.maker.pfp.databinding.ActivityCustomizeNicknameBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>() {
 
     companion object {
         private const val TAG = "CustomizeNickname"
+        private const val PREF_KEY_SAVED_NICKNAMES = "saved_nicknames"
     }
 
     private var inputName: String = ""
@@ -101,6 +105,16 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         binding.btnSave.setOnSingleClick {
             // Save text from preview (with Unicode style applied)
             val finalText = binding.tvPreview.text.toString()
+
+            // Check if nickname already exists
+            if (isNicknameDuplicate(finalText)) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.nickname_already_exists),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnSingleClick
+            }
 
             // Navigate to SaveSuccessActivity with the nickname and metadata
             val intent = android.content.Intent(this, SaveSuccessActivity::class.java)
@@ -344,6 +358,14 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             binding.btnRedo.setColorFilter(ContextCompat.getColor(this, R.color.inactive_color))
             binding.btnRedo.isEnabled = false
         }
+    }
+
+    private fun isNicknameDuplicate(nickname: String): Boolean {
+        val json = sharePreference.preferences.getString(PREF_KEY_SAVED_NICKNAMES, "[]")
+        val type = object : TypeToken<List<SavedNicknameModel>>(){}.type
+        val nicknames: List<SavedNicknameModel> = Gson().fromJson(json, type) ?: emptyList()
+
+        return nicknames.any { it.nickname == nickname }
     }
 
     private fun showEditNameDialog() {

@@ -93,6 +93,7 @@
     <string name="copied_message">"Copied "</string>
     <string name="please_enter_a_nickname">Please enter a nickname</string>
     <string name="nickname_updated">Nickname updated</string>
+    <string name="nickname_already_exists">This nickname already exists</string>
     <string name="deleted">Deleted: %1$s</string>
     <string name="top">Top</string>
     <string name="girl">Girl</string>

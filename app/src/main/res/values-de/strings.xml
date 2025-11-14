@@ -19,6 +19,7 @@
     <string name="allow">Erlauben</string>
     <string name="to_access">auf Fotos auf Ihrem Gerät zuzugreifen</string>
     <string name="to_access_13">auf Benachrichtigungen auf Ihrem Gerät zuzugreifen</string>
+    <string name="nickname_already_exists">Dieser Spitzname existiert bereits</string>
 
     <string name="rate_us">Bewerten Sie uns</string>
     <string name="share_app">App teilen</string>

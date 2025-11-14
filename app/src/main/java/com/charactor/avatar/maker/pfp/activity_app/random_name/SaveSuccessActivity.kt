@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
+import android.widget.Toast
+import com.charactor.avatar.maker.pfp.R
 import com.charactor.avatar.maker.pfp.activity_app.main.MainActivity
 import com.charactor.avatar.maker.pfp.activity_app.my_nickname.MyNicknameActivity
 import com.charactor.avatar.maker.pfp.activity_app.my_nickname.SavedNicknameModel
@@ -91,6 +93,17 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         val json = sharePreference.preferences.getString(PREF_KEY_SAVED_NICKNAMES, "[]")
         val type = object : TypeToken<MutableList<SavedNicknameModel>>(){}.type
         val nicknames: MutableList<SavedNicknameModel> = Gson().fromJson(json, type) ?: mutableListOf()
+
+        // Check if nickname already exists
+        val isDuplicate = nicknames.any { it.nickname == nickname }
+        if (isDuplicate) {
+            Toast.makeText(
+                this,
+                getString(R.string.nickname_already_exists),
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
 
         // Parse StyleType from name
         val styleType = try {
