@@ -2,29 +2,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="4dp"
+    android:clipToPadding="false"
+    android:clipChildren="false">
 
-    <TextView
-        android:id="@+id/tvFont"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFont"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="3dp"
-        android:gravity="center"
-        android:text="Aa"
-        android:paddingVertical="7dp"
-        android:textSize="20sp"
-        android:fontFamily="@font/notosansmath_regular"
-        android:textColor="@android:color/black"
-        android:background="@drawable/bg_item_selector"
-        android:maxLines="1"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:includeFontPadding="false"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="8dp"
+        app:strokeWidth="0dp"
+        app:cardBackgroundColor="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="3dp"
+            android:gravity="center"
+            android:text="Aa"
+            android:paddingVertical="7dp"
+            android:textSize="20sp"
+            android:fontFamily="@font/notosansmath_regular"
+            android:textColor="@android:color/black"
+            android:background="@drawable/bg_item_selector"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:includeFontPadding="false" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

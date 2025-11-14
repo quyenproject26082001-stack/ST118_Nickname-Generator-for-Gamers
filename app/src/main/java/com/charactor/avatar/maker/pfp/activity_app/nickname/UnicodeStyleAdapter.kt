@@ -34,6 +34,13 @@ class UnicodeStyleAdapter(
         val isSelected = (position == selectedPosition)
         binding.tvFont.isSelected = isSelected
 
+        // Set elevation for shadow (only when selected)
+        binding.cardFont.cardElevation = if (isSelected) {
+            3.7f * binding.root.context.resources.displayMetrics.density
+        } else {
+            0f
+        }
+
         // Enable marquee for selected item
         if (isSelected) {
             binding.tvFont.isSelected = true

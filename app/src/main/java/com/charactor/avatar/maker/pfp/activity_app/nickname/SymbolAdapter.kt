@@ -14,7 +14,15 @@ class SymbolAdapter(
         binding.tvSymbol.text = item
 
         // Set selected state
-        binding.tvSymbol.isSelected = (position == selectedPosition)
+        val isSelected = (position == selectedPosition)
+        binding.tvSymbol.isSelected = isSelected
+
+        // Set elevation for shadow (only when selected)
+        binding.cardSymbol.cardElevation = if (isSelected) {
+            2f * binding.root.context.resources.displayMetrics.density
+        } else {
+            0f
+        }
 
         binding.tvSymbol.setOnSingleClick {
             val previousPosition = selectedPosition

@@ -4,13 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tpools="http://schemas.android.com/tools"
-    android:background="@android:color/transparent">
+    android:background="@android:color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSymbols"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:clipChildren="false"
+        android:padding="6dp"
         android:overScrollMode="never"
         android:layout_marginTop="12dp"
         tpools:listitem="@layout/item_symbol"
