@@ -25,10 +25,10 @@
     <EditText
         android:id="@+id/edtInputName"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/bg_myname_input"
+        android:background="@drawable/bg_input"
         android:hint="@string/input_name"
         android:textColorHint="#BEBEBE"
         android:paddingHorizontal="20dp"
@@ -43,15 +43,15 @@
         app:layout_constraintEnd_toEndOf="parent" />
     
     <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
+        android:id="@+id/cancelText"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginVertical="15dp"
         android:src="@drawable/ic_round_cancel"
         app:layout_constraintEnd_toEndOf="@id/edtInputName"
         app:layout_constraintTop_toTopOf="@id/edtInputName"
         app:layout_constraintBottom_toBottomOf="@id/edtInputName"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="27dp"
         />
 
     <!-- Generate Button -->

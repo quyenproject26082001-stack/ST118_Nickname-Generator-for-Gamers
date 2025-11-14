@@ -1,6 +1,9 @@
 package com.charactor.avatar.maker.pfp.activity_app.nickname
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import com.charactor.avatar.maker.pfp.R
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
@@ -22,6 +25,9 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
         binding.actionBar.tvCenter.text = getString(R.string.my_name)
         binding.actionBar.tvCenter.setTextColor(resources.getColor(com.charactor.avatar.maker.pfp.R.color.red_app, null))
         binding.actionBar.tvCenter.visibility = android.view.View.VISIBLE
+
+        // Initially hide cancel button
+        binding.cancelText.visibility = View.GONE
     }
 
     override fun viewListener() {
@@ -29,6 +35,22 @@ class MyNameActivity : BaseActivity<ActivityMyNameBinding>() {
         binding.actionBar.btnActionBarLeft.setOnSingleClick {
             onBackPressed()
         }
+
+        // Cancel text button - clear input
+        binding.cancelText.setOnSingleClick {
+            binding.edtInputName.text?.clear()
+        }
+
+        // Text watcher to show/hide cancel button
+        binding.edtInputName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.cancelText.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         // Generate button
         binding.btnGenerate.setOnSingleClick {
