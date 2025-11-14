@@ -70,21 +70,24 @@ class SymbolFragment : Fragment() {
 
         // Set scroll callback for adapter - scroll to center vertical
         adapter?.onScrollToPosition = { position ->
-            val layoutManager = binding.rvSymbols.layoutManager as? GridLayoutManager
-            layoutManager?.let {
-                // Calculate the row of the item
-                val row = position / spanCount
-                // Calculate offset to center the item vertically
-                val recyclerViewHeight = binding.rvSymbols.height
-                val itemHeight = if (binding.rvSymbols.childCount > 0) {
-                    binding.rvSymbols.getChildAt(0).height
-                } else {
-                    200 // Default fallback
-                }
-                val offset = (recyclerViewHeight / 2) - (itemHeight / 2)
+            // Post to avoid lag during state restoration
+            binding.rvSymbols.post {
+                val layoutManager = binding.rvSymbols.layoutManager as? GridLayoutManager
+                layoutManager?.let {
+                    // Calculate the row of the item
+                    val row = position / spanCount
+                    // Calculate offset to center the item vertically
+                    val recyclerViewHeight = binding.rvSymbols.height
+                    val itemHeight = if (binding.rvSymbols.childCount > 0) {
+                        binding.rvSymbols.getChildAt(0).height
+                    } else {
+                        200 // Default fallback
+                    }
+                    val offset = (recyclerViewHeight / 2) - (itemHeight / 2)
 
-                // Scroll with offset
-                it.scrollToPositionWithOffset(row * spanCount, offset)
+                    // Scroll to position with offset (instant, no animation to avoid lag)
+                    it.scrollToPositionWithOffset(row * spanCount, offset)
+                }
             }
         }
 
