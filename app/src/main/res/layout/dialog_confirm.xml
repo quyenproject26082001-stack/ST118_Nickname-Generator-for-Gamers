@@ -19,6 +19,14 @@
             android:orientation="vertical">
             <!--            tvTitle-->
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"
+                />
             <!--            tvDescription-->
             <TextView
                 android:id="@+id/tvDescription"
@@ -37,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="21dp"
                 android:layout_marginTop="25dp"
-                android:layout_marginBottom="20dp">
+                >
 
                 <include layout="@layout/layout_bottom" android:id="@+id/flBottom"/>
             </FrameLayout>
