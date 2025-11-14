@@ -187,6 +187,9 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             rightSymbolFragment!!
         )
 
+        // Hide ViewPager2 initially to prevent showing wrong tab during initialization
+        binding.viewPager.alpha = 0f
+
         val adapter = CustomizeViewPagerAdapter(this, fragments)
         binding.viewPager.adapter = adapter
 
@@ -203,8 +206,11 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             }
         }.attach()
 
-        // Set default tab to Unicode Styles (position 1)
-        binding.viewPager.currentItem = 1
+        // Set default tab to Unicode Styles (position 1) and show ViewPager after setup
+        binding.viewPager.post {
+            binding.viewPager.setCurrentItem(1, false)
+            binding.viewPager.animate().alpha(1f).setDuration(150).start()
+        }
 
         // Set initial selections for restored state (with delay to ensure RecyclerViews are ready)
         binding.viewPager.postDelayed({
