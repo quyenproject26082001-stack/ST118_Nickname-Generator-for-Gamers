@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.charactor.avatar.maker.pfp.core.base.BaseActivity
 import com.charactor.avatar.maker.pfp.core.extensions.initNetworkMonitor
-import com.charactor.avatar.maker.pfp.core.utils.state.HandleState
 import com.charactor.avatar.maker.pfp.databinding.ActivitySplashBinding
 import com.charactor.avatar.maker.pfp.activity_app.intro.IntroActivity
 import com.charactor.avatar.maker.pfp.activity_app.language.LanguageActivity
@@ -17,6 +16,8 @@ import kotlinx.coroutines.launch
 class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     var intentActivity: Intent? = null
     private val dataViewModel: DataViewModel by viewModels()
+    private val splashDuration = 3000L // 3 seconds
+
     override fun setViewBinding(): ActivitySplashBinding {
         return ActivitySplashBinding.inflate(LayoutInflater.from(this))
     }
@@ -35,25 +36,21 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
             Intent(this, IntroActivity::class.java)
         }
         initNetworkMonitor()
+
+        // Start loading data
         dataViewModel.ensureData(this)
+
+        // Wait exactly 3 seconds before navigating
+        binding.root.postDelayed({
+            if (!isFinishing) {
+                startActivity(intentActivity)
+                finishAffinity()
+            }
+        }, splashDuration)
     }
 
     override fun dataObservable() {
-        lifecycleScope.launch {
-            dataViewModel.allData.collect { dataList ->
-                if (dataList.isNotEmpty()){
-                    dataViewModel.getAllParts(this@SplashActivity).collect { dataAPI ->
-                        when(dataAPI){
-                            HandleState.LOADING -> {}
-                            else -> {
-                                startActivity(intentActivity)
-                                finishAffinity()
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        // Data will be loaded in background, but we won't navigate until 3 seconds pass
     }
 
     override fun viewListener() {

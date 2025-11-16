@@ -79,11 +79,13 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             null
         }
 
-        // Save initial state
-        saveState()
-
-        // Setup ViewPager with Fragments
+        // Setup ViewPager with Fragments first
         setupViewPager()
+
+        // Save initial state after ViewPager is set to tab 1 (Unicode Styles)
+        binding.viewPager.post {
+            saveState()
+        }
 
         // Update preview
         updatePreview()
@@ -187,14 +189,15 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             rightSymbolFragment!!
         )
 
-        // Hide ViewPager2 initially to prevent showing wrong tab during initialization
-        binding.viewPager.alpha = 0f
-
         val adapter = CustomizeViewPagerAdapter(this, fragments)
         binding.viewPager.adapter = adapter
 
         // Preload all tabs to ensure they're ready for initial selection
         binding.viewPager.offscreenPageLimit = 2
+
+        // Set default tab to Unicode Styles (position 1) BEFORE attaching TabLayout
+        // This prevents showing tab 0 even for a split second
+        binding.viewPager.setCurrentItem(1, false)
 
         // Connect TabLayout with ViewPager2
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -206,11 +209,6 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             }
         }.attach()
 
-        // Set default tab to Unicode Styles (position 1) and show ViewPager after setup
-        binding.viewPager.post {
-            binding.viewPager.setCurrentItem(1, false)
-            binding.viewPager.animate().alpha(1f).setDuration(150).start()
-        }
 
         // Set initial selections for restored state (with delay to ensure RecyclerViews are ready)
         binding.viewPager.postDelayed({
