@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.charactor.avatar.maker.pfp'
+    namespace 'com.nicknamecreator.nicknamegenerator.namemaker'
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.charactor.avatar.maker.pfp"
+        applicationId "com.nicknamecreator.nicknamegenerator.namemaker"
         minSdk 24
         targetSdk 36
         versionCode 1

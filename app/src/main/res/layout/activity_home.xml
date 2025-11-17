@@ -70,7 +70,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/img_home_1" />
 
-        <com.charactor.avatar.maker.pfp.core.custom.text.DoubleStrokeTextView
+        <com.nicknamecreator.nicknamegenerator.namemaker.core.custom.text.DoubleStrokeTextView
             android:id="@+id/tvMyName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -115,7 +115,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/img_home_2" />
 
-        <com.charactor.avatar.maker.pfp.core.custom.text.DoubleStrokeTextView
+        <com.nicknamecreator.nicknamegenerator.namemaker.core.custom.text.DoubleStrokeTextView
             android:id="@+id/tv1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -153,7 +153,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/img_home_3" />
 
-        <com.charactor.avatar.maker.pfp.core.custom.text.DoubleStrokeTextView
+        <com.nicknamecreator.nicknamegenerator.namemaker.core.custom.text.DoubleStrokeTextView
             android:id="@+id/tv2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
