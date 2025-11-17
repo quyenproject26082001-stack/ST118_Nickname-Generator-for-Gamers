@@ -28,6 +28,8 @@
         android:layout_height="80dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="30dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="10dp"
         android:background="@drawable/bg_input"
         android:hint="@string/input_name"
         android:textColorHint="#BEBEBE"
