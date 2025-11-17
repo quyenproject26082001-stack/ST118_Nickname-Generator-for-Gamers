@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nickname Generator</string>
+    <string name="app_name">Nickname Generator: Name Maker</string>
     <string name="go_to_setting_message">ऐप को इस अनुमति की आवश्यकता है</string>
     <string name="settings">सेटिंग्स</string>
     <string name="this_action_can_contain_ads">इस कार्रवाई में विज्ञापन हो सकते हैं</string>
