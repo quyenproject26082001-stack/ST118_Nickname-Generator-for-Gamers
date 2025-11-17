@@ -9,8 +9,11 @@ import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Window
+import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import android.text.TextUtils
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -206,6 +209,32 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             }
         }.attach()
 
+        // Enable marquee effect for all tabs (for long text scrolling)
+        binding.tabLayout.post {
+            for (i in 0 until binding.tabLayout.tabCount) {
+                val tab = binding.tabLayout.getTabAt(i)
+                val tabView = tab?.view as? ViewGroup
+
+                // Find TextView in tab by iterating children
+                tabView?.let { view ->
+                    for (j in 0 until view.childCount) {
+                        val child = view.getChildAt(j)
+                        if (child is TextView) {
+                            child.apply {
+                                textSize = 16f  // 16sp
+                                ellipsize = TextUtils.TruncateAt.MARQUEE
+                                marqueeRepeatLimit = -1  // Infinite repeat
+                                isSingleLine = true
+                                isSelected = true
+                                isFocusable = true
+                                isFocusableInTouchMode = true
+                            }
+                            break  // Found TextView, move to next tab
+                        }
+                    }
+                }
+            }
+        }
 
         // Set initial selections for restored state (with delay to ensure RecyclerViews are ready)
         binding.viewPager.postDelayed({
