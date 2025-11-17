@@ -191,11 +191,11 @@ object NicknameDataSource {
             // Randomly select a Unicode style from ALL available styles
             val randomStyle = com.charactor.avatar.maker.pfp.activity_app.nickname.StyleConstants.ALL_STYLES.random()
 
-            // Apply the Unicode style using the same applier as CustomizeNicknameActivity
-            val styledNickname = com.charactor.avatar.maker.pfp.activity_app.nickname.CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(nickname, randomStyle)
+            // Add emoji decoration to nickname first (like CustomizeNicknameActivity)
+            val baseText = "$randomEmoji $nickname $randomEmoji"
 
-            // Add emoji decoration to styled nickname
-            val finalNickname = "$randomEmoji $styledNickname $randomEmoji"
+            // Then apply the Unicode style to the entire text including emojis
+            val finalNickname = com.charactor.avatar.maker.pfp.activity_app.nickname.CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(baseText, randomStyle)
 
             // Return with metadata for saving
             RandomNicknameModel(

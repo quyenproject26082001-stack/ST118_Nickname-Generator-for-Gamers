@@ -121,7 +121,7 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         }
 
         // Add new nickname with metadata
-        nicknames.add(
+        nicknames.add(0,
             SavedNicknameModel(
                 nickname = nickname,
                 originalText = originalText,

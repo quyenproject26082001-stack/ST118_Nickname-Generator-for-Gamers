@@ -82,11 +82,11 @@ class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {
             // Random unicode style from StyleConstants
             val randomStyle = StyleConstants.ALL_STYLES.random()
 
-            // Apply unicode style to text
-            val styledText = CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(inputName, randomStyle)
+            // Add emoji decoration to text first (like CustomizeNicknameActivity)
+            val baseText = "$randomEmoji $inputName $randomEmoji"
 
-            // Add emoji decoration to both sides
-            val finalNickname = "$randomEmoji $styledText $randomEmoji"
+            // Then apply unicode style to the entire text including emojis
+            val finalNickname = CustomizeNicknameActivityStyleApplier.applyUnicodeStyle(baseText, randomStyle)
 
             nicknames.add(
                 NicknameModel(
