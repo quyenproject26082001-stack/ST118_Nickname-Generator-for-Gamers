@@ -34,6 +34,14 @@ class UnicodeStyleAdapter(
         }
     }
 
+    fun clearSelection() {
+        val previousPosition = selectedPosition
+        selectedPosition = -1
+        if (previousPosition != -1) {
+            notifyItemChanged(previousPosition)
+        }
+    }
+
     override fun onBind(binding: ItemFontBinding, item: UnicodeStyleModel, position: Int) {
         // Display preview text with Unicode style applied
         binding.tvFont.text = item.preview

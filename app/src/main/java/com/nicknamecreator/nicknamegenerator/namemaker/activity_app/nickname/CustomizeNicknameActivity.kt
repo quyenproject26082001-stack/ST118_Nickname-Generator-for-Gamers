@@ -373,14 +373,19 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
 
     private fun saveState() {
         val currentTab = binding.viewPager.currentItem
-        val state = NicknameState(inputName, leftSymbol, rightSymbol, currentUnicodeStyle, currentTab)
+        val newState = NicknameState(inputName, leftSymbol, rightSymbol, currentUnicodeStyle, currentTab)
+
+        // Check if the new state is the same as the last state in stack (avoid duplicate)
+        if (historyStack.isNotEmpty() && historyStack.last() == newState) {
+            return // Skip saving duplicate state
+        }
 
         // Remove all states after current index
         if (currentHistoryIndex < historyStack.size - 1) {
             historyStack.subList(currentHistoryIndex + 1, historyStack.size).clear()
         }
 
-        historyStack.add(state)
+        historyStack.add(newState)
         currentHistoryIndex = historyStack.size - 1
     }
 
@@ -413,19 +418,25 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         // Update Unicode style fragment with restored name
         unicodeStyleFragment?.updatePreviewText(inputName)
 
-        // Update selection for left symbol
+        // Update or clear selection for left symbol
         if (leftSymbol.isNotEmpty()) {
             leftSymbolFragment?.setInitialSelection(leftSymbol)
+        } else {
+            leftSymbolFragment?.clearSelection()
         }
 
-        // Update selection for right symbol
+        // Update or clear selection for right symbol
         if (rightSymbol.isNotEmpty()) {
             rightSymbolFragment?.setInitialSelection(rightSymbol)
+        } else {
+            rightSymbolFragment?.clearSelection()
         }
 
-        // Update selection for unicode style
+        // Update or clear selection for unicode style
         if (currentUnicodeStyle != null) {
             unicodeStyleFragment?.setInitialSelection(currentUnicodeStyle!!)
+        } else {
+            unicodeStyleFragment?.clearSelection()
         }
     }
 

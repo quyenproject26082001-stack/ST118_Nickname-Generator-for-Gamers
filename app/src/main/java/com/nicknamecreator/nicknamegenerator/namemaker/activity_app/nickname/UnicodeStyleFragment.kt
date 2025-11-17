@@ -61,6 +61,10 @@ class UnicodeStyleFragment : Fragment() {
         adapter?.setInitialSelection(styleType)
     }
 
+    fun clearSelection() {
+        adapter?.clearSelection()
+    }
+
     private fun setupRecyclerView() {
         // Use centralized style constants for consistency across all screens
         val styles = StyleConstants.generateStyleModels(currentPreviewText)

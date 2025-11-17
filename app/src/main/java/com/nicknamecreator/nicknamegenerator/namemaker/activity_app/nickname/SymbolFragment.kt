@@ -94,7 +94,11 @@ class SymbolFragment : Fragment() {
     fun setInitialSelection(symbol: String) {
         adapter?.setInitialSelection(symbol)
     }
-    
+
+    fun clearSelection() {
+        adapter?.clearSelection()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

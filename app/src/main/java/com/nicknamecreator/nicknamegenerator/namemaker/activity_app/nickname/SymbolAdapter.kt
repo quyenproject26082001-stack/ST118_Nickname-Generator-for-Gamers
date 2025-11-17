@@ -32,6 +32,14 @@ class SymbolAdapter(
         }
     }
 
+    fun clearSelection() {
+        val previousPosition = selectedPosition
+        selectedPosition = -1
+        if (previousPosition != -1) {
+            notifyItemChanged(previousPosition)
+        }
+    }
+
     override fun onBind(binding: ItemSymbolBinding, item: String, position: Int) {
         binding.tvSymbol.text = item
 
