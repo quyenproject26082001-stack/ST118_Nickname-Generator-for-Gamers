@@ -13,12 +13,12 @@ import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.main.MainAct
 import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname.CustomizeNicknameActivity
 import com.nicknamecreator.nicknamegenerator.namemaker.core.base.BaseActivity
 import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.setOnSingleClick
-import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.startIntentRightToLeft
 import com.nicknamecreator.nicknamegenerator.namemaker.databinding.ActivityMyNicknameBinding
 import com.nicknamecreator.nicknamegenerator.namemaker.databinding.DialogConfirmBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.lifecycle.lifecycleScope
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.SavedNicknameModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.nicknamecreator.nicknamegenerator.namemaker.core.utils.UnicodeStyleConverter
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.StyleType
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.UnicodeStyleModel
 import com.nicknamecreator.nicknamegenerator.namemaker.databinding.FragmentStyleTextBinding
 
 class UnicodeStyleFragment : Fragment() {

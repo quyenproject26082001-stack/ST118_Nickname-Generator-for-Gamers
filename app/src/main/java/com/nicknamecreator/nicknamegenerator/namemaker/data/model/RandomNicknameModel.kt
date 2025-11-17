@@ -1,6 +1,4 @@
-package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.random_name
-
-import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname.StyleType
+package com.nicknamecreator.nicknamegenerator.namemaker.data.model
 
 data class RandomNicknameModel(
     val nickname: String, // Original nickname without style

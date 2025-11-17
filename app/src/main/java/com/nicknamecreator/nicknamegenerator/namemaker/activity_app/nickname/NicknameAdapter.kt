@@ -3,13 +3,12 @@ package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import com.nicknamecreator.nicknamegenerator.namemaker.R
 import com.nicknamecreator.nicknamegenerator.namemaker.core.base.BaseAdapter
 import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.setOnSingleClick
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.NicknameModel
 import com.nicknamecreator.nicknamegenerator.namemaker.databinding.ItemNicknameBinding
 
 class NicknameAdapter(

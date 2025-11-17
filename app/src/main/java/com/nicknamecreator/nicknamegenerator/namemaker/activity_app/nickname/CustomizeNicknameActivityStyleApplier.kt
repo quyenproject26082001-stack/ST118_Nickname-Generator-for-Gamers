@@ -1,6 +1,7 @@
 package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname
 
 import com.nicknamecreator.nicknamegenerator.namemaker.core.utils.UnicodeStyleConverter
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.StyleType
 
 object CustomizeNicknameActivityStyleApplier {
 

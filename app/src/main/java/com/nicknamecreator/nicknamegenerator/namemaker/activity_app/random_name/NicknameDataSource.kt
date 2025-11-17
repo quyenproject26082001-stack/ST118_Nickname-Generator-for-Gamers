@@ -1,7 +1,6 @@
 package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.random_name
 
-import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname.StyleType
-import com.nicknamecreator.nicknamegenerator.namemaker.core.utils.UnicodeStyleConverter
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.RandomNicknameModel
 
 object NicknameDataSource {
     

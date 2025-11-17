@@ -1,4 +1,4 @@
-package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.random_name
+package com.nicknamecreator.nicknamegenerator.namemaker.data.model
 
 data class CategoryModel(
     val id: String,

@@ -2,6 +2,8 @@ package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname
 
 import com.nicknamecreator.nicknamegenerator.namemaker.core.base.BaseAdapter
 import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.setOnSingleClick
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.StyleType
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.UnicodeStyleModel
 import com.nicknamecreator.nicknamegenerator.namemaker.databinding.ItemFontBinding
 
 class UnicodeStyleAdapter(

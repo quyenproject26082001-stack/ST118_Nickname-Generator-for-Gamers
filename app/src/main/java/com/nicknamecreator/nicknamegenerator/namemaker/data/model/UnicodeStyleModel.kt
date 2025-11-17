@@ -1,4 +1,4 @@
-package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname
+package com.nicknamecreator.nicknamegenerator.namemaker.data.model
 
 data class UnicodeStyleModel(
     val displayName: String,

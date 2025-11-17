@@ -1,6 +1,4 @@
-package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.my_nickname
-
-import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname.StyleType
+package com.nicknamecreator.nicknamegenerator.namemaker.data.model
 
 data class SavedNicknameModel(
     val id: Long = System.currentTimeMillis(),

@@ -2,6 +2,7 @@ package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.random_name
 
 import com.nicknamecreator.nicknamegenerator.namemaker.core.base.BaseAdapter
 import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.setOnSingleClick
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.CategoryModel
 import com.nicknamecreator.nicknamegenerator.namemaker.databinding.ItemCategoryBinding
 
 class CategoryAdapter(

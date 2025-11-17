@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.nicknamecreator.nicknamegenerator.namemaker.R
 import com.nicknamecreator.nicknamegenerator.namemaker.core.base.BaseAdapter
 import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.setOnSingleClick
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.RandomNicknameModel
 import com.nicknamecreator.nicknamegenerator.namemaker.databinding.ItemRandomNicknameBinding
 
 class RandomNicknameAdapter(

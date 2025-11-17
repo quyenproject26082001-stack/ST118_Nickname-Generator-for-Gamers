@@ -1,12 +1,11 @@
 package com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname
 
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nicknamecreator.nicknamegenerator.namemaker.R
 import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.random_name.SaveSuccessActivity
 import com.nicknamecreator.nicknamegenerator.namemaker.core.base.BaseActivity
 import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.setOnSingleClick
-import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.startIntentRightToLeft
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.NicknameModel
 import com.nicknamecreator.nicknamegenerator.namemaker.databinding.ActivityNicknameBinding
 
 class NicknameActivity : BaseActivity<ActivityNicknameBinding>() {

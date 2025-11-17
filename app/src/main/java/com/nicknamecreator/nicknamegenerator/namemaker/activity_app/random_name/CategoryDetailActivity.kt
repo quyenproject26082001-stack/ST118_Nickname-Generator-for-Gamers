@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nicknamecreator.nicknamegenerator.namemaker.core.base.BaseActivity
 import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.setOnSingleClick
-import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.startIntentRightToLeft
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.RandomNicknameModel
 import com.nicknamecreator.nicknamegenerator.namemaker.databinding.ActivityCategoryDetailBinding
 
 class CategoryDetailActivity : BaseActivity<ActivityCategoryDetailBinding>() {

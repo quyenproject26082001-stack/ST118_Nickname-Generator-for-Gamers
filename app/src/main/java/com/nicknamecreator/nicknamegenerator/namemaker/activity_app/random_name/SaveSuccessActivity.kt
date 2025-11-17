@@ -8,8 +8,8 @@ import android.widget.Toast
 import com.nicknamecreator.nicknamegenerator.namemaker.R
 import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.main.MainActivity
 import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.my_nickname.MyNicknameActivity
-import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.my_nickname.SavedNicknameModel
-import com.nicknamecreator.nicknamegenerator.namemaker.activity_app.nickname.StyleType
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.SavedNicknameModel
+import com.nicknamecreator.nicknamegenerator.namemaker.data.model.StyleType
 import com.nicknamecreator.nicknamegenerator.namemaker.core.base.BaseActivity
 import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.setOnSingleClick
 import com.nicknamecreator.nicknamegenerator.namemaker.core.extensions.startIntentRightToLeft
