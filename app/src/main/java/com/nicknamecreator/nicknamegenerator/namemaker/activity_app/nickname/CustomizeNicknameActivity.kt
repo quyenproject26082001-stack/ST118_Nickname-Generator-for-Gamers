@@ -209,8 +209,9 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
             }
         }.attach()
 
-        // Enable marquee effect for all tabs (for long text scrolling)
+        // Enable marquee effect for tabs (for long text scrolling)
         binding.tabLayout.post {
+            // Setup text properties for all tabs
             for (i in 0 until binding.tabLayout.tabCount) {
                 val tab = binding.tabLayout.getTabAt(i)
                 val tabView = tab?.view as? ViewGroup
@@ -225,7 +226,6 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
                                 ellipsize = TextUtils.TruncateAt.MARQUEE
                                 marqueeRepeatLimit = -1  // Infinite repeat
                                 isSingleLine = true
-                                isSelected = true
                                 isFocusable = true
                                 isFocusableInTouchMode = true
                             }
@@ -234,6 +234,35 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
                     }
                 }
             }
+
+            // Set marquee only for currently selected tab
+            updateTabMarquee(binding.tabLayout.selectedTabPosition)
+
+            // Listen for tab selection changes
+            binding.tabLayout.addOnTabSelectedListener(object : com.google.android.material.tabs.TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: com.google.android.material.tabs.TabLayout.Tab?) {
+                    tab?.position?.let { updateTabMarquee(it) }
+                }
+
+                override fun onTabUnselected(tab: com.google.android.material.tabs.TabLayout.Tab?) {
+                    // Stop marquee for unselected tab
+                    tab?.view?.let { tabView ->
+                        (tabView as? ViewGroup)?.let { view ->
+                            for (j in 0 until view.childCount) {
+                                val child = view.getChildAt(j)
+                                if (child is TextView) {
+                                    child.isSelected = false
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+
+                override fun onTabReselected(tab: com.google.android.material.tabs.TabLayout.Tab?) {
+                    // Do nothing
+                }
+            })
         }
 
         // Set initial selections for restored state (with delay to ensure RecyclerViews are ready)
@@ -425,6 +454,21 @@ class CustomizeNicknameActivity : BaseActivity<ActivityCustomizeNicknameBinding>
         val nicknames: List<SavedNicknameModel> = Gson().fromJson(json, type) ?: emptyList()
 
         return@withContext nicknames.any { it.nickname == nickname }
+    }
+
+    private fun updateTabMarquee(position: Int) {
+        val tab = binding.tabLayout.getTabAt(position)
+        val tabView = tab?.view as? ViewGroup
+
+        tabView?.let { view ->
+            for (j in 0 until view.childCount) {
+                val child = view.getChildAt(j)
+                if (child is TextView) {
+                    child.isSelected = true  // Enable marquee for this tab
+                    break
+                }
+            }
+        }
     }
 
     private fun showEditNameDialog() {
