@@ -164,6 +164,8 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
 
         // Animate ellipses from center to outer (ripple effect)
         handler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
+
             binding.ellipse1.animate()
                 .alpha(1.0f)
                 .scaleX(1.0f)
@@ -174,6 +176,8 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         }, 200)
 
         handler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
+
             binding.ellipse2.animate()
                 .alpha(1.0f)
                 .scaleX(1.0f)
@@ -184,6 +188,8 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         }, 300)
 
         handler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
+
             binding.ellipse3.animate()
                 .alpha(1.0f)
                 .scaleX(1.0f)
@@ -194,6 +200,8 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
         }, 400)
 
         handler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
+
             binding.ellipse4.animate()
                 .alpha(1.0f)
                 .scaleX(1.0f)
@@ -205,12 +213,16 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
 
         // Animate center icon with bounce + shake
         handler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
+
             binding.icSuccess.animate()
                 .alpha(1.0f)
                 .scaleX(1.0f)
                 .scaleY(1.0f)
                 .setDuration(300)
                 .withEndAction {
+                    if (isFinishing || isDestroyed) return@withEndAction
+
                     // Bounce
                     binding.icSuccess.animate()
                         .scaleX(1.2f)
@@ -218,11 +230,15 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
                         .setDuration(200)
                         .setInterpolator(android.view.animation.OvershootInterpolator())
                         .withEndAction {
+                            if (isFinishing || isDestroyed) return@withEndAction
+
                             binding.icSuccess.animate()
                                 .scaleX(1.0f)
                                 .scaleY(1.0f)
                                 .setDuration(200)
                                 .withEndAction {
+                                    if (isFinishing || isDestroyed) return@withEndAction
+
                                     // Shake
                                     shakeIcon()
                                 }
@@ -235,22 +251,32 @@ class SaveSuccessActivity : BaseActivity<ActivitySaveSuccessBinding>() {
     }
 
     private fun shakeIcon() {
+        if (isFinishing || isDestroyed) return
+
         binding.icSuccess.animate()
             .rotation(-15f)
             .setDuration(100)
             .withEndAction {
+                if (isFinishing || isDestroyed) return@withEndAction
+
                 binding.icSuccess.animate()
                     .rotation(15f)
                     .setDuration(100)
                     .withEndAction {
+                        if (isFinishing || isDestroyed) return@withEndAction
+
                         binding.icSuccess.animate()
                             .rotation(-10f)
                             .setDuration(100)
                             .withEndAction {
+                                if (isFinishing || isDestroyed) return@withEndAction
+
                                 binding.icSuccess.animate()
                                     .rotation(10f)
                                     .setDuration(100)
                                     .withEndAction {
+                                        if (isFinishing || isDestroyed) return@withEndAction
+
                                         binding.icSuccess.animate()
                                             .rotation(0f)
                                             .setDuration(100)
